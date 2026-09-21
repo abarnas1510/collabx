@@ -1,15 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-import httpx
 from database import get_db
 import models, schemas, auth
+from ai_model import screen_solution
 from routers.notifications import add_notification, add_role_notifications
 
 router = APIRouter(prefix="/solutions", tags=["Solutions"])
-
-AI_ENGINE_URL = "http://127.0.0.1:8001"
-
 
 # ---------- SUBMIT SOLUTION (university only) ----------
 @router.post("/", response_model=schemas.SolutionOut, status_code=201)
@@ -38,23 +35,17 @@ async def submit_solution(
     ai_explanation = None
     ai_required_sector = None
     try:
-        async with httpx.AsyncClient(timeout=5.0) as client:
-            res = await client.post(
-                f"{AI_ENGINE_URL}/screen",
-                json={
-                    "challenge_title": challenge.title,
-                    "challenge_description": challenge.description,
-                    "solution_title": payload.title,
-                    "solution_proposal": payload.proposal,
-                }
-            )
-            if res.status_code == 200:
-                data = res.json()
-                ai_score = data.get("score")
-                ai_explanation = data.get("explanation")
-                ai_required_sector = data.get("required_industry_sector")
+        data = screen_solution({
+            "challenge_title": challenge.title,
+            "challenge_description": challenge.description,
+            "solution_title": payload.title,
+            "solution_proposal": payload.proposal,
+        })
+        ai_score = data.get("score")
+        ai_explanation = data.get("explanation")
+        ai_required_sector = data.get("required_industry_sector")
     except Exception as e:
-        print(f"[AI Engine not reachable] {e}")
+        print(f"[AI model error] {e}")
 
     solution = models.Solution(
         challenge_id=payload.challenge_id,

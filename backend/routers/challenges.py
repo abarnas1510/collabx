@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional
-import os, shutil, httpx, time, json
+import os, shutil, time, json
 from database import get_db
 import models, schemas, auth
+from ai_model import process_report
 from translation import normalize_language, translated_fields
 from routers.notifications import add_notification, add_role_notifications
 
@@ -11,8 +12,6 @@ router = APIRouter(prefix="/challenges", tags=["Challenges"])
 
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
-
-AI_ENGINE_URL = "http://127.0.0.1:8001"
 
 FALLBACK_CATEGORY_KEYWORDS = {
     "Infrastructure & Roads": ["road", "pothole", "street", "pavement", "highway", "bridge", "infrastructure"],
@@ -166,7 +165,7 @@ async def create_challenge(
             "departments": uni.organization.split("|", 1)[1].strip() if "|" in (uni.organization or "") else uni.organization or "",
         })
 
-    # ---------- CALL AI ENGINE ----------
+    # ---------- RUN EMBEDDING MODEL IN THIS API PROCESS ----------
     priority: int = 50
     duplicate_of: Optional[int] = None
     existing_solution = None
@@ -176,31 +175,23 @@ async def create_challenge(
     authenticity_evidence = []
 
     try:
-        async with httpx.AsyncClient(timeout=20.0) as client:
-            res = await client.post(
-                f"{AI_ENGINE_URL}/process",
-                json={
-                    "title": title,
-                    "description": description,
-                    "category": category,
-                    "existing_challenges": existing_payload,
-                    "universities": universities_payload,
-                }
-            )
-            if res.status_code == 200:
-                ai_data = res.json()
-                category = category or ai_data.get("category")
-                priority = ai_data.get("priority", 50)
-                duplicate_of = ai_data.get("duplicate_of")
-                existing_solution = ai_data.get("existing_solution")
-                matched_universities = ai_data.get("matched_universities", [])
-                is_genuine = ai_data.get("is_genuine")
-                authenticity_score = ai_data.get("authenticity_score")
-                authenticity_evidence = ai_data.get("authenticity_evidence", [])
-            else:
-                print(f"[AI Engine] Non-200: {res.status_code}")
+        ai_data = process_report({
+            "title": title,
+            "description": description,
+            "category": category,
+            "existing_challenges": existing_payload,
+            "universities": universities_payload,
+        })
+        category = category or ai_data.get("category")
+        priority = ai_data.get("priority", 50)
+        duplicate_of = ai_data.get("duplicate_of")
+        existing_solution = ai_data.get("existing_solution")
+        matched_universities = ai_data.get("matched_universities", [])
+        is_genuine = ai_data.get("is_genuine")
+        authenticity_score = ai_data.get("authenticity_score")
+        authenticity_evidence = ai_data.get("authenticity_evidence", [])
     except Exception as e:
-        print(f"[AI Engine not reachable] {e}")
+        print(f"[AI model error] {e}")
 
     # Keep quick reports in the same university flow when the AI service is unavailable.
     if not category:

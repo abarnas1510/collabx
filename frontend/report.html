@@ -642,8 +642,9 @@
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="api-config.js"></script>
 <script>
-  const API_BASE = "http://127.0.0.1:8000";
+  const API_BASE = window.COLLABX_API_BASE;
   const QUEUE_KEY = "collabx_offline_queue";
   const LANG_KEY = "collabx_lang";
   const VOICE_LANG_KEY = "collabx_voice_lang";

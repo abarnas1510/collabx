@@ -1,0 +1,51 @@
+name: Deploy frontend to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare static site
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+        run: |
+          set -eu
+          test -n "$VITE_API_URL"
+          case "$VITE_API_URL" in
+            https://*) ;;
+            *) echo "VITE_API_URL must use HTTPS" >&2; exit 1 ;;
+          esac
+          mkdir site
+          cp -R frontend/. site/
+          node -e 'const fs = require("fs"); const url = process.env.VITE_API_URL.replace(/\/$/, ""); fs.writeFileSync("site/api-config.js", `window.__COLLABX_API_BASE__ = ${JSON.stringify(url)};\n`); const profile = "site/profile.html"; const html = fs.readFileSync(profile, "utf8"); fs.writeFileSync(profile, html.replace("</head>", "<script src=\\"api-config.js\\"></script></head>"));'
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -5,11 +5,12 @@ from fastapi.security import HTTPBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
+import os
 from database import get_db
 import models
 
 # ---------- CONFIG ----------
-SECRET_KEY = "collabx-secret-key-change-in-production"
+SECRET_KEY = os.getenv("SECRET_KEY", "collabx-local-development-secret")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 24 hours
 

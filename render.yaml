@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: collabx-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: MODEL_NAME
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: collabx-postgres
+          property: connectionString
+
+databases:
+  - name: collabx-postgres
+    databaseName: collabx
+    user: collabx
