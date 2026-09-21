@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#0B3C5D">
+<title>Citizen Dashboard — CollabX | Government of India</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Gurmukhi:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans', 'Segoe UI', sans-serif;
+    background: #F4F6F9; color: #1a1a1a; font-size: 14.5px; line-height: 1.55;
+    min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden;
+  }
+  a { color: #0B3C5D; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  img { max-width: 100%; height: auto; display: block; }
+
+  body[data-lang="hi"] { font-family: 'Noto Sans Devanagari', 'Noto Sans', sans-serif; }
+  body[data-lang="ta"] { font-family: 'Noto Sans Tamil', 'Noto Sans', sans-serif; }
+  body[data-lang="te"] { font-family: 'Noto Sans Telugu', 'Noto Sans', sans-serif; }
+  body[data-lang="bn"] { font-family: 'Noto Sans Bengali', 'Noto Sans', sans-serif; }
+  body[data-lang="gu"] { font-family: 'Noto Sans Gujarati', 'Noto Sans', sans-serif; }
+  body[data-lang="pa"] { font-family: 'Noto Sans Gurmukhi', 'Noto Sans', sans-serif; }
+  body[data-lang="kn"] { font-family: 'Noto Sans Kannada', 'Noto Sans', sans-serif; }
+  body[data-lang="ml"] { font-family: 'Noto Sans Malayalam', 'Noto Sans', sans-serif; }
+  body[data-lang="or"] { font-family: 'Noto Sans Oriya', 'Noto Sans', sans-serif; }
+
+  .tricolor-strip { height: 4px; background: linear-gradient(to right, #FF9933 0%, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%, #138808 100%); }
+
+  .utility-bar { background: #0B3C5D; color: #fff; font-size: 11.5px; padding: 6px 0; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 16px; width: 100%; }
+  .utility-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .utility-inner a { color: #fff; opacity: 0.88; font-size: 11.5px; }
+  .utility-inner a:hover { opacity: 1; text-decoration: underline; }
+  .gov-tag { font-weight: 600; display: flex; align-items: center; gap: 5px; }
+  .gov-tag .dot { width: 5px; height: 5px; background: #FF9933; border-radius: 50%; flex-shrink: 0; }
+  .utility-inner .right { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+  .lang-switcher { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 4px 8px; border-radius: 3px; font-size: 11.5px; font-family: inherit; cursor: pointer; outline: none; max-width: 140px; }
+  .lang-switcher option { color: #1a1a1a; background: #fff; }
+
+  .main-header { background: #fff; border-bottom: 3px solid #0B3C5D; padding: 10px 0; }
+  .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .emblem-block { display: flex; align-items: center; gap: 12px; text-decoration: none; min-width: 0; flex: 1; }
+  .emblem-img { width: 44px; height: 52px; object-fit: contain; flex-shrink: 0; }
+  .brand-text { min-width: 0; }
+  .brand-text h1 { font-family: 'Noto Serif', serif; font-size: 20px; color: #0B3C5D; letter-spacing: 0.6px; line-height: 1; margin-bottom: 3px; }
+  .brand-text h1 span { color: #FF9933; }
+  .brand-text .subtitle { font-size: 10.5px; color: #555; letter-spacing: 0.4px; text-transform: uppercase; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .brand-text .subtitle-hindi { font-size: 10.5px; color: #777; margin-top: 1px; }
+
+  .main-nav { background: #0B3C5D; color: #fff; position: relative; }
+  .main-nav-inner { display: flex; align-items: center; flex-wrap: wrap; }
+  .main-nav a { color: #fff; padding: 11px 16px; font-size: 13px; font-weight: 500; border-right: 1px solid rgba(255,255,255,0.12); transition: background 0.2s; white-space: nowrap; }
+  .main-nav a:first-child { border-left: 1px solid rgba(255,255,255,0.12); }
+  .main-nav a:hover, .main-nav a.active { background: #FF9933; color: #0B3C5D; text-decoration: none; }
+  .nav-toggle { display: none; background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 18px; padding: 6px 12px; border-radius: 3px; cursor: pointer; margin: 8px 16px; font-family: inherit; }
+
+  /* WELCOME HEADER */
+  .welcome-bar { background: #fff; border-bottom: 1px solid #E5E9EF; padding: 20px 0; }
+  .welcome-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .welcome-left h1 { font-family: 'Noto Serif', serif; font-size: 26px; color: #0B3C5D; line-height: 1.2; margin-bottom: 4px; }
+  .welcome-left p { color: #666; font-size: 13.5px; }
+  .welcome-left .citizen-badge { display: inline-block; background: #E6F0F7; color: #0B3C5D; padding: 4px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .welcome-right { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn { padding: 11px 20px; border-radius: 3px; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit; border: none; transition: all 0.15s; -webkit-tap-highlight-color: transparent; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: #0B3C5D; color: #fff; }
+  .btn-primary:hover { background: #082B44; }
+  .btn-accent { background: #FF9933; color: #0B3C5D; }
+  .btn-accent:hover { background: #E68A2E; }
+  .btn-outline { background: #fff; color: #0B3C5D; border: 1.5px solid #0B3C5D; }
+  .btn-outline:hover { background: #E6F0F7; }
+
+  /* MAIN */
+  .dash-wrapper { flex: 1; padding: 24px 16px; }
+  .dash-container { max-width: 1280px; margin: 0 auto; }
+
+  /* STATS GRID */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px; }
+  .stat-card { background: #fff; border: 1px solid #D5DDE5; border-radius: 4px; padding: 18px; border-top: 4px solid #0B3C5D; transition: all 0.15s; }
+  .stat-card:hover { box-shadow: 0 4px 14px rgba(11,60,93,0.08); transform: translateY(-2px); }
+  .stat-card.orange { border-top-color: #E68A2E; }
+  .stat-card.green { border-top-color: #138808; }
+  .stat-card.red { border-top-color: #C0392B; }
+  .stat-num { font-family: 'Noto Serif', serif; font-size: 34px; font-weight: 700; color: #0B3C5D; line-height: 1; margin-bottom: 6px; }
+  .stat-card.orange .stat-num { color: #E68A2E; }
+  .stat-card.green .stat-num { color: #138808; }
+  .stat-card.red .stat-num { color: #C0392B; }
+  .stat-label { font-size: 11.5px; color: #666; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+  /* SECTION */
+  .section-card { background: #fff; border: 1px solid #D5DDE5; border-radius: 4px; overflow: hidden; }
+  .section-header { padding: 14px 20px; background: #082B44; color: #fff; border-bottom: 3px solid #FF9933; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .section-header h2 { font-family: 'Noto Serif', serif; font-size: 16px; letter-spacing: 0.4px; display: flex; align-items: center; gap: 8px; }
+  .section-header .count-badge { background: rgba(255,255,255,0.15); color: #fff; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 700; }
+  .section-body { padding: 20px; }
+
+  /* FILTER TABS */
+  .filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .filter-tab { padding: 8px 16px; background: #F4F6F9; border: 1px solid #E5E9EF; border-radius: 3px; font-size: 12.5px; font-weight: 600; color: #555; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+  .filter-tab:hover { background: #E6F0F7; color: #0B3C5D; }
+  .filter-tab.active { background: #0B3C5D; color: #fff; border-color: #0B3C5D; }
+
+  /* CHALLENGE LIST */
+  .challenge-list { display: grid; gap: 12px; }
+    .challenge-media { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .challenge-media img, .challenge-media video { width: 180px; max-height: 120px; object-fit: contain; background: #0B3C5D; border: 1px solid #D5DDE5; border-radius: 3px; }
+  .challenge-row { background: #fff; border: 1px solid #E5E9EF; border-left: 4px solid #0B3C5D; padding: 18px; border-radius: 4px; transition: all 0.15s; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; }
+  .challenge-row:hover { box-shadow: 0 4px 14px rgba(11,60,93,0.08); border-left-color: #FF9933; }
+  .challenge-row.high { border-left-color: #C0392B; }
+  .challenge-row.med { border-left-color: #E68A2E; }
+  .challenge-row.low { border-left-color: #138808; }
+  .challenge-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .chip { padding: 3px 12px; border-radius: 3px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+  .chip-category { background: #E6F0F7; color: #0B3C5D; }
+  .chip-priority-high { background: #FBE7E5; color: #C0392B; }
+  .chip-priority-med { background: #FDF0DF; color: #B36A1B; }
+  .chip-priority-low { background: #E6F5E4; color: #138808; }
+  .chip-status { background: #F4F6F9; color: #555; }
+  .challenge-row h3 { font-size: 15.5px; color: #0B3C5D; margin-bottom: 4px; font-weight: 700; line-height: 1.35; }
+  .challenge-row .desc { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 8px; }
+  .list-tools { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 14px; }
+  .list-search { min-width: 220px; flex: 1; max-width: 420px; padding: 9px 11px; border: 1px solid #C5CEDA; border-radius: 3px; font: inherit; color: #1a1a1a; }
+  .list-search:focus { outline: none; border-color: #0B3C5D; box-shadow: 0 0 0 2px rgba(11,60,93,0.1); }
+  .pagination { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; }
+  .pagination button { padding: 7px 12px; border: 1px solid #C5CEDA; border-radius: 3px; background: #fff; color: #0B3C5D; cursor: pointer; font: inherit; }
+  .pagination button:disabled { color: #9aa6b2; background: #F4F6F9; cursor: not-allowed; }
+  .pagination span { font-size: 12px; color: #666; }
+  .compact-details { margin-top: 6px; font-size: 12px; color: #0B3C5D; }
+  .compact-details summary { cursor: pointer; font-weight: 600; }
+  .compact-details p { margin-top: 6px; color: #666; font-size: 13px; }
+  .challenge-row .meta { display: flex; gap: 16px; font-size: 11.5px; color: #888; flex-wrap: wrap; }
+  .challenge-row .actions { display: flex; gap: 8px; flex-direction: column; align-items: flex-end; }
+  .view-btn { padding: 8px 16px; background: #0B3C5D; color: #fff; border: none; border-radius: 3px; font-size: 12.5px; font-weight: 600; cursor: pointer; text-decoration: none; white-space: nowrap; font-family: inherit; transition: background 0.15s; display: inline-block; }
+  .view-btn:hover { background: #FF9933; color: #0B3C5D; text-decoration: none; }
+
+  /* EMPTY / LOADING */
+  .empty-state { text-align: center; padding: 50px 20px; color: #94a3b8; }
+  .empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+  .empty-state h3 { font-size: 16px; color: #555; margin-bottom: 6px; font-family: 'Noto Serif', serif; }
+  .empty-state p { font-size: 13.5px; }
+  .empty-state .btn { margin-top: 16px; }
+
+  .loading { text-align: center; padding: 50px; color: #94a3b8; }
+  .spinner { width: 32px; height: 32px; border: 3px solid #E5E9EF; border-top-color: #0B3C5D; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* FOOTER */
+  .mini-footer { background: #082B44; color: #7A8B99; padding: 14px 0; text-align: center; font-size: 11.5px; margin-top: auto; }
+  .mini-footer span { margin: 0 6px; display: inline-block; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    body { font-size: 14px; }
+    .utility-inner .right a { display: none; }
+    .lang-switcher { max-width: 120px; font-size: 11px; padding: 3px 6px; }
+    .nav-toggle { display: block; }
+    .main-nav-inner { display: none; flex-direction: column; width: 100%; padding: 4px 0 8px; }
+    .main-nav-inner.open { display: flex; }
+    .main-nav a { width: 100%; padding: 11px 20px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .main-nav a:first-child { border-left: none; }
+    .brand-text h1 { font-size: 18px; }
+    .emblem-img { width: 40px; height: 48px; }
+    .brand-text .subtitle { font-size: 9.5px; }
+    .welcome-left h1 { font-size: 20px; }
+    .welcome-right { width: 100%; }
+    .welcome-right .btn { flex: 1; }
+    .section-body { padding: 16px; }
+    .challenge-row { grid-template-columns: 1fr; padding: 14px; }
+    .challenge-row .actions { align-items: stretch; }
+    .challenge-row .actions .view-btn { width: 100%; text-align: center; }
+    .stat-num { font-size: 28px; }
+  }
+</style>
+</head>
+<body data-lang="en">
+
+<div class="tricolor-strip"></div>
+
+<div class="utility-bar">
+  <div class="container utility-inner">
+    <div class="left"><span class="gov-tag"><span class="dot"></span> <span data-i18n="govBar">Government of India · Ministry of Education</span></span></div>
+    <div class="right">
+      <select class="lang-switcher" id="globalLang" onchange="changeGlobalLang(this.value)" title="App Language">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="ta">தமிழ்</option>
+        <option value="te">తెలుగు</option>
+        <option value="bn">বাংলা</option>
+        <option value="mr">मराठी</option>
+        <option value="gu">ગુજરાતી</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="ml">മലയാളം</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="or">ଓଡ଼ିଆ</option>
+        <option value="as">অসমীয়া</option>
+        <option value="ur">اردو</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<header class="main-header">
+  <div class="container header-inner">
+    <a href="index.html" class="emblem-block">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/240px-Emblem_of_India.svg.png" alt="State Emblem of India" class="emblem-img"
+        onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/120px-Emblem_of_India.svg.png';">
+      <div class="brand-text">
+        <h1>COLLA<span>B</span>X</h1>
+        <div class="subtitle" data-i18n="tagline">Digital Platform for Societal Innovation</div>
+        <div class="subtitle-hindi">नागरिक समस्याओं का समाधान मंच</div>
+      </div>
+    </a>
+  </div>
+</header>
+
+<nav class="main-nav">
+  <div class="container">
+    <button class="nav-toggle" onclick="document.querySelector('.main-nav-inner').classList.toggle('open')">☰ Menu</button>
+    <div class="main-nav-inner">
+      <a href="index.html" data-i18n="navHome">Home</a>
+      <a href="report.html" data-i18n="navReport">Report Problem</a>
+      <a href="citizen.html" class="active" data-i18n="navDashboard">My Dashboard</a>
+      <span id="notifications-panel" style="position:relative;margin-left:auto;">
+        <button type="button" onclick="toggleNotificationPanel()" aria-label="Notifications" title="Notifications" style="position:relative;background:transparent;border:1px solid rgba(255,255,255,0.35);color:#fff;border-radius:3px;padding:7px 10px;cursor:pointer;font:inherit;">🔔<span id="notifications-count" style="position:absolute;top:-7px;right:-7px;min-width:17px;height:17px;padding:1px 4px;border-radius:10px;background:#FF9933;color:#0B3C5D;font-size:10px;font-weight:700;line-height:15px;">0</span></button>
+        <span id="notifications-list" style="display:none;position:absolute;right:0;top:42px;width:320px;max-width:calc(100vw - 32px);background:#fff;border:1px solid #D5DDE5;border-top:3px solid #FF9933;border-radius:4px;padding:8px;box-shadow:0 5px 16px rgba(0,0,0,0.18);z-index:1000;"></span>
+      </span>
+      <span id="auth-nav"></span>
+    </div>
+  </div>
+</nav>
+
+<!-- WELCOME BAR — NO PERSONAL NAME -->
+<div class="welcome-bar">
+  <div class="container welcome-inner">
+    <div class="welcome-left">
+      <div class="citizen-badge">👤 CITIZEN</div>
+      <h1 id="welcome-title" data-i18n="welcome">Citizen Dashboard</h1>
+      <p id="welcome-subtitle" data-i18n="welcomeSub">Track the problems you've reported and their progress</p>
+    </div>
+    <div class="welcome-right">
+      <a href="report.html" class="btn btn-accent">📢 <span data-i18n="reportNew">Report New Problem</span></a>
+      <button onclick="refreshAll()" class="btn btn-outline">🔄 <span data-i18n="refresh">Refresh</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="dash-wrapper">
+  <div class="dash-container">
+
+    <!-- STATS -->
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="stat-total">—</div>
+        <div class="stat-label" data-i18n="statTotal">Total Reports</div>
+      </div>
+      <div class="stat-card orange">
+        <div class="stat-num" id="stat-pending">—</div>
+        <div class="stat-label" data-i18n="statPending">Submitted</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-num" id="stat-solutions">—</div>
+        <div class="stat-label" data-i18n="statSolutions">Solutions Received</div>
+      </div>
+    </div>
+
+    <!-- MY CHALLENGES -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2>📋 <span data-i18n="myReports">My Reported Problems</span></h2>
+        <span class="count-badge" id="my-count">0</span>
+      </div>
+      <div class="section-body">
+        <div class="filter-tabs" id="filter-tabs">
+          <button class="filter-tab active" data-filter="all" data-i18n="filterAll">All</button>
+          <button class="filter-tab" data-filter="SUBMITTED" data-i18n="filterSubmitted">Submitted</button>
+          <button class="filter-tab" data-filter="AI_PROCESSED" data-i18n="filterProcessed">AI Processed</button>
+        </div>
+        <div class="list-tools">
+          <input id="challenge-search" class="list-search" type="search" placeholder="Search reported problems..." aria-label="Search reported problems">
+        </div>
+
+        <div id="challenges-container">
+          <div class="loading">
+            <div class="spinner"></div>
+            <div data-i18n="loading">Loading your reports...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="mini-footer">
+  <span>© 2026 CollabX</span><span>·</span><span data-i18n="govInit">Government of India Initiative</span>
+</footer>
+
+<script>
+  const API_BASE = "http://127.0.0.1:8000";
+  const LANG_KEY = "collabx_lang";
+
+  // ============ TRANSLATIONS ============
+  const I18N = {
+    en: {
+      govBar: "Government of India · Ministry of Education", skipContent: "Skip to Main Content", screenReader: "Screen Reader",
+      tagline: "Digital Platform for Societal Innovation",
+      navHome: "Home", navChallenges: "Public Challenges", navReport: "Report Problem", navDashboard: "My Dashboard",
+      welcome: "Citizen Dashboard", welcomeSub: "Track the problems you've reported and their progress",
+      reportNew: "Report New Problem", refresh: "Refresh",
+      statTotal: "Total Reports", statPending: "Submitted", statPublished: "Active Reports", statSolutions: "Solutions Received",
+      myReports: "My Reported Problems",
+      filterAll: "All", filterSubmitted: "Submitted", filterProcessed: "AI Processed",
+      loading: "Loading your reports...",
+      noReports: "You haven't reported any problems yet.",
+      noReportsSub: "Start by reporting a civic issue you've noticed in your area.",
+      reportFirst: "Report Your First Problem",
+      noMatch: "No challenges match this filter.",
+      statusSubmitted: "Submitted", statusAiProcessed: "AI Processed", statusPublished: "Submitted",
+      statusInProgress: "In Progress", statusPilot: "Pilot", statusDeployed: "Deployed",
+      priorityHigh: "High Priority", priorityMed: "Medium Priority", priorityLow: "Standard",
+      viewDetails: "View Details", solutions: "solutions",
+      govInit: "Government of India Initiative"
+    },
+    hi: {
+      govBar: "भारत सरकार · शिक्षा मंत्रालय", skipContent: "मुख्य सामग्री", screenReader: "स्क्रीन रीडर",
+      tagline: "सामाजिक नवाचार के लिए डिजिटल मंच",
+      navHome: "होम", navChallenges: "सार्वजनिक चुनौतियाँ", navReport: "समस्या दर्ज करें", navDashboard: "मेरा डैशबोर्ड",
+      welcome: "नागरिक डैशबोर्ड", welcomeSub: "अपनी रिपोर्ट की गई समस्याओं और उनकी प्रगति को ट्रैक करें",
+      reportNew: "नई समस्या दर्ज करें", refresh: "रिफ्रेश",
+      statTotal: "कुल रिपोर्ट", statPending: "समीक्षाधीन", statPublished: "प्रकाशित", statSolutions: "प्राप्त समाधान",
+      myReports: "मेरी रिपोर्ट की गई समस्याएं",
+      filterAll: "सभी", filterSubmitted: "जमा किए", filterProcessed: "AI संसाधित", filterPublished: "प्रकाशित",
+      loading: "आपकी रिपोर्ट लोड हो रही हैं...",
+      noReports: "आपने अभी तक कोई समस्या दर्ज नहीं की है।",
+      noReportsSub: "अपने क्षेत्र में देखी गई नागरिक समस्या की रिपोर्ट करके शुरू करें।",
+      reportFirst: "अपनी पहली समस्या दर्ज करें",
+      noMatch: "इस फ़िल्टर से कोई चुनौती मेल नहीं खाती।",
+      statusSubmitted: "जमा किया", statusAiProcessed: "AI संसाधित", statusPublished: "प्रकाशित",
+      statusInProgress: "प्रगति में", statusPilot: "पायलट", statusDeployed: "तैनात",
+      priorityHigh: "उच्च प्राथमिकता", priorityMed: "मध्यम प्राथमिकता", priorityLow: "मानक",
+      viewDetails: "विवरण देखें", solutions: "समाधान",
+      govInit: "भारत सरकार की पहल"
+    },
+    ta: {
+      govBar: "இந்திய அரசு · கல்வி அமைச்சகம்", skipContent: "உள்ளடக்கம்", screenReader: "வாசிப்பான்",
+      tagline: "சமூக புதுமை தளம்",
+      navHome: "முகப்பு", navChallenges: "பொது சவால்கள்", navReport: "புகாரளி", navDashboard: "எனது டாஷ்போர்டு",
+      welcome: "குடிமகன் டாஷ்போர்டு", welcomeSub: "நீங்கள் புகாரளித்த பிரச்சினைகளை கண்காணிக்கவும்",
+      reportNew: "புதிய பிரச்சினை புகாரளி", refresh: "புதுப்பி",
+      statTotal: "மொத்த புகார்கள்", statPending: "மதிப்பாய்வில்", statPublished: "வெளியிடப்பட்டது", statSolutions: "பெறப்பட்ட தீர்வுகள்",
+      myReports: "எனது புகார் செய்யப்பட்ட பிரச்சினைகள்",
+      filterAll: "அனைத்தும்", filterSubmitted: "சமர்ப்பிக்கப்பட்டது", filterProcessed: "AI செயலாக்கப்பட்டது", filterPublished: "வெளியிடப்பட்டது",
+      loading: "உங்கள் புகார்கள் ஏற்றப்படுகின்றன...",
+      noReports: "நீங்கள் இன்னும் எந்த பிரச்சினையையும் புகாரளிக்கவில்லை.",
+      noReportsSub: "உங்கள் பகுதியில் கவனித்த பிரச்சினையை புகாரளிப்பதன் மூலம் தொடங்கவும்.",
+      reportFirst: "உங்கள் முதல் பிரச்சினையை புகாரளிக்கவும்",
+      noMatch: "இந்த வடிகட்டலுடன் எதுவும் பொருந்தவில்லை.",
+      statusSubmitted: "சமர்ப்பிக்கப்பட்டது", statusAiProcessed: "AI செயலாக்கப்பட்டது", statusPublished: "வெளியிடப்பட்டது",
+      statusInProgress: "நடைபெறுகிறது", statusPilot: "பைலட்", statusDeployed: "அமர்த்தப்பட்டது",
+      priorityHigh: "உயர் முன்னுரிமை", priorityMed: "நடுத்தரம்", priorityLow: "தரநிலை",
+      viewDetails: "விவரங்களைப் பார்", solutions: "தீர்வுகள்",
+      govInit: "இந்திய அரசு முயற்சி"
+    },
+    te: {
+      govBar: "భారత ప్రభుత్వం · విద్యా మంత్రిత్వ శాఖ", skipContent: "కంటెంట్", screenReader: "రీడర్",
+      tagline: "సామాజిక ఆవిష్కరణ వేదిక",
+      navHome: "హోమ్", navChallenges: "ఛాలెంజ్లు", navReport: "నివేదించండి", navDashboard: "నా డాష్బోర్డ్",
+      welcome: "పౌర డాష్బోర్డ్", welcomeSub: "మీరు నివేదించిన సమస్యలను ట్రాక్ చేయండి",
+      reportNew: "కొత్త సమస్యను నివేదించండి", refresh: "రిఫ్రెష్",
+      statTotal: "మొత్తం నివేదికలు", statPending: "సమీక్షలో", statPublished: "ప్రచురించబడింది", statSolutions: "పరిష్కారాలు",
+      myReports: "నా నివేదించిన సమస్యలు",
+      filterAll: "అన్నీ", filterSubmitted: "సమర్పించబడింది", filterProcessed: "AI ప్రాసెస్", filterPublished: "ప్రచురించబడింది",
+      loading: "మీ నివేదికలు లోడ్ అవుతున్నాయి...",
+      noReports: "మీరు ఇంకా ఏ సమస్యను నివేదించలేదు.",
+      noReportsSub: "మీ ప్రాంతంలో గమనించిన పౌర సమస్యను నివేదించడం ద్వారా ప్రారంభించండి.",
+      reportFirst: "మీ మొదటి సమస్యను నివేదించండి",
+      noMatch: "ఈ ఫిల్టర్తో ఏదీ సరిపోలలేదు.",
+      statusSubmitted: "సమర్పించబడింది", statusAiProcessed: "AI ప్రాసెస్", statusPublished: "ప్రచురించబడింది",
+      statusInProgress: "పురోగతిలో", statusPilot: "పైలట్", statusDeployed: "అమలు",
+      priorityHigh: "అధిక ప్రాధాన్యత", priorityMed: "మధ్యస్థం", priorityLow: "ప్రామాణికం",
+      viewDetails: "వివరాలు చూడండి", solutions: "పరిష్కారాలు",
+      govInit: "భారత ప్రభుత్వ చొరవ"
+    },
+    bn: { govBar: "ভারত · শিক্ষা", skipContent: "বিষয়বস্তু", screenReader: "রিডার", tagline: "ডিজিটাল প্ল্যাটফর্ম", navHome: "হোম", navChallenges: "চ্যালেঞ্জ", navReport: "রিপোর্ট", navDashboard: "ড্যাশবোর্ড", welcome: "নাগরিক ড্যাশবোর্ড", welcomeSub: "আপনার রিপোর্ট করা সমস্যা ট্র্যাক করুন", reportNew: "নতুন সমস্যা", refresh: "রিফ্রেশ", statTotal: "মোট রিপোর্ট", statPending: "পর্যালোচনায়", statPublished: "প্রকাশিত", statSolutions: "সমাধান", myReports: "আমার রিপোর্ট", filterAll: "সব", filterSubmitted: "জমা", filterProcessed: "AI", filterPublished: "প্রকাশিত", loading: "লোড...", noReports: "এখনও কোন সমস্যা রিপোর্ট করেননি।", noReportsSub: "আপনার এলাকার সমস্যা রিপোর্ট করুন।", reportFirst: "প্রথম সমস্যা রিপোর্ট", noMatch: "মেলে না।", statusSubmitted: "জমা", statusAiProcessed: "AI", statusPublished: "প্রকাশিত", statusInProgress: "চলমান", statusPilot: "পাইলট", statusDeployed: "স্থাপিত", priorityHigh: "উচ্চ", priorityMed: "মাঝারি", priorityLow: "স্ট্যান্ডার্ড", viewDetails: "বিস্তারিত", solutions: "সমাধান", govInit: "ভারত সরকার" },
+    mr: { govBar: "भारत · शिक्षण", skipContent: "सामग्री", screenReader: "रीडर", tagline: "डिजिटल", navHome: "मुख्यपृष्ठ", navChallenges: "आव्हाने", navReport: "नोंदवा", navDashboard: "डॅशबोर्ड", welcome: "नागरिक डॅशबोर्ड", welcomeSub: "तुमच्या नोंदवलेल्या समस्या ट्रॅक करा", reportNew: "नवीन समस्या", refresh: "रिफ्रेश", statTotal: "एकूण", statPending: "पुनरावलोकन", statPublished: "प्रकाशित", statSolutions: "उपाय", myReports: "माझ्या नोंदी", filterAll: "सर्व", filterSubmitted: "सबमिट", filterProcessed: "AI", filterPublished: "प्रकाशित", loading: "लोड...", noReports: "अद्याप काही नाही.", noReportsSub: "तुमच्या भागातील समस्या नोंदवा.", reportFirst: "पहिली समस्या", noMatch: "जुळत नाही.", statusSubmitted: "सबमिट", statusAiProcessed: "AI", statusPublished: "प्रकाशित", statusInProgress: "प्रगतीत", statusPilot: "पायलट", statusDeployed: "स्थापित", priorityHigh: "उच्च", priorityMed: "मध्यम", priorityLow: "मानक", viewDetails: "तपशील", solutions: "उपाय", govInit: "भारत सरकार" },
+    gu: { govBar: "ભારત · શિક્ષણ", skipContent: "સામગ્રી", screenReader: "રીડર", tagline: "ડિજિટલ", navHome: "હોમ", navChallenges: "પડકારો", navReport: "નોંધાવો", navDashboard: "ડેશબોર્ડ", welcome: "નાગરિક ડેશબોર્ડ", welcomeSub: "તમારી નોંધાયેલ સમસ્યાઓ ટ્રેક કરો", reportNew: "નવી સમસ્યા", refresh: "રિફ્રેશ", statTotal: "કુલ", statPending: "સમીક્ષા", statPublished: "પ્રકાશિત", statSolutions: "ઉકેલો", myReports: "મારી નોંધ", filterAll: "બધા", filterSubmitted: "સબમિટ", filterProcessed: "AI", filterPublished: "પ્રકાશિત", loading: "લોડ...", noReports: "હજી કંઈ નથી.", noReportsSub: "તમારા વિસ્તારની સમસ્યા નોંધાવો.", reportFirst: "પ્રથમ સમસ્યા", noMatch: "મેળ નથી.", statusSubmitted: "સબમિટ", statusAiProcessed: "AI", statusPublished: "પ્રકાશિત", statusInProgress: "ચાલુ", statusPilot: "પાયલોટ", statusDeployed: "તૈનાત", priorityHigh: "ઉચ્ચ", priorityMed: "મધ્યમ", priorityLow: "પ્રમાણભૂત", viewDetails: "વિગતો", solutions: "ઉકેલો", govInit: "ભારત સરકાર" },
+    kn: { govBar: "ಭಾರತ · ಶಿಕ್ಷಣ", skipContent: "ವಿಷಯ", screenReader: "ರೀಡರ್", tagline: "ಡಿಜಿಟಲ್", navHome: "ಮುಖಪುಟ", navChallenges: "ಸವಾಲುಗಳು", navReport: "ವರದಿ", navDashboard: "ಡ್ಯಾಶ್ಬೋರ್ಡ್", welcome: "ನಾಗರಿಕ ಡ್ಯಾಶ್ಬೋರ್ಡ್", welcomeSub: "ನಿಮ್ಮ ವರದಿಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ", reportNew: "ಹೊಸ ಸಮಸ್ಯೆ", refresh: "ರಿಫ್ರೆಶ್", statTotal: "ಒಟ್ಟು", statPending: "ಪರಿಶೀಲನೆ", statPublished: "ಪ್ರಕಟಿತ", statSolutions: "ಪರಿಹಾರಗಳು", myReports: "ನನ್ನ ವರದಿಗಳು", filterAll: "ಎಲ್ಲಾ", filterSubmitted: "ಸಲ್ಲಿಸಲಾಗಿದೆ", filterProcessed: "AI", filterPublished: "ಪ್ರಕಟಿತ", loading: "ಲೋಡ್...", noReports: "ಇನ್ನೂ ಇಲ್ಲ.", noReportsSub: "ನಿಮ್ಮ ಪ್ರದೇಶದ ಸಮಸ್ಯೆ ವರದಿ ಮಾಡಿ.", reportFirst: "ಮೊದಲ ಸಮಸ್ಯೆ", noMatch: "ಹೊಂದಿಕೆಯಾಗುವುದಿಲ್ಲ.", statusSubmitted: "ಸಲ್ಲಿಸಲಾಗಿದೆ", statusAiProcessed: "AI", statusPublished: "ಪ್ರಕಟಿತ", statusInProgress: "ಪ್ರಗತಿ", statusPilot: "ಪೈಲಟ್", statusDeployed: "ನಿಯೋಜಿತ", priorityHigh: "ಹೆಚ್ಚು", priorityMed: "ಮಧ್ಯಮ", priorityLow: "ಪ್ರಮಾಣಿತ", viewDetails: "ವಿವರಗಳು", solutions: "ಪರಿಹಾರಗಳು", govInit: "ಭಾರತ ಸರ್ಕಾರ" },
+    ml: { govBar: "ഇന്ത്യ · വിദ്യാഭ്യാസം", skipContent: "ഉള്ളടക്കം", screenReader: "റീഡർ", tagline: "ഡിജിറ്റൽ", navHome: "ഹോം", navChallenges: "വെല്ലുവിളികൾ", navReport: "റിപ്പോർട്ട്", navDashboard: "ഡാഷ്ബോർഡ്", welcome: "പൗര ഡാഷ്ബോർഡ്", welcomeSub: "നിങ്ങളുടെ റിപ്പോർട്ടുകൾ ട്രാക്ക് ചെയ്യുക", reportNew: "പുതിയ പ്രശ്നം", refresh: "റിഫ്രെഷ്", statTotal: "ആകെ", statPending: "അവലോകനം", statPublished: "പ്രസിദ്ധീകരിച്ചു", statSolutions: "പരിഹാരങ്ങൾ", myReports: "എന്റെ റിപ്പോർട്ടുകൾ", filterAll: "എല്ലാം", filterSubmitted: "സമർപ്പിച്ചു", filterProcessed: "AI", filterPublished: "പ്രസിദ്ധീകരിച്ചു", loading: "ലോഡ്...", noReports: "ഇതുവരെ ഇല്ല.", noReportsSub: "നിങ്ങളുടെ പ്രദേശത്തെ പ്രശ്നം റിപ്പോർട്ട് ചെയ്യുക.", reportFirst: "ആദ്യ റിപ്പോർട്ട്", noMatch: "പൊരുത്തപ്പെടുന്നില്ല.", statusSubmitted: "സമർപ്പിച്ചു", statusAiProcessed: "AI", statusPublished: "പ്രസിദ്ധീകരിച്ചു", statusInProgress: "നടന്നുകൊണ്ടിരിക്കുന്നു", statusPilot: "പൈലറ്റ്", statusDeployed: "വിന്യസിച്ചു", priorityHigh: "ഉയർന്ന", priorityMed: "ഇടത്തരം", priorityLow: "സാധാരണ", viewDetails: "വിശദാംശങ്ങൾ", solutions: "പരിഹാരങ്ങൾ", govInit: "ഇന്ത്യാ ഗവൺമെന്റ്" },
+    pa: { govBar: "ਭਾਰਤ · ਸਿੱਖਿਆ", skipContent: "ਸਮੱਗਰੀ", screenReader: "ਰੀਡਰ", tagline: "ਡਿਜੀਟਲ", navHome: "ਘਰ", navChallenges: "ਚੁਣੌਤੀਆਂ", navReport: "ਰਿਪੋਰਟ", navDashboard: "ਡੈਸ਼ਬੋਰਡ", welcome: "ਨਾਗਰਿਕ ਡੈਸ਼ਬੋਰਡ", welcomeSub: "ਆਪਣੀਆਂ ਰਿਪੋਰਟਾਂ ਟ੍ਰੈਕ ਕਰੋ", reportNew: "ਨਵੀਂ ਸਮੱਸਿਆ", refresh: "ਰਿਫ੍ਰੈਸ਼", statTotal: "ਕੁੱਲ", statPending: "ਸਮੀਖਿਆ", statPublished: "ਪ੍ਰਕਾਸ਼ਿਤ", statSolutions: "ਹੱਲ", myReports: "ਮੇਰੀਆਂ ਰਿਪੋਰਟਾਂ", filterAll: "ਸਾਰੇ", filterSubmitted: "ਜਮ੍ਹਾਂ", filterProcessed: "AI", filterPublished: "ਪ੍ਰਕਾਸ਼ਿਤ", loading: "ਲੋਡ...", noReports: "ਹਾਲੇ ਕੁਝ ਨਹੀਂ।", noReportsSub: "ਆਪਣੇ ਖੇਤਰ ਦੀ ਸਮੱਸਿਆ ਰਿਪੋਰਟ ਕਰੋ।", reportFirst: "ਪਹਿਲੀ ਸਮੱਸਿਆ", noMatch: "ਮੇਲ ਨਹੀਂ।", statusSubmitted: "ਜਮ੍ਹਾਂ", statusAiProcessed: "AI", statusPublished: "ਪ੍ਰਕਾਸ਼ਿਤ", statusInProgress: "ਚੱਲ ਰਿਹਾ", statusPilot: "ਪਾਇਲਟ", statusDeployed: "ਤੈਨਾਤ", priorityHigh: "ਉੱਚ", priorityMed: "ਮੱਧਮ", priorityLow: "ਮਿਆਰੀ", viewDetails: "ਵੇਰਵੇ", solutions: "ਹੱਲ", govInit: "ਭਾਰਤ ਸਰਕਾਰ" },
+    or: { govBar: "ଭାରତ · ଶିକ୍ଷା", skipContent: "ବିଷୟ", screenReader: "ରିଡର", tagline: "ଡିଜିଟାଲ", navHome: "ହୋମ", navChallenges: "ଆହ୍ୱାନ", navReport: "ରିପୋର୍ଟ", navDashboard: "ଡ୍ୟାସବୋର୍ଡ", welcome: "ନାଗରିକ ଡ୍ୟାସବୋର୍ଡ", welcomeSub: "ଆପଣଙ୍କ ରିପୋର୍ଟ ଟ୍ରାକ କରନ୍ତୁ", reportNew: "ନୂଆ ସମସ୍ୟା", refresh: "ରିଫ୍ରେସ", statTotal: "ମୋଟ", statPending: "ସମୀକ୍ଷା", statPublished: "ପ୍ରକାଶିତ", statSolutions: "ସମାଧାନ", myReports: "ମୋର ରିପୋର୍ଟ", filterAll: "ସମସ୍ତ", filterSubmitted: "ଦାଖଲ", filterProcessed: "AI", filterPublished: "ପ୍ରକାଶିତ", loading: "ଲୋଡ୍...", noReports: "ଏପର୍ଯ୍ୟନ୍ତ ନାହିଁ।", noReportsSub: "ଆପଣଙ୍କ ଅଞ୍ଚଳର ସମସ୍ୟା ରିପୋର୍ଟ କରନ୍ତୁ।", reportFirst: "ପ୍ରଥମ ରିପୋର୍ଟ", noMatch: "ମେଳ ନାହିଁ।", statusSubmitted: "ଦାଖଲ", statusAiProcessed: "AI", statusPublished: "ପ୍ରକାଶିତ", statusInProgress: "ଚାଲୁ", statusPilot: "ପାଇଲଟ", statusDeployed: "ମୁତୟନ", priorityHigh: "ଉଚ୍ଚ", priorityMed: "ମଧ୍ୟମ", priorityLow: "ମାନକ", viewDetails: "ବିବରଣୀ", solutions: "ସମାଧାନ", govInit: "ଭାରତ ସରକାର" },
+    as: { govBar: "ভাৰত · শিক্ষা", skipContent: "সমল", screenReader: "ৰিডাৰ", tagline: "ডিজিটেল", navHome: "হোম", navChallenges: "প্ৰত্যাহ্বান", navReport: "ৰিপৰ্ট", navDashboard: "ডেশবৰ্ড", welcome: "নাগৰিক ডেশবৰ্ড", welcomeSub: "আপোনাৰ ৰিপৰ্ট ট্ৰেক কৰক", reportNew: "নতুন সমস্যা", refresh: "ৰিফ্ৰেশ", statTotal: "মুঠ", statPending: "পৰ্যালোচনা", statPublished: "প্ৰকাশিত", statSolutions: "সমাধান", myReports: "মোৰ ৰিপৰ্ট", filterAll: "সকলো", filterSubmitted: "দাখিল", filterProcessed: "AI", filterPublished: "প্ৰকাশিত", loading: "লোড...", noReports: "এতিয়ালৈকে নাই।", noReportsSub: "আপোনাৰ অঞ্চলৰ সমস্যা ৰিপৰ্ট কৰক।", reportFirst: "প্ৰথম ৰিপৰ্ট", noMatch: "মিল নাই।", statusSubmitted: "দাখিল", statusAiProcessed: "AI", statusPublished: "প্ৰকাশিত", statusInProgress: "চলি আছে", statusPilot: "পাইলট", statusDeployed: "নিয়োজিত", priorityHigh: "উচ্চ", priorityMed: "মধ্যম", priorityLow: "মানক", viewDetails: "বিৱৰণ", solutions: "সমাধান", govInit: "ভাৰত চৰকাৰ" },
+    ur: { govBar: "حکومت ہند · تعلیم", skipContent: "مواد", screenReader: "ریڈر", tagline: "ڈیجیٹل", navHome: "ہوم", navChallenges: "چیلنجز", navReport: "رپورٹ", navDashboard: "ڈیش بورڈ", welcome: "شہری ڈیش بورڈ", welcomeSub: "اپنی رپورٹس ٹریک کریں", reportNew: "نیا مسئلہ", refresh: "ریفریش", statTotal: "کل", statPending: "جائزہ", statPublished: "شائع", statSolutions: "حل", myReports: "میری رپورٹس", filterAll: "سب", filterSubmitted: "جمع", filterProcessed: "AI", filterPublished: "شائع", loading: "لوڈ...", noReports: "ابھی تک نہیں۔", noReportsSub: "اپنے علاقے کا مسئلہ رپورٹ کریں۔", reportFirst: "پہلی رپورٹ", noMatch: "مطابقت نہیں۔", statusSubmitted: "جمع", statusAiProcessed: "AI", statusPublished: "شائع", statusInProgress: "جاری", statusPilot: "پائلٹ", statusDeployed: "تعینات", priorityHigh: "اعلی", priorityMed: "درمیانہ", priorityLow: "معیاری", viewDetails: "تفصیلات", solutions: "حل", govInit: "حکومت ہند" }
+  };
+
+  function applyTranslations(lang) {
+    const t = I18N[lang] || I18N.en;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (t[key]) el.textContent = t[key];
+    });
+    document.body.setAttribute("data-lang", lang);
+    document.documentElement.lang = lang;
+  }
+  function changeGlobalLang(lang) {
+    localStorage.setItem(LANG_KEY, lang);
+    applyTranslations(lang);
+    if (allChallenges.length) renderChallenges();
+  }
+
+  function escapeHtml(str) { const d = document.createElement("div"); d.textContent = str || ""; return d.innerHTML; }
+  function getT(key) { return (I18N[localStorage.getItem(LANG_KEY) || "en"] || I18N.en)[key] || I18N.en[key]; }
+  function roleRoute(role) { return { citizen:"citizen.html", university:"university.html", industry:"industry.html", govt:"admin.html", admin:"admin.html", expert:"expert.html" }[role] || "index.html"; }
+  function logout() { localStorage.removeItem("token"); localStorage.removeItem("user"); window.location.href = "index.html"; }
+
+  // STATE
+  let currentUser = null;
+  let allChallenges = [];
+  let currentFilter = "all";
+  let solutionCounts = {};
+  let challengeSearch = "";
+  let challengePage = 1;
+  const CHALLENGES_PER_PAGE = 8;
+
+  // INIT
+  const savedLang = localStorage.getItem(LANG_KEY) || "en";
+  document.getElementById("globalLang").value = savedLang;
+  applyTranslations(savedLang);
+
+  // AUTH CHECK + NAV — NO PERSONAL NAME
+  (function initAuth() {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+
+    if (!token || !user) {
+      alert("Please login to access your dashboard.");
+      window.location.href = "login.html";
+      return;
+    }
+
+    if (user.role !== "citizen") {
+      window.location.href = roleRoute(user.role);
+      return;
+    }
+
+    currentUser = user;
+
+    // Navbar — role badge only, NO name
+    document.getElementById("auth-nav").innerHTML = `
+      <a href="citizen.html" class="active">👤 Citizen</a>
+      <a href="profile.html">Profile</a>
+      <button onclick="logout()" style="background:transparent; border:none; color:#fff; padding:11px 16px; cursor:pointer; font-size:13px; font-weight:500;">Logout</button>
+    `;
+  })();
+
+  // FILTER TABS
+  document.querySelectorAll(".filter-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      currentFilter = tab.dataset.filter;
+      challengePage = 1;
+      renderChallenges();
+    });
+  });
+
+  document.getElementById("challenge-search").addEventListener("input", event => {
+    challengeSearch = event.target.value.trim().toLowerCase();
+    challengePage = 1;
+    renderChallenges();
+  });
+
+  // LOAD DATA
+  async function loadAll() {
+    loadNotifications();
+    const container = document.getElementById("challenges-container");
+    container.innerHTML = `<div class="loading"><div class="spinner"></div><div>${getT("loading")}</div></div>`;
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch(`${API_BASE}/challenges/mine`, {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error("Could not load your reports");
+      allChallenges = await res.json();
+
+      solutionCounts = {};
+      for (const ch of allChallenges) {
+        try {
+          const sRes = await fetch(`${API_BASE}/solutions/challenge/${ch.id}`);
+          const sols = sRes.ok ? await sRes.json() : [];
+          solutionCounts[ch.id] = sols.length;
+        } catch(e) { solutionCounts[ch.id] = 0; }
+      }
+
+      updateStats();
+      renderChallenges();
+    } catch (err) {
+      container.innerHTML = `<div class="empty-state">
+        <div class="icon">⚠</div>
+        <h3>${escapeHtml(err.message)}</h3>
+        <p>Please make sure the backend server is running.</p>
+      </div>`;
+    }
+  }
+
+  async function loadNotifications() {
+    const panel = document.getElementById("notifications-panel");
+    try {
+      const response = await fetch(`${API_BASE}/notifications/mine`, { headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } });
+      if (!response.ok) return;
+      const items = await response.json();
+      document.getElementById("notifications-count").textContent = items.filter(item => !item.is_read).length;
+      document.getElementById("notifications-list").innerHTML = items.length ? items.slice(0, 8).map(item => `<a href="detail.html?id=${item.challenge_id || ""}" onclick="markNotificationRead(${item.id})" style="padding:9px 10px;background:${item.is_read ? "#F8FAFC" : "#FFF8ED"};border-radius:3px;color:#1a1a1a;text-decoration:none;"><strong>${escapeHtml(item.title)}</strong><span style="display:block;font-size:12px;color:#666;margin-top:2px;">${escapeHtml(item.message)}</span></a>`).join("") : `<div style="font-size:12px;color:#7A8B99;padding:8px 0;">No new notifications.</div>`;
+    } catch (error) { document.getElementById("notifications-list").innerHTML = `<div style="font-size:12px;color:#C0392B;padding:8px 0;">Notifications unavailable.</div>`; }
+  }
+
+  function markNotificationRead(id) {
+    fetch(`${API_BASE}/notifications/${id}/read`, { method: "PATCH", headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } });
+  }
+
+  function toggleNotificationPanel() {
+    const list = document.getElementById("notifications-list");
+    list.style.display = list.style.display === "none" ? "grid" : "none";
+  }
+
+  function updateStats() {
+    const total = allChallenges.length;
+    const pending = allChallenges.length;
+    const solutions = Object.values(solutionCounts).reduce((a, b) => a + b, 0);
+
+    document.getElementById("stat-total").textContent = total;
+    document.getElementById("stat-pending").textContent = pending;
+    document.getElementById("stat-solutions").textContent = solutions;
+  }
+
+  function renderChallenges() {
+    const container = document.getElementById("challenges-container");
+    let filtered = allChallenges;
+
+    if (currentFilter === "SUBMITTED") {
+      filtered = allChallenges.filter(c => c.citizen_id != null || c.submitter_name);
+    } else if (currentFilter !== "all") {
+      filtered = allChallenges.filter(c => c.status === currentFilter);
+    }
+    if (challengeSearch) {
+      filtered = filtered.filter(c => `${c.title} ${c.description} ${c.category || ""}`.toLowerCase().includes(challengeSearch));
+    }
+
+    document.getElementById("my-count").textContent = filtered.length;
+
+    if (allChallenges.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="icon">📝</div>
+          <h3>${getT("noReports")}</h3>
+          <p>${getT("noReportsSub")}</p>
+          <a href="report.html" class="btn btn-accent">📢 ${getT("reportFirst")}</a>
+        </div>
+      `;
+      return;
+    }
+
+    if (filtered.length === 0) {
+      container.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><h3>${getT("noMatch")}</h3></div>`;
+      return;
+    }
+
+    const statusLabels = {
+      SUBMITTED: getT("statusSubmitted"),
+      AI_PROCESSED: getT("statusAiProcessed"),
+      PUBLISHED: getT("statusSubmitted"),
+      IN_PROGRESS: getT("statusInProgress"),
+      PILOT: getT("statusPilot"),
+      DEPLOYED: getT("statusDeployed"),
+    };
+
+    const totalPages = Math.max(1, Math.ceil(filtered.length / CHALLENGES_PER_PAGE));
+    challengePage = Math.min(challengePage, totalPages);
+    const pageItems = filtered.slice((challengePage - 1) * CHALLENGES_PER_PAGE, challengePage * CHALLENGES_PER_PAGE);
+
+    container.innerHTML = `<div class="challenge-list">${pageItems.map(ch => {
+      const priority = ch.priority_score > 70 ? "high" : ch.priority_score > 50 ? "med" : "low";
+      const priorityLabel = priority === "high" ? getT("priorityHigh") : priority === "med" ? getT("priorityMed") : getT("priorityLow");
+      const location = ch.latitude ? `${Number(ch.latitude).toFixed(2)}, ${Number(ch.longitude).toFixed(2)}` : "—";
+      const sols = solutionCounts[ch.id] || 0;
+
+      return `
+        <div class="challenge-row ${priority}">
+          <div>
+            <div class="challenge-tags">
+              <span class="chip chip-category">${escapeHtml(ch.category || "General")}</span>
+              <span class="chip chip-priority-${priority}">${priorityLabel}</span>
+              <span class="chip chip-status">${statusLabels[ch.status] || ch.status}</span>
+            </div>
+            <h3>${escapeHtml(ch.title)}</h3>
+            <details class="compact-details">
+              <summary>View problem details</summary>
+              <p>${escapeHtml(ch.description)}</p>
+              ${renderChallengeMedia(ch)}
+            </details>
+            <div class="meta">
+              <span>📍 ${escapeHtml(location)}</span>
+              <span>🆔 #${ch.id}</span>
+              <span>📅 ${new Date(ch.created_at).toLocaleDateString('en-IN')}</span>
+              <span>💡 ${sols} ${getT("solutions")}</span>
+            </div>
+          </div>
+          <div class="actions">
+            <a href="detail.html?id=${ch.id}" class="view-btn">${getT("viewDetails")} →</a>
+          </div>
+        </div>
+      `;
+    }).join("")}</div>
+      <div class="pagination">
+        <button type="button" onclick="changeChallengePage(-1)" ${challengePage === 1 ? "disabled" : ""}>Previous</button>
+        <span>Page ${challengePage} of ${totalPages}</span>
+        <button type="button" onclick="changeChallengePage(1)" ${challengePage === totalPages ? "disabled" : ""}>Next</button>
+      </div>`;
+  }
+
+  function renderChallengeMedia(ch) {
+    if (!ch.image_url) return "";
+    return `<div class="challenge-media">${String(ch.image_url).split(",").map(path => path.trim()).filter(Boolean).map(path => {
+      const normalized = path.replace(/\\/g, "/");
+      const url = /^https?:\/\//i.test(normalized) ? normalized : `${API_BASE}/${normalized.replace(/^\/+/, "")}`;
+      const name = normalized.split("/").pop() || "Uploaded media";
+      return /\.(mp4|webm|ogg|mov|avi|m4v)$/i.test(name)
+        ? `<video controls preload="metadata" src="${escapeHtml(url)}" aria-label="Citizen uploaded video"></video>`
+        : `<img src="${escapeHtml(url)}" alt="Citizen uploaded problem media">`;
+    }).join("")}</div>`;
+  }
+
+  function changeChallengePage(delta) {
+    challengePage += delta;
+    renderChallenges();
+  }
+
+  function refreshAll() { loadAll(); }
+
+  // LOAD
+  loadAll();
+</script>
+<script src="i18n.js"></script>
+</body>
+</html>

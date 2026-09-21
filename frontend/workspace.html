@@ -1,0 +1,1567 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CollabX Workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0B3C5D;
+      --navy-strong: #082B44;
+      --orange: #FF9933;
+      --orange-strong: #E68A2E;
+      --green: #138808;
+      --green-soft: #EAF9EC;
+      --bg: #F4F6F9;
+      --panel: #ffffff;
+      --panel-alt: #F8FAFC;
+      --line: #D5DDE5;
+      --text: #1A1A1A;
+      --muted: #5B6773;
+      --shadow: 0 10px 28px rgba(11, 60, 93, 0.08);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans', 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+
+    .tricolor {
+      height: 4px;
+      background: linear-gradient(to right, #FF9933 0 33.33%, #ffffff 33.33% 66.66%, #138808 66.66%);
+    }
+
+    .topbar {
+      background: #fff;
+      border-bottom: 3px solid var(--navy);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .topbar-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .workspace-lang {
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      padding: 7px 8px;
+      font: inherit;
+      font-size: 12px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--navy) 0%, #0F4C81 100%);
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .brand-name {
+      font-family: 'Noto Serif', serif;
+      font-size: 24px;
+      color: var(--navy);
+      margin: 0;
+      line-height: 1.1;
+    }
+
+    .brand-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--navy);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 10px;
+      letter-spacing: 0.02em;
+    }
+
+    .ghost-btn, .primary-btn, .soft-btn {
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: 0.2s ease;
+    }
+
+    .ghost-btn {
+      background: white;
+      border-color: var(--line);
+      color: var(--navy);
+    }
+
+    .ghost-btn:hover { background: #f7f9fb; }
+
+    .primary-btn {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    .primary-btn:hover { background: var(--navy-strong); }
+
+    .soft-btn {
+      background: #fff7ee;
+      color: var(--orange-strong);
+      border-color: rgba(255, 153, 51, 0.35);
+    }
+
+    .workspace-shell {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px 28px 28px;
+      display: block;
+    }
+
+    .sidebar {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px 14px;
+      height: fit-content;
+      position: sticky;
+      top: 96px;
+    }
+
+    .sidebar-title {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+      padding: 0 10px 14px;
+    }
+
+    .nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav-list a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--navy);
+      font-weight: 600;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      transition: 0.2s ease;
+    }
+
+    .nav-list a:hover {
+      background: #eff6ff;
+      border-color: rgba(11,60,93,0.08);
+    }
+
+    .nav-list .icon {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: #eef5fb;
+      font-size: 14px;
+    }
+
+    .main {
+      display: grid;
+      gap: 22px;
+    }
+
+    .summary-card,
+    .panel,
+    .activity-card,
+    .stage-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .summary-card {
+      padding: 22px 24px 18px;
+    }
+
+    .summary-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--orange-strong);
+    }
+
+    .summary-header h2 {
+      margin: 0;
+      font-size: clamp(24px, 2.2vw, 32px);
+      line-height: 1.2;
+      color: var(--navy);
+      font-family: 'Noto Serif', serif;
+    }
+
+    .status-chip {
+      background: #ecf8ef;
+      color: var(--green);
+      border: 1px solid rgba(19,136,8,0.22);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(170px, 1fr));
+      gap: 12px;
+    }
+
+    .summary-item {
+      background: var(--panel-alt);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+
+    .summary-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .summary-item strong {
+      color: var(--navy);
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .stage-card {
+      padding: 18px 22px;
+    }
+
+    .stage-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 14px;
+    }
+
+    .stage-header h3 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 18px;
+    }
+
+    .stage-track {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .stage-step {
+      position: relative;
+      padding: 14px 12px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #fafbfd;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .stage-step::before {
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      border: 2px solid var(--line);
+      background: #fff;
+    }
+
+    .stage-step.active {
+      background: #fff7ee;
+      border-color: rgba(255,153,51,0.4);
+      color: var(--navy);
+      box-shadow: inset 0 0 0 1px rgba(255,153,51,0.15);
+    }
+
+    .stage-step.active::before {
+      background: var(--orange);
+      border-color: var(--orange);
+    }
+
+    .stage-step.done {
+      background: #edfaf0;
+      border-color: rgba(19,136,8,0.25);
+      color: var(--green);
+    }
+
+    .stage-step.done::before {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .stage-step span {
+      display: inline-block;
+      padding-top: 18px;
+    }
+
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .panel {
+      padding: 18px 18px 20px;
+    }
+
+    .panel h3 {
+      margin: 0 0 12px;
+      color: var(--navy);
+      font-size: 18px;
+    }
+
+    .panel-body {
+      display: grid;
+      gap: 12px;
+    }
+
+    .info-row {
+      background: var(--panel-alt);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .info-row h4 {
+      margin: 0 0 4px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .info-row p {
+      margin: 0;
+      color: var(--navy);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .list-group {
+      display: grid;
+      gap: 10px;
+    }
+
+    .list-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: var(--panel-alt);
+    }
+
+    .list-item strong {
+      display: block;
+      color: var(--navy);
+      margin-bottom: 3px;
+    }
+
+    .list-item small {
+      display: block;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .mini-tag {
+      background: #eef5fb;
+      color: var(--navy);
+      border-radius: 999px;
+      padding: 5px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .chat-box {
+      display: grid;
+      gap: 10px;
+      max-height: 310px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .message {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #f9fbfd;
+    }
+
+    .message-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 11px;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .message-actions {
+      display: inline-flex;
+      gap: 4px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .message-actions .small-btn {
+      padding: 3px 6px;
+      font-size: 10px;
+    }
+
+    .message-text {
+      color: var(--navy);
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .composer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .field,
+    .input,
+    .select,
+    .textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      padding: 10px 12px;
+      color: var(--text);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .field:focus,
+    .input:focus,
+    .select:focus,
+    .textarea:focus {
+      outline: none;
+      border-color: rgba(11,60,93,0.45);
+      box-shadow: 0 0 0 4px rgba(11,60,93,0.06);
+    }
+
+    .textarea {
+      min-height: 88px;
+      resize: vertical;
+    }
+
+    .upload-row,
+    .support-row,
+    .task-form,
+    .progress-form,
+    .prototype-form {
+      display: grid;
+      gap: 10px;
+    }
+
+    .inline-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .list-docs {
+      display: grid;
+      gap: 10px;
+    }
+
+    .doc-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--panel-alt);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    .doc-item small {
+      display: block;
+      color: var(--muted);
+      font-weight: 500;
+      margin-top: 3px;
+    }
+
+    .progress-box {
+      display: grid;
+      gap: 12px;
+    }
+
+    .progress-meter {
+      height: 14px;
+      background: #edf2f7;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #FF9933 0%, #0B3C5D 100%);
+      border-radius: inherit;
+      transition: width 0.25s ease;
+    }
+
+    .tasks-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .task-card {
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--panel-alt);
+    }
+
+    .task-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .task-actions,
+    .document-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .small-btn {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--navy);
+      cursor: pointer;
+      padding: 5px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .small-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .small-btn.secondary {
+      background: #eef5fb;
+      border-color: rgba(11,60,93,0.15);
+    }
+
+    .small-btn.danger {
+      background: #fff0f0;
+      border-color: rgba(180,29,29,0.2);
+      color: #b41d1d;
+    }
+
+    .small-select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--navy);
+      padding: 6px 8px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .task-meta-row {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .task-status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .task-status-row label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .task-card h4 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 15px;
+    }
+
+    .task-card small {
+      color: var(--muted);
+      display: block;
+      margin-top: 6px;
+    }
+
+    .doc-item .doc-name {
+      max-width: 180px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .task-pill {
+      border-radius: 999px;
+      padding: 5px 8px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+    }
+
+    .todo { background: #fff4e7; color: #9a5b00; border-color: rgba(154,91,0,0.12); }
+    .doing { background: #eef5ff; color: #1d5aa6; border-color: rgba(29,90,166,0.12); }
+    .done { background: #ebf9ee; color: var(--green); border-color: rgba(19,136,8,0.12); }
+
+    .empty-state {
+      color: var(--muted);
+      background: var(--panel-alt);
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    @media (max-width: 1024px) {
+      .workspace-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .summary-grid,
+      .workspace-grid,
+      .inline-fields,
+      .stage-track {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar-inner {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="tricolor"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">C</div>
+        <div>
+          <div class="brand-name">CollabX</div>
+          <div class="brand-sub" data-i18n="workspaceHeader">Collaboration Workspace</div>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <span class="pill" id="workspace-role-pill" data-i18n="role">Role</span>
+        <select class="workspace-lang" id="workspace-lang" onchange="changeWorkspaceLang(this.value)" aria-label="Workspace language">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="ta">தமிழ்</option>
+          <option value="te">తెలుగు</option>
+          <option value="bn">বাংলা</option>
+          <option value="mr">मराठी</option>
+          <option value="gu">ગુજરાતી</option>
+          <option value="kn">ಕನ್ನಡ</option>
+          <option value="ml">മലയാളം</option>
+          <option value="pa">ਪੰਜਾਬੀ</option>
+          <option value="or">ଓଡ଼ିଆ</option>
+          <option value="as">অসমীয়া</option>
+          <option value="ur">اردو</option>
+        </select>
+        <button class="ghost-btn" type="button" onclick="window.location.href='index.html'" data-i18n="home">Home</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="workspace-shell">
+    <main class="main">
+      <section class="summary-card" id="overview">
+        <div class="summary-header">
+          <div>
+            <p class="eyebrow" data-i18n="collaborationWorkspace">Collaboration Workspace</p>
+            <h2 id="project-name" data-i18n="loadingProject">Loading project...</h2>
+          </div>
+          <span class="status-chip" id="workspace-stage">Development</span>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-item">
+            <span data-i18n="selectedSolution">Selected Solution</span>
+            <strong id="selected-solution">-</strong>
+          </div>
+          <div class="summary-item">
+            <span data-i18n="university">University</span>
+            <strong id="university-name">-</strong>
+          </div>
+          <div class="summary-item">
+            <span data-i18n="industryPartner">Industry Partner</span>
+            <strong id="industry-name">-</strong>
+          </div>
+          <div class="summary-item">
+            <span data-i18n="progress">Progress</span>
+            <strong id="progress-label">0%</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="stage-card">
+        <div class="stage-header">
+          <h3 data-i18n="projectJourney">Project Journey</h3>
+          <span class="pill" id="progress-pill">0% <span data-i18n="complete">complete</span></span>
+        </div>
+        <div class="stage-track" id="stage-track"></div>
+      </section>
+
+      <div class="workspace-grid">
+        <section class="panel">
+          <h3>📋 <span data-i18n="projectDetails">Project Details</span></h3>
+          <div class="panel-body">
+            <div class="info-row">
+              <h4 data-i18n="problem">Problem</h4>
+              <p id="problem-text">-</p>
+            </div>
+            <div class="info-row">
+              <h4 data-i18n="solution">Solution</h4>
+              <p id="solution-text">-</p>
+            </div>
+            <div class="info-row">
+              <h4 data-i18n="objectives">Objectives</h4>
+              <p id="objectives-text">-</p>
+            </div>
+            <div class="info-row">
+              <h4 data-i18n="expectedImpact">Expected Impact</h4>
+              <p id="impact-text">-</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="team">
+          <h3>👥 <span data-i18n="universityTeam">University Team</span></h3>
+          <div class="panel-body">
+            <div class="info-row">
+              <h4 data-i18n="facultyMentor">Faculty Mentor</h4>
+              <p id="mentor-text">-</p>
+            </div>
+            <div class="info-row">
+              <h4 data-i18n="studentTeam">Student Team</h4>
+              <div class="list-group" id="team-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="industry">
+          <h3>🏢 <span data-i18n="industryPartner">Industry Partner</span></h3>
+          <div class="panel-body">
+            <div class="info-row">
+              <h4 data-i18n="partnerDetails">Partner Details</h4>
+              <p id="industry-details-text">-</p>
+            </div>
+            <div class="info-row">
+              <h4 data-i18n="supportCommitment">Support Commitment</h4>
+              <p id="support-commitment">-</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="progress">
+          <h3>📊 <span data-i18n="projectProgress">Project Progress</span></h3>
+          <div class="progress-box">
+            <div class="progress-meter"><div class="progress-fill" id="progress-fill"></div></div>
+            <div class="info-row">
+              <h4 data-i18n="updateProgress">Update Progress</h4>
+              <form class="progress-form" id="progress-form">
+                <input class="field" type="range" id="progress-range" min="0" max="100" value="0" />
+                <select class="select" id="stage-select">
+                  <option value="Development" data-i18n="stageDevelopment">Development</option>
+                  <option value="Prototype" data-i18n="stagePrototype">Prototype</option>
+                  <option value="Pilot" data-i18n="stagePilot">Pilot</option>
+                  <option value="Citizen Feedback" data-i18n="stageFeedback">Citizen Feedback</option>
+                  <option value="Impact" data-i18n="stageImpact">Impact</option>
+                </select>
+                <button class="primary-btn" type="submit" data-i18n="updateProgress">Update Progress</button>
+              </form>
+            </div>
+            <div class="tasks-list" id="task-list"></div>
+            <form class="task-form" id="task-form">
+              <div class="inline-fields">
+                <input class="input" id="task-title" data-i18n-placeholder="taskTitle" placeholder="Task title" required />
+                <input class="input" id="task-assignee" data-i18n-placeholder="assignedTo" placeholder="Assigned to" />
+              </div>
+              <div class="inline-fields">
+                <input class="input" id="task-due" type="date" />
+                <button class="soft-btn" type="submit" data-i18n="addTask">Add Task</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section class="panel" id="chat">
+          <h3>💬 <span data-i18n="sharedChat">Shared Chat</span></h3>
+          <div class="chat-box" id="chat-box"></div>
+          <form class="composer" id="chat-form">
+            <input class="input" id="chat-input" data-i18n-placeholder="chatPlaceholder" placeholder="Send a message to the collaboration team" required />
+            <button class="primary-btn" type="submit" data-i18n="send">Send</button>
+          </form>
+        </section>
+
+        <section class="panel" id="documents">
+          <h3>📎 <span data-i18n="documents">Documents</span></h3>
+          <div class="panel-body">
+            <form class="upload-row" id="document-form">
+              <input class="field" type="file" id="document-file" />
+              <button class="soft-btn" type="submit" data-i18n="uploadDocument">Upload Document</button>
+            </form>
+            <div class="list-docs" id="documents-list"></div>
+          </div>
+        </section>
+
+        <section class="panel" id="support">
+          <h3>🛠️ <span data-i18n="technicalSupport">Technical Support</span></h3>
+          <div class="panel-body">
+            <form class="support-row" id="support-form">
+              <textarea class="textarea" id="support-text" data-i18n-placeholder="supportPlaceholder" placeholder="Describe the issue or request support from the university or industry team" required></textarea>
+              <button class="primary-btn" type="submit" data-i18n="requestSupport">Request Technical Support</button>
+            </form>
+            <div class="empty-state" id="support-status" data-i18n="noSupport">No technical support requests yet.</div>
+          </div>
+        </section>
+
+        <section class="panel" id="prototype">
+          <h3>🧪 <span data-i18n="prototypePilot">Prototype &amp; Pilot</span></h3>
+          <div class="panel-body">
+            <div class="info-row">
+              <h4 data-i18n="prototypeStatus">Prototype Status</h4>
+              <p id="prototype-status">-</p>
+            </div>
+            <form class="prototype-form" id="prototype-form">
+              <input class="field" type="file" id="prototype-file" />
+              <select class="select" id="prototype-status-select">
+                <option value="DEVELOPMENT" data-i18n="development">Development</option>
+                <option value="PROTOTYPE_STARTED" data-i18n="prototypeStarted">Prototype Started</option>
+                <option value="PROTOTYPE_UPLOADED" data-i18n="prototypeUploaded">Prototype Uploaded</option>
+                <option value="INDUSTRY_REVIEW" data-i18n="industryReview">Industry Review</option>
+                <option value="GOVERNMENT_REVIEW_PENDING" data-i18n="governmentReviewPending">Government Review Pending</option>
+                <option value="GOVERNMENT_APPROVED" data-i18n="governmentApproved">Government Approved</option>
+              </select>
+              <button class="soft-btn" type="submit" data-i18n="updatePrototype">Update Prototype / Pilot Status</button>
+            </form>
+            <div id="prototype-link-wrap"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const API_BASE = 'http://127.0.0.1:8000';
+    const workspaceId = new URLSearchParams(window.location.search).get('id');
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+
+    const stageOrder = ['Development', 'Prototype', 'Pilot', 'Citizen Feedback', 'Impact'];
+    const WORKSPACE_I18N = {
+      en: { workspace: 'Workspace', workspaceHeader: 'Collaboration Workspace', home: 'Home', role: 'Role', collabxProject: 'CollabX Project', loadingProject: 'Loading project...', projectJourney: 'Project Journey', complete: 'complete', projectDetails: 'Project Details', problem: 'Problem', solution: 'Solution', objectives: 'Objectives', expectedImpact: 'Expected Impact', universityTeam: 'University Team', facultyMentor: 'Faculty Mentor', studentTeam: 'Student Team', industryPartner: 'Industry Partner', partnerDetails: 'Partner Details', supportCommitment: 'Support Commitment', sharedChat: 'Shared Chat', documents: 'Documents', technicalSupport: 'Technical Support', projectProgress: 'Project Progress', prototypePilot: 'Prototype & Pilot', collaborationWorkspace: 'Collaboration Workspace', selectedSolution: 'Selected Solution', university: 'University', progress: 'Progress', updateProgress: 'Update Progress', addTask: 'Add Task', send: 'Send', uploadDocument: 'Upload Document', requestSupport: 'Request Technical Support', noSupport: 'No technical support requests yet.', prototypeStatus: 'Prototype Status', updatePrototype: 'Update Prototype / Pilot Status', taskTitle: 'Task title', assignedTo: 'Assigned to', chatPlaceholder: 'Send a message to the collaboration team', supportPlaceholder: 'Describe the issue or request support from the university or industry team', stageDevelopment: 'Development', stagePrototype: 'Prototype', stagePilot: 'Pilot', stageFeedback: 'Citizen Feedback', stageImpact: 'Impact', development: 'Development', prototypeStarted: 'Prototype Started', prototypeUploaded: 'Prototype Uploaded', industryReview: 'Industry Review', governmentReviewPending: 'Government Review Pending', governmentApproved: 'Government Approved', noTasks: 'No tasks created yet.', done: 'Done', inProgress: 'In Progress', toDo: 'To Do', assigned: 'Assigned', unassigned: 'Unassigned', due: 'Due', status: 'Status', notStarted: 'Not Started', noMessages: 'No messages yet. Start the conversation.', member: 'Member', team: 'Team', noDocuments: 'No documents uploaded.', open: 'Open', edit: 'Edit', delete: 'Delete', updateTaskTitle: 'Update task title', updateAssignee: 'Update assigned person', updateDue: 'Update due date (YYYY-MM-DD)', confirmDeleteTask: 'Delete this task?', confirmDeleteDocument: 'Delete this document?', editMessage: 'Edit message', confirmDeleteMessage: 'Delete this message?', noPrototype: 'No prototype file uploaded yet.', prototypeFile: 'Prototype File', openPrototype: 'Open prototype document', noStudentDetails: 'No student details recorded', noIndustry: 'Industry partner not assigned yet', defaultSupport: 'Technical mentoring and pilot support', latestRequest: 'Latest request' },
+      hi: { workspace: 'वर्कस्पेस', workspaceHeader: 'सहयोग वर्कस्पेस', home: 'होम', loadingProject: 'प्रोजेक्ट लोड हो रहा है...', projectJourney: 'प्रोजेक्ट यात्रा', complete: 'पूर्ण', projectDetails: 'प्रोजेक्ट विवरण', problem: 'समस्या', solution: 'समाधान', objectives: 'उद्देश्य', expectedImpact: 'अपेक्षित प्रभाव', universityTeam: 'विश्वविद्यालय टीम', facultyMentor: 'फैकल्टी मेंटर', studentTeam: 'छात्र टीम', industryPartner: 'उद्योग साझेदार', partnerDetails: 'साझेदार विवरण', supportCommitment: 'सहायता प्रतिबद्धता', sharedChat: 'साझा चैट', documents: 'दस्तावेज़', technicalSupport: 'तकनीकी सहायता', projectProgress: 'प्रोजेक्ट प्रगति', prototypePilot: 'प्रोटोटाइप और पायलट', collaborationWorkspace: 'सहयोग वर्कस्पेस', selectedSolution: 'चयनित समाधान', university: 'विश्वविद्यालय', progress: 'प्रगति', updateProgress: 'प्रगति अपडेट करें', addTask: 'कार्य जोड़ें', send: 'भेजें', uploadDocument: 'दस्तावेज़ अपलोड करें', requestSupport: 'तकनीकी सहायता मांगें', noSupport: 'अभी कोई तकनीकी सहायता अनुरोध नहीं है।', prototypeStatus: 'प्रोटोटाइप स्थिति', updatePrototype: 'प्रोटोटाइप / पायलट स्थिति अपडेट करें', taskTitle: 'कार्य का शीर्षक', assignedTo: 'सौंपा गया', chatPlaceholder: 'सहयोग टीम को संदेश भेजें', supportPlaceholder: 'समस्या बताएं या विश्वविद्यालय/उद्योग टीम से सहायता मांगें', stageDevelopment: 'विकास', stagePrototype: 'प्रोटोटाइप', stagePilot: 'पायलट', stageFeedback: 'नागरिक प्रतिक्रिया', stageImpact: 'प्रभाव', development: 'विकास', prototypeStarted: 'प्रोटोटाइप शुरू', prototypeUploaded: 'प्रोटोटाइप अपलोड', industryReview: 'उद्योग समीक्षा', governmentReviewPending: 'सरकारी समीक्षा लंबित', governmentApproved: 'सरकार द्वारा स्वीकृत', noTasks: 'अभी कोई कार्य नहीं बनाया गया।', done: 'पूर्ण', inProgress: 'प्रगति पर', toDo: 'करना है', assigned: 'सौंपा गया', unassigned: 'सौंपा नहीं गया', due: 'अंतिम तिथि', status: 'स्थिति', notStarted: 'शुरू नहीं हुआ', noMessages: 'अभी कोई संदेश नहीं। बातचीत शुरू करें।', member: 'सदस्य', team: 'टीम', noDocuments: 'कोई दस्तावेज़ अपलोड नहीं है।', open: 'खोलें', edit: 'संपादित करें', delete: 'हटाएं', updateTaskTitle: 'कार्य का शीर्षक बदलें', updateAssignee: 'सौंपे गए व्यक्ति को बदलें', updateDue: 'अंतिम तिथि बदलें (YYYY-MM-DD)', confirmDeleteTask: 'क्या यह कार्य हटाना है?', confirmDeleteDocument: 'क्या यह दस्तावेज़ हटाना है?', editMessage: 'संदेश संपादित करें', confirmDeleteMessage: 'क्या यह संदेश हटाना है?' },
+      ta: { workspace: 'பணியிடம்', workspaceHeader: 'ஒத்துழைப்பு பணியிடம்', home: 'முகப்பு', loadingProject: 'திட்டம் ஏற்றப்படுகிறது...', projectJourney: 'திட்டப் பயணம்', complete: 'முடிந்தது', projectDetails: 'திட்ட விவரங்கள்', problem: 'பிரச்சினை', solution: 'தீர்வு', objectives: 'நோக்கங்கள்', expectedImpact: 'எதிர்பார்க்கப்படும் தாக்கம்', universityTeam: 'பல்கலைக்கழக குழு', facultyMentor: 'ஆசிரியர் வழிகாட்டி', studentTeam: 'மாணவர் குழு', industryPartner: 'தொழில் கூட்டாளர்', partnerDetails: 'கூட்டாளர் விவரங்கள்', supportCommitment: 'ஆதரவு உறுதி', sharedChat: 'பகிரப்பட்ட அரட்டை', documents: 'ஆவணங்கள்', technicalSupport: 'தொழில்நுட்ப உதவி', projectProgress: 'திட்ட முன்னேற்றம்', prototypePilot: 'முன்மாதிரி மற்றும் பைலட்', collaborationWorkspace: 'ஒத்துழைப்பு பணியிடம்', selectedSolution: 'தேர்ந்தெடுக்கப்பட்ட தீர்வு', university: 'பல்கலைக்கழகம்', progress: 'முன்னேற்றம்', updateProgress: 'முன்னேற்றத்தைப் புதுப்பி', addTask: 'பணியைச் சேர்', send: 'அனுப்பு', uploadDocument: 'ஆவணத்தைப் பதிவேற்று', requestSupport: 'தொழில்நுட்ப உதவி கோரு', noSupport: 'தொழில்நுட்ப உதவி கோரிக்கைகள் எதுவும் இல்லை.', prototypeStatus: 'முன்மாதிரி நிலை', updatePrototype: 'முன்மாதிரி / பைலட் நிலையைப் புதுப்பி', taskTitle: 'பணி தலைப்பு', assignedTo: 'ஒதுக்கப்பட்டது', chatPlaceholder: 'ஒத்துழைப்பு குழுவிற்கு செய்தி அனுப்பு', supportPlaceholder: 'சிக்கலை விவரிக்கவும் அல்லது குழுவிடம் உதவி கோரவும்', stageDevelopment: 'மேம்பாடு', stagePrototype: 'முன்மாதிரி', stagePilot: 'பைலட்', stageFeedback: 'குடிமக்கள் கருத்து', stageImpact: 'தாக்கம்', development: 'மேம்பாடு', prototypeStarted: 'முன்மாதிரி தொடங்கியது', prototypeUploaded: 'முன்மாதிரி பதிவேற்றப்பட்டது', industryReview: 'தொழில் மதிப்பாய்வு', governmentReviewPending: 'அரசு மதிப்பாய்வு நிலுவையில்', governmentApproved: 'அரசால் அங்கீகரிக்கப்பட்டது', noTasks: 'பணிகள் எதுவும் உருவாக்கப்படவில்லை.', done: 'முடிந்தது', inProgress: 'முன்னேற்றத்தில்', toDo: 'செய்ய வேண்டியது', assigned: 'ஒதுக்கப்பட்டது', unassigned: 'ஒதுக்கப்படவில்லை', due: 'கடைசி தேதி', status: 'நிலை', notStarted: 'தொடங்கவில்லை', noMessages: 'செய்திகள் இல்லை. உரையாடலைத் தொடங்குங்கள்.', member: 'உறுப்பினர்', team: 'குழு', noDocuments: 'ஆவணங்கள் பதிவேற்றப்படவில்லை.', open: 'திற', edit: 'திருத்து', delete: 'நீக்கு', updateTaskTitle: 'பணி தலைப்பைப் புதுப்பி', updateAssignee: 'ஒதுக்கப்பட்ட நபரைப் புதுப்பி', updateDue: 'கடைசி தேதியைப் புதுப்பி (YYYY-MM-DD)', confirmDeleteTask: 'இந்தப் பணியை நீக்கவா?', confirmDeleteDocument: 'இந்த ஆவணத்தை நீக்கவா?', editMessage: 'செய்தியைத் திருத்து', confirmDeleteMessage: 'இந்தச் செய்தியை நீக்கவா?' }
+    };
+
+    function applyWorkspaceTranslations(language) {
+      const translations = WORKSPACE_I18N[language] || WORKSPACE_I18N.en;
+      document.querySelectorAll('[data-i18n]').forEach(element => {
+        const value = translations[element.dataset.i18n];
+        if (value) element.textContent = value;
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+        const value = translations[element.dataset.i18nPlaceholder];
+        if (value) element.placeholder = value;
+      });
+      document.documentElement.lang = language;
+    }
+
+    function workspaceText(key) {
+      const language = localStorage.getItem('collabx_lang') || 'en';
+      return (WORKSPACE_I18N[language] || WORKSPACE_I18N.en)[key] || WORKSPACE_I18N.en[key] || key;
+    }
+
+    function localizedStage(stage) {
+      const keys = { Development: 'stageDevelopment', Prototype: 'stagePrototype', Pilot: 'stagePilot', 'Citizen Feedback': 'stageFeedback', Impact: 'stageImpact' };
+      return workspaceText(keys[stage] || 'workspace');
+    }
+
+    function localizedPrototypeStatus(status) {
+      const keys = { DEVELOPMENT: 'development', PROTOTYPE_STARTED: 'prototypeStarted', PROTOTYPE_UPLOADED: 'prototypeUploaded', INDUSTRY_REVIEW: 'industryReview', GOVERNMENT_REVIEW_PENDING: 'governmentReviewPending', GOVERNMENT_APPROVED: 'governmentApproved' };
+      return workspaceText(keys[status] || 'prototypeStatus');
+    }
+
+    function changeWorkspaceLang(language) {
+      localStorage.setItem('collabx_lang', language);
+      applyWorkspaceTranslations(language);
+      fetchWorkspace();
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
+    }
+
+    function formatDate(dateValue) {
+      if (!dateValue) return 'No date';
+      const d = new Date(dateValue);
+      if (Number.isNaN(d.getTime())) return dateValue;
+      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value || '-';
+    }
+
+    function setHtml(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = value;
+    }
+
+    function renderStageTracker(currentStage) {
+      const container = document.getElementById('stage-track');
+      const currentIndex = Math.max(0, stageOrder.indexOf(currentStage || 'Development'));
+      const stageKeys = ['stageDevelopment', 'stagePrototype', 'stagePilot', 'stageFeedback', 'stageImpact'];
+
+      container.innerHTML = stageOrder.map((stage, index) => {
+        const className = index < currentIndex ? 'stage-step done' : index === currentIndex ? 'stage-step active' : 'stage-step';
+        return `<div class="${className}"><span>${workspaceText(stageKeys[index])}</span></div>`;
+      }).join('');
+    }
+
+    function renderTasks(tasks) {
+      const taskList = document.getElementById('task-list');
+      if (!tasks || !tasks.length) {
+        taskList.innerHTML = `<div class="empty-state">${workspaceText('noTasks')}</div>`;
+        return;
+      }
+
+      taskList.innerHTML = tasks.map(task => {
+        const status = (task.status || 'NOT_STARTED').toUpperCase();
+        const sideClass = status === 'DONE' || status === 'COMPLETED' ? 'done' : status === 'IN_PROGRESS' ? 'doing' : 'todo';
+        const label = status === 'DONE' || status === 'COMPLETED' ? workspaceText('done') : status === 'IN_PROGRESS' ? workspaceText('inProgress') : workspaceText('toDo');
+        return `
+          <div class="task-card">
+            <div class="task-card-head">
+              <h4>${escapeHtml(task.title)}</h4>
+              <div class="task-actions">
+                <button type="button" class="small-btn secondary" data-task-action="edit" data-task-id="${task.id}">${workspaceText('edit')}</button>
+                <button type="button" class="small-btn danger" data-task-action="delete" data-task-id="${task.id}">${workspaceText('delete')}</button>
+              </div>
+            </div>
+            <div class="task-meta-row">
+              <small>${workspaceText('assigned')}: ${escapeHtml(task.assigned_to || workspaceText('unassigned'))} · ${workspaceText('due')}: ${escapeHtml(formatDate(task.due_date))}</small>
+              <div class="task-status-row">
+                <label>${workspaceText('status')}</label>
+                <span class="task-pill ${sideClass}">${label}</span>
+              </div>
+              <select class="small-select" data-task-status-id="${task.id}">
+                <option value="NOT_STARTED" ${status === 'NOT_STARTED' ? 'selected' : ''}>${workspaceText('notStarted')}</option>
+                <option value="IN_PROGRESS" ${status === 'IN_PROGRESS' ? 'selected' : ''}>${workspaceText('inProgress')}</option>
+                <option value="DONE" ${status === 'DONE' || status === 'COMPLETED' ? 'selected' : ''}>${workspaceText('done')}</option>
+              </select>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderChat(messages) {
+      const chatBox = document.getElementById('chat-box');
+      if (!messages || !messages.length) {
+        chatBox.innerHTML = `<div class="empty-state">${workspaceText('noMessages')}</div>`;
+        return;
+      }
+
+      chatBox.innerHTML = messages.map(message => {
+        const isOwnMessage = user && Number(message.sender_id) === Number(user.id);
+        return `
+        <div class="message">
+          <div class="message-meta">
+            <span>${workspaceText('member')} ${message.sender_id || workspaceText('team')}</span>
+            <span>${formatDate(message.created_at)}${isOwnMessage ? ` <span class="message-actions"><button type="button" class="small-btn secondary" data-message-action="edit" data-message-id="${message.id}">${workspaceText('edit')}</button><button type="button" class="small-btn danger" data-message-action="delete" data-message-id="${message.id}">${workspaceText('delete')}</button></span>` : ''}</span>
+          </div>
+          <div class="message-text">${escapeHtml(message.message)}</div>
+        </div>
+      `;
+      }).join('');
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function renderDocuments(documents) {
+      const list = document.getElementById('documents-list');
+      if (!documents || !documents.length) {
+        list.innerHTML = `<div class="empty-state">${workspaceText('noDocuments')}</div>`;
+        return;
+      }
+
+      list.innerHTML = documents.map(doc => {
+        const url = `${API_BASE}/${(doc.file_url || '').replace(/\\/g, '/').replace(/^.*uploads\//, 'uploads/')}`;
+        return `
+          <div class="doc-item">
+            <div>
+              <div class="doc-name">${escapeHtml(doc.filename)}</div>
+              <small>${formatDate(doc.created_at)}</small>
+            </div>
+            <div class="document-actions">
+              <a class="mini-tag" href="${url}" target="_blank" rel="noreferrer">${workspaceText('open')}</a>
+              <button type="button" class="small-btn danger" data-document-action="delete" data-document-id="${doc.id}">${workspaceText('delete')}</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function createTaskUpdateForm(taskId, currentFields) {
+      const nextTitle = window.prompt(workspaceText('updateTaskTitle'), currentFields.title || '');
+      if (nextTitle === null) return;
+
+      const nextAssignee = window.prompt(workspaceText('updateAssignee'), currentFields.assigned_to || '');
+      if (nextAssignee === null) return;
+
+      const nextDue = window.prompt(workspaceText('updateDue'), currentFields.due_date || '');
+      if (nextDue === null) return;
+
+      await updateTask(taskId, {
+        title: nextTitle.trim() || currentFields.title,
+        assigned_to: nextAssignee.trim() || null,
+        due_date: nextDue.trim() || null,
+      });
+      fetchWorkspace();
+    }
+
+    async function updateTask(taskId, payload) {
+      const form = new FormData();
+      if (payload.title !== undefined) form.append('title', payload.title);
+      if (payload.assigned_to !== undefined) form.append('assigned_to', payload.assigned_to || '');
+      if (payload.due_date !== undefined) form.append('due_date', payload.due_date || '');
+      if (payload.status !== undefined) form.append('status', payload.status);
+
+      const response = await fetch(`${API_BASE}/workspaces/${workspaceId}/tasks/${taskId}`, {
+        method: 'PATCH',
+        headers: { Authorization: `Bearer ${token}` },
+        body: form,
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.detail || 'Task update failed');
+      return data;
+    }
+
+    async function deleteTask(taskId) {
+      const confirmed = window.confirm(workspaceText('confirmDeleteTask'));
+      if (!confirmed) return;
+
+      const response = await fetch(`${API_BASE}/workspaces/${workspaceId}/tasks/${taskId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        alert(data.detail || 'Unable to delete task');
+        return;
+      }
+
+      fetchWorkspace();
+    }
+
+    async function deleteDocument(documentId) {
+      const confirmed = window.confirm(workspaceText('confirmDeleteDocument'));
+      if (!confirmed) return;
+
+      const response = await fetch(`${API_BASE}/workspaces/${workspaceId}/documents/${documentId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        alert(data.detail || 'Unable to delete document');
+        return;
+      }
+
+      fetchWorkspace();
+    }
+
+    async function editMessage(messageId) {
+      const message = (window.currentWorkspaceData?.messages || []).find(item => item.id === messageId);
+      if (!message) return;
+      const nextMessage = window.prompt(workspaceText('editMessage'), message.message);
+      if (nextMessage === null || !nextMessage.trim()) return;
+
+      const form = new FormData();
+      form.append('message', nextMessage.trim());
+      const response = await fetch(`${API_BASE}/workspaces/${workspaceId}/messages/${messageId}`, {
+        method: 'PATCH',
+        headers: { Authorization: `Bearer ${token}` },
+        body: form,
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        alert(data.detail || 'Unable to edit message');
+        return;
+      }
+      fetchWorkspace();
+    }
+
+    async function deleteMessage(messageId) {
+      if (!window.confirm(workspaceText('confirmDeleteMessage'))) return;
+      const response = await fetch(`${API_BASE}/workspaces/${workspaceId}/messages/${messageId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        alert(data.detail || 'Unable to delete message');
+        return;
+      }
+      fetchWorkspace();
+    }
+
+    function renderPrototype(data) {
+      const state = data?.prototype || {};
+      setText('prototype-status', localizedPrototypeStatus(state.status || 'DEVELOPMENT'));
+      const statusSelect = document.getElementById('prototype-status-select');
+      if (statusSelect && state.status) {
+        statusSelect.value = state.status;
+      }
+
+      const wrap = document.getElementById('prototype-link-wrap');
+      if (!state.file_url) {
+        wrap.innerHTML = `<div class="empty-state">${workspaceText('noPrototype')}</div>`;
+        return;
+      }
+
+      const safeUrl = `${API_BASE}/${String(state.file_url).replace(/\\/g, '/').replace(/^.*uploads\//, 'uploads/')}`;
+      wrap.innerHTML = `
+        <div class="info-row">
+          <h4>${workspaceText('prototypeFile')}</h4>
+          <p><a href="${safeUrl}" target="_blank" rel="noreferrer">${escapeHtml(state.file_name || workspaceText('openPrototype'))}</a></p>
+        </div>
+      `;
+    }
+
+    function renderWorkspace(data) {
+      window.currentWorkspaceData = data;
+      const project = data.project || {};
+      const stage = data.stage || 'Development';
+      const progress = Number(data.progress || 0);
+
+      document.getElementById('workspace-role-pill').textContent = user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : 'Member';
+      setText('project-name', project.project_title || workspaceText('collabxProject'));
+      setText('selected-solution', project.solution_details?.title || project.solution_summary || 'Not selected');
+      setText('university-name', project.university || 'University');
+      setText('industry-name', data.industry || project.industry_details?.organization || 'Industry');
+      setText('workspace-stage', localizedStage(stage));
+      setText('progress-label', `${progress}%`);
+      setText('progress-pill', `${progress}% ${workspaceText('complete')}`);
+      setText('problem-text', data.overview?.problem || project.problem_statement || '-');
+      setText('solution-text', data.overview?.solution || project.solution_summary || '-');
+      setText('objectives-text', data.overview?.objectives || project.required_support || '-');
+      setText('impact-text', data.overview?.expected_impact || 'Impact through implementation and feedback');
+
+      const mentor = project.faculty_mentor || {};
+      const mentorText = [mentor.name, mentor.department, mentor.designation].filter(Boolean).join(' · ') || 'University team';
+      setText('mentor-text', mentorText);
+
+      const teamList = document.getElementById('team-list');
+      const teamMembers = Array.isArray(project.team_members) && project.team_members.length ? project.team_members : [workspaceText('noStudentDetails')];
+      teamList.innerHTML = teamMembers.map(member => {
+        const label = typeof member === 'string' ? member : (member.name || member.role || 'Team member');
+        return `<div class="list-item"><div><strong>${escapeHtml(label)}</strong></div><span class="mini-tag">${workspaceText('team')}</span></div>`;
+      }).join('');
+
+      const industryDetails = project.industry_details || {};
+      const industryText = [industryDetails.organization || industryDetails.name, industryDetails.sector, industryDetails.mentor].filter(Boolean).join(' · ') || workspaceText('noIndustry');
+      setText('industry-details-text', industryText);
+      setText('support-commitment', project.required_support || workspaceText('defaultSupport'));
+
+      const range = document.getElementById('progress-range');
+      const stageSelect = document.getElementById('stage-select');
+      if (range) range.value = progress;
+      if (stageSelect) stageSelect.value = stage;
+
+      const progressFill = document.getElementById('progress-fill');
+      if (progressFill) progressFill.style.width = `${progress}%`;
+
+      renderStageTracker(stage);
+      renderTasks(data.tasks || []);
+      renderChat(data.messages || []);
+      renderDocuments(data.documents || []);
+      renderPrototype(data);
+
+      const supportStatus = document.getElementById('support-status');
+      const supportMessages = (data.messages || []).filter(item => (item.message || '').toLowerCase().includes('technical support') || (item.message || '').toLowerCase().includes('support request'));
+      if (supportMessages.length) {
+        supportStatus.textContent = `${workspaceText('latestRequest')}: ${supportMessages[supportMessages.length - 1].message}`;
+      }
+    }
+
+    async function fetchWorkspace() {
+      if (!workspaceId) {
+        document.querySelector('.main').innerHTML = '<section class="panel"><h3>Workspace not available</h3><p>No workspace selected. Please open this page from a valid collaboration workspace.</p></section>';
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/workspaces/${workspaceId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (!response.ok) {
+          throw new Error('Workspace unavailable');
+        }
+
+        const data = await response.json();
+        renderWorkspace(data);
+      } catch (error) {
+        document.querySelector('.main').innerHTML = '<section class="panel"><h3>Workspace unavailable</h3><p>Please sign in and open a valid collaboration workspace.</p></section>';
+      }
+    }
+
+    async function updateWorkspace(progress, stage, prototypeStatus) {
+      const form = new FormData();
+      if (progress !== undefined) form.append('progress', String(progress));
+      if (stage) form.append('stage', stage);
+      if (prototypeStatus) form.append('prototype_status', prototypeStatus);
+
+      const response = await fetch(`${API_BASE}/workspaces/${workspaceId}`, {
+        method: 'PATCH',
+        headers: { Authorization: `Bearer ${token}` },
+        body: form
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.detail || 'Update failed');
+      return data;
+    }
+
+    async function addTask(event) {
+      event.preventDefault();
+      const title = document.getElementById('task-title').value.trim();
+      const assignedTo = document.getElementById('task-assignee').value.trim();
+      const dueDate = document.getElementById('task-due').value;
+
+      if (!title) return;
+
+      const form = new FormData();
+      form.append('title', title);
+      if (assignedTo) form.append('assigned_to', assignedTo);
+      if (dueDate) form.append('due_date', dueDate);
+
+      const response = await fetch(`${API_BASE}/workspaces/${workspaceId}/tasks`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: form
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        alert(data.detail || 'Unable to add task');
+        return;
+      }
+
+      document.getElementById('task-form').reset();
+      fetchWorkspace();
+    }
+
+    async function sendMessage(event) {
+      event.preventDefault();
+      const input = document.getElementById('chat-input');
+      const message = input.value.trim();
+      if (!message) return;
+
+      const form = new FormData();
+      form.append('message', message);
+
+      const response = await fetch(`${API_BASE}/workspaces/${workspaceId}/messages`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: form
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        alert(data.detail || 'Unable to send message');
+        return;
+      }
+
+      input.value = '';
+      fetchWorkspace();
+    }
+
+    async function documentUpload(event) {
+      event.preventDefault();
+      const fileInput = document.getElementById('document-file');
+      const file = fileInput.files && fileInput.files[0];
+      if (!file) {
+        alert('Please select a document to upload.');
+        return;
+      }
+
+      const form = new FormData();
+      form.append('file', file);
+
+      const response = await fetch(`${API_BASE}/workspaces/${workspaceId}/documents`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: form
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        alert(data.detail || 'Document upload failed');
+        return;
+      }
+
+      fileInput.value = '';
+      fetchWorkspace();
+    }
+
+    async function requestSupport(event) {
+      event.preventDefault();
+      const text = document.getElementById('support-text').value.trim();
+      if (!text) return;
+
+      const form = new FormData();
+      form.append('message', `Technical support request: ${text}`);
+
+      const response = await fetch(`${API_BASE}/workspaces/${workspaceId}/messages`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: form
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        alert(data.detail || 'Unable to send support request');
+        return;
+      }
+
+      document.getElementById('support-form').reset();
+      fetchWorkspace();
+    }
+
+    async function updateProgress(event) {
+      event.preventDefault();
+      const progress = Number(document.getElementById('progress-range').value);
+      const stage = document.getElementById('stage-select').value;
+      try {
+        await updateWorkspace(progress, stage, null);
+        fetchWorkspace();
+      } catch (error) {
+        alert(error.message || 'Unable to update progress');
+      }
+    }
+
+    async function updatePrototype(event) {
+      event.preventDefault();
+      const fileInput = document.getElementById('prototype-file');
+      const status = document.getElementById('prototype-status-select').value;
+
+      try {
+        if (fileInput && fileInput.files && fileInput.files[0]) {
+          const form = new FormData();
+          form.append('file', fileInput.files[0]);
+          await fetch(`${API_BASE}/workspaces/${workspaceId}/prototype`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
+            body: form
+          });
+        }
+
+        await updateWorkspace(null, null, status);
+        fileInput.value = '';
+        fetchWorkspace();
+      } catch (error) {
+        alert(error.message || 'Unable to update prototype status');
+      }
+    }
+
+    document.getElementById('task-form').addEventListener('submit', addTask);
+    document.getElementById('chat-form').addEventListener('submit', sendMessage);
+    document.getElementById('document-form').addEventListener('submit', documentUpload);
+    document.getElementById('support-form').addEventListener('submit', requestSupport);
+    document.getElementById('progress-form').addEventListener('submit', updateProgress);
+    document.getElementById('prototype-form').addEventListener('submit', updatePrototype);
+
+    document.addEventListener('click', async (event) => {
+      const messageButton = event.target.closest('[data-message-action]');
+      if (messageButton) {
+        const messageId = Number(messageButton.dataset.messageId);
+        try {
+          if (messageButton.dataset.messageAction === 'edit') await editMessage(messageId);
+          if (messageButton.dataset.messageAction === 'delete') await deleteMessage(messageId);
+        } catch (error) {
+          alert(error.message || 'Unable to update message');
+        }
+        return;
+      }
+
+      const button = event.target.closest('[data-task-action]');
+      if (button) {
+        const taskId = Number(button.dataset.taskId);
+        const task = (window.currentWorkspaceData?.tasks || []).find(item => item.id === taskId);
+        if (!task) return;
+
+        if (button.dataset.taskAction === 'edit') {
+          try {
+            await createTaskUpdateForm(taskId, task);
+          } catch (error) {
+            alert(error.message || 'Unable to update task');
+          }
+        }
+
+        if (button.dataset.taskAction === 'delete') {
+          await deleteTask(taskId);
+        }
+      }
+
+      const documentButton = event.target.closest('[data-document-action]');
+      if (documentButton && documentButton.dataset.documentAction === 'delete') {
+        await deleteDocument(Number(documentButton.dataset.documentId));
+      }
+    });
+
+    document.addEventListener('change', async (event) => {
+      const statusSelect = event.target.closest('[data-task-status-id]');
+      if (!statusSelect) return;
+
+      const taskId = Number(statusSelect.dataset.taskStatusId);
+      const nextStatus = statusSelect.value;
+
+      try {
+        await updateTask(taskId, { status: nextStatus });
+        fetchWorkspace();
+      } catch (error) {
+        alert(error.message || 'Unable to update task status');
+      }
+    });
+
+    window.currentWorkspaceData = null;
+    const workspaceLanguage = localStorage.getItem('collabx_lang') || 'en';
+    document.getElementById('workspace-lang').value = workspaceLanguage;
+    applyWorkspaceTranslations(workspaceLanguage);
+    fetchWorkspace();
+  </script>
+<script src="i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New User Registration — CollabX | Government of India</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Gurmukhi:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Noto Sans', 'Segoe UI', sans-serif;
+    background: #F4F6F9; color: #1a1a1a; font-size: 14.5px; line-height: 1.55;
+    min-height: 100vh; display: flex; flex-direction: column;
+  }
+  a { color: #0B3C5D; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  img { max-width: 100%; height: auto; }
+  body[data-lang="hi"] { font-family: 'Noto Sans Devanagari', 'Noto Sans', sans-serif; }
+  body[data-lang="ta"] { font-family: 'Noto Sans Tamil', 'Noto Sans', sans-serif; }
+  body[data-lang="te"] { font-family: 'Noto Sans Telugu', 'Noto Sans', sans-serif; }
+  body[data-lang="bn"] { font-family: 'Noto Sans Bengali', 'Noto Sans', sans-serif; }
+  body[data-lang="gu"] { font-family: 'Noto Sans Gujarati', 'Noto Sans', sans-serif; }
+  body[data-lang="pa"] { font-family: 'Noto Sans Gurmukhi', 'Noto Sans', sans-serif; }
+  body[data-lang="kn"] { font-family: 'Noto Sans Kannada', 'Noto Sans', sans-serif; }
+  body[data-lang="ml"] { font-family: 'Noto Sans Malayalam', 'Noto Sans', sans-serif; }
+  body[data-lang="or"] { font-family: 'Noto Sans Oriya', 'Noto Sans', sans-serif; }
+
+  .tricolor-strip { height: 4px; background: linear-gradient(to right, #FF9933 0%, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%, #138808 100%); flex-shrink: 0; }
+
+  .utility-bar { background: #0B3C5D; color: #fff; font-size: 11.5px; padding: 6px 0; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 16px; width: 100%; }
+  .utility-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .utility-inner a { color: #fff; opacity: 0.88; font-size: 11.5px; }
+  .utility-inner a:hover { opacity: 1; text-decoration: underline; }
+  .gov-tag { font-weight: 600; display: flex; align-items: center; gap: 5px; }
+  .gov-tag .dot { width: 5px; height: 5px; background: #FF9933; border-radius: 50%; flex-shrink: 0; }
+  .utility-inner .right { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+  .lang-switcher {
+    background: rgba(255,255,255,0.1); color: #fff;
+    border: 1px solid rgba(255,255,255,0.3); padding: 4px 8px;
+    border-radius: 3px; font-size: 11.5px; font-family: inherit;
+    cursor: pointer; outline: none; max-width: 140px;
+  }
+  .lang-switcher option { color: #1a1a1a; background: #fff; }
+
+  .main-header { background: #fff; border-bottom: 3px solid #0B3C5D; padding: 10px 0; }
+  .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 14px; }
+  .emblem-block { display: flex; align-items: center; gap: 12px; text-decoration: none; min-width: 0; }
+  .emblem-img { width: 44px; height: 52px; object-fit: contain; flex-shrink: 0; }
+  .brand-text { min-width: 0; }
+  .brand-text h1 { font-family: 'Noto Serif', serif; font-size: 20px; color: #0B3C5D; letter-spacing: 0.6px; line-height: 1; margin-bottom: 3px; }
+  .brand-text h1 span { color: #FF9933; }
+  .brand-text .subtitle { font-size: 10.5px; color: #555; letter-spacing: 0.4px; text-transform: uppercase; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .brand-text .subtitle-hindi { font-size: 10.5px; color: #777; margin-top: 1px; }
+
+  .main-nav { background: #0B3C5D; color: #fff; position: relative; }
+  .main-nav-inner { display: flex; align-items: center; flex-wrap: wrap; }
+  .main-nav a { color: #fff; padding: 11px 16px; font-size: 13px; font-weight: 500; border-right: 1px solid rgba(255,255,255,0.12); transition: background 0.2s; white-space: nowrap; }
+  .main-nav a:first-child { border-left: 1px solid rgba(255,255,255,0.12); }
+  .main-nav a:hover, .main-nav a.active { background: #FF9933; color: #0B3C5D; text-decoration: none; }
+  .nav-toggle { display: none; background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 20px; padding: 6px 12px; border-radius: 3px; cursor: pointer; margin: 8px 16px; font-family: inherit; }
+
+  .breadcrumb-bar { background: #fff; border-bottom: 1px solid #E5E9EF; padding: 8px 0; font-size: 12px; color: #666; }
+  .breadcrumb-bar a { color: #0B3C5D; }
+  .breadcrumb-bar span { color: #999; margin: 0 6px; }
+
+  .register-wrapper { flex: 1; padding: 24px 16px; }
+  .register-card {
+    background: #fff; border: 1px solid #D5DDE5; border-radius: 3px;
+    max-width: 820px; margin: 0 auto; box-shadow: 0 2px 8px rgba(11,60,93,0.05);
+  }
+
+  .form-header { background: #0B3C5D; color: #fff; padding: 14px 20px; border-bottom: 3px solid #FF9933; }
+  .form-header h2 { font-family: 'Noto Serif', serif; font-size: 18px; font-weight: 700; letter-spacing: 0.4px; margin-bottom: 4px; }
+  .form-header p { font-size: 12px; opacity: 0.85; }
+  .form-header .mandatory-note { font-size: 11.5px; margin-top: 5px; opacity: 0.9; }
+  .form-header .mandatory-note .star { color: #FF9933; font-weight: 700; }
+
+  .form-body { padding: 22px 20px; }
+
+  .section-label {
+    font-size: 11.5px; font-weight: 700; letter-spacing: 1.3px;
+    text-transform: uppercase; color: #0B3C5D; padding-bottom: 7px;
+    border-bottom: 1px solid #E5E9EF; margin-bottom: 16px; margin-top: 4px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::before { content: ''; width: 3px; height: 14px; background: #FF9933; border-radius: 1px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .form-row.single { grid-template-columns: 1fr; }
+
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 12.5px; font-weight: 600; color: #2c3e50; margin-bottom: 5px; }
+  .form-group label .req { color: #C0392B; margin-left: 2px; }
+  .form-input, .form-select {
+    width: 100%; padding: 10px 12px; border: 1px solid #C5CEDA;
+    border-radius: 3px; font-size: 13.5px; font-family: inherit;
+    color: #1a1a1a; background: #fff; transition: all 0.15s;
+    -webkit-appearance: none; appearance: none;
+  }
+  .form-input:focus, .form-select:focus { outline: none; border-color: #0B3C5D; box-shadow: 0 0 0 2px rgba(11,60,93,0.12); }
+  .hint-text { font-size: 11px; color: #7A8B99; margin-top: 3px; }
+
+  .role-selector {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    border: 1px solid #C5CEDA; border-radius: 3px; overflow: hidden; margin-top: 4px;
+  }
+  .role-option {
+    padding: 11px 6px; text-align: center; cursor: pointer;
+    background: #fff; border-right: 1px solid #E5E9EF;
+    transition: all 0.15s; font-size: 11.5px; font-weight: 600;
+    color: #555; letter-spacing: 0.2px; user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .role-option:last-child { border-right: none; }
+  .role-option:hover { background: #F4F6F9; }
+  .role-option.active { background: #0B3C5D; color: #fff; }
+  .role-option .role-icon { font-size: 15px; display: block; margin-bottom: 3px; }
+
+  .role-fields { display: none; }
+  .role-fields.active { display: block; animation: fadeSlide 0.3s ease; }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* DEPARTMENT CHECKBOX GRID (NEW) */
+  .dept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+    margin-top: 6px;
+    padding: 12px;
+    background: #F9FBFC;
+    border: 1px solid #E5E9EF;
+    border-radius: 4px;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  .dept-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #fff;
+    border: 1px solid #E5E9EF;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 12.5px;
+    line-height: 1.35;
+    user-select: none;
+  }
+  .dept-item:hover { background: #E6F0F7; border-color: #0B3C5D; }
+  .dept-item input[type="checkbox"] {
+    margin-top: 2px;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    accent-color: #138808;
+    flex-shrink: 0;
+  }
+  .dept-item.checked {
+    background: #E6F5E4;
+    border-color: #138808;
+  }
+  .dept-item.checked label { color: #138808; font-weight: 600; }
+  .dept-item label {
+    cursor: pointer;
+    flex: 1;
+    margin: 0;
+  }
+
+  .selected-count {
+    font-size: 11.5px;
+    color: #138808;
+    font-weight: 700;
+    margin-top: 6px;
+    display: inline-block;
+    background: #E6F5E4;
+    padding: 3px 10px;
+    border-radius: 12px;
+  }
+
+  .captcha-row { display: flex; align-items: center; gap: 10px; background: #F4F6F9; border: 1px solid #E5E9EF; padding: 10px 12px; border-radius: 3px; flex-wrap: wrap; }
+  .captcha-box {
+    font-family: 'Courier New', monospace; font-size: 18px; font-weight: 700;
+    letter-spacing: 4px; color: #0B3C5D; background: #fff; padding: 6px 12px;
+    border: 1px dashed #C5CEDA; border-radius: 3px; text-decoration: line-through;
+    user-select: none; flex-shrink: 0;
+  }
+  .captcha-input { flex: 1; min-width: 140px; }
+  .captcha-refresh {
+    background: none; border: 1px solid #C5CEDA; border-radius: 3px;
+    padding: 7px 11px; cursor: pointer; font-size: 11.5px;
+    color: #0B3C5D; font-weight: 600; flex-shrink: 0; font-family: inherit;
+  }
+  .captcha-refresh:hover { background: #E6F0F7; }
+
+  .terms-row { display: flex; gap: 10px; align-items: flex-start; font-size: 12.5px; color: #555; line-height: 1.6; margin-top: 8px; }
+  .terms-row input { margin-top: 3px; cursor: pointer; flex-shrink: 0; }
+  .terms-row a { color: #0B3C5D; font-weight: 600; }
+
+  .form-actions { display: flex; gap: 10px; margin-top: 20px; padding-top: 18px; border-top: 1px solid #E5E9EF; flex-wrap: wrap; }
+  .btn { padding: 11px 22px; border-radius: 3px; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit; letter-spacing: 0.3px; transition: all 0.15s; border: none; }
+  .btn-primary { background: #0B3C5D; color: #fff; flex: 1; min-width: 140px; }
+  .btn-primary:hover { background: #082B44; }
+  .btn-primary:disabled { background: #7A8B99; cursor: not-allowed; }
+  .btn-secondary { background: #fff; color: #0B3C5D; border: 1px solid #C5CEDA; }
+  .btn-secondary:hover { background: #F4F6F9; }
+
+  .status-msg { margin-top: 14px; padding: 10px 14px; border-radius: 3px; font-size: 12.5px; display: none; }
+  .status-msg.success { display: block; background: #E6F5E4; color: #138808; border-left: 3px solid #138808; font-weight: 500; }
+  .status-msg.error { display: block; background: #FBE7E5; color: #C0392B; border-left: 3px solid #C0392B; font-weight: 500; }
+
+
+  .help-box { background: #F4F6F9; border: 1px solid #E5E9EF; padding: 12px 16px; border-radius: 3px; margin-top: 20px; font-size: 12px; color: #555; line-height: 1.65; }
+  .help-box strong { color: #0B3C5D; }
+
+  .mini-footer { background: #082B44; color: #7A8B99; padding: 14px 0; text-align: center; font-size: 11.5px; margin-top: auto; }
+  .mini-footer span { margin: 0 6px; display: inline-block; }
+
+  @media (max-width: 768px) {
+    .utility-inner .right a { display: none; }
+    .utility-inner .right { gap: 6px; }
+    .lang-switcher { max-width: 120px; font-size: 11px; padding: 3px 6px; }
+    .gov-tag { font-size: 11px; }
+    .nav-toggle { display: block; }
+    .main-nav-inner { display: none; flex-direction: column; width: 100%; padding: 4px 0 8px; }
+    .main-nav-inner.open { display: flex; }
+    .main-nav a { width: 100%; padding: 11px 20px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .main-nav a:first-child { border-left: none; }
+    .brand-text h1 { font-size: 18px; }
+    .emblem-img { width: 40px; height: 48px; }
+    .brand-text .subtitle { font-size: 9.5px; }
+    .form-body { padding: 18px 16px; }
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    .form-row .form-group:not(:last-child) { margin-bottom: 14px; }
+    .role-selector { grid-template-columns: repeat(2, 1fr); border-radius: 3px; }
+    .role-option { border-right: 1px solid #E5E9EF; border-bottom: 1px solid #E5E9EF; padding: 12px 6px; }
+    .role-option:nth-child(2n) { border-right: none; }
+    .role-option:last-child { grid-column: 1 / -1; border-right: none; }
+    .captcha-row { flex-direction: column; align-items: stretch; gap: 8px; }
+    .captcha-box { text-align: center; font-size: 20px; }
+    .captcha-input { min-width: 0; }
+    .captcha-refresh { align-self: flex-start; }
+    .form-actions { flex-direction: column-reverse; }
+    .btn { width: 100%; }
+    .form-header { padding: 12px 16px; }
+    .form-header h2 { font-size: 16px; }
+    .dept-grid { grid-template-columns: 1fr; max-height: 260px; }
+  }
+  @media (max-width: 400px) {
+    .brand-text h1 { font-size: 16px; }
+    .emblem-img { width: 34px; height: 42px; }
+    .brand-text .subtitle { display: none; }
+    .brand-text .subtitle-hindi { font-size: 9.5px; }
+  }
+</style>
+</head>
+<body data-lang="en">
+
+<div class="tricolor-strip"></div>
+
+<div class="utility-bar">
+  <div class="container utility-inner">
+    <div class="left">
+      <span class="gov-tag"><span class="dot"></span> <span data-i18n="govBar">Government of India · Ministry of Education</span></span>
+    </div>
+    <div class="right">
+      <select class="lang-switcher" id="globalLang" onchange="changeGlobalLang(this.value)" title="App Language">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="ta">தமிழ்</option>
+        <option value="te">తెలుగు</option>
+        <option value="bn">বাংলা</option>
+        <option value="mr">मराठी</option>
+        <option value="gu">ગુજરાતી</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="ml">മലയാളം</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="or">ଓଡ଼ିଆ</option>
+        <option value="as">অসমীয়া</option>
+        <option value="ur">اردو</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<header class="main-header">
+  <div class="container header-inner">
+    <a href="index.html" class="emblem-block">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/240px-Emblem_of_India.svg.png"
+        alt="State Emblem of India"
+        class="emblem-img"
+        onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/120px-Emblem_of_India.svg.png';">
+      <div class="brand-text">
+        <h1>COLLA<span>B</span>X</h1>
+        <div class="subtitle" data-i18n="tagline">Digital Platform for Societal Innovation</div>
+        <div class="subtitle-hindi">नागरिक समस्याओं का समाधान मंच</div>
+      </div>
+    </a>
+  </div>
+</header>
+
+<nav class="main-nav">
+  <div class="container">
+    <button class="nav-toggle" onclick="document.querySelector('.main-nav-inner').classList.toggle('open')">☰ Menu</button>
+    <div class="main-nav-inner">
+      <a href="index.html" data-i18n="navHome">Home</a>
+      <a href="index.html#about" data-i18n="navAbout">About</a>
+      <a href="login.html" data-i18n="navLogin">Login</a>
+      <a href="register.html" class="active" data-i18n="navRegister">Register</a>
+    </div>
+  </div>
+</nav>
+
+<div class="breadcrumb-bar">
+  <div class="container">
+    <a href="index.html" data-i18n="navHome">Home</a>
+    <span>›</span>
+    <a href="#" data-i18n="breadAccount">Account</a>
+    <span>›</span>
+    <strong style="color:#0B3C5D;" data-i18n="breadRegister">New User Registration</strong>
+  </div>
+</div>
+
+<div class="register-wrapper">
+  <div class="register-card">
+
+    <div class="form-header">
+      <h2 data-i18n="regTitle">New User Registration</h2>
+      <p data-i18n="regSubtitle">Create your account to participate in CollabX — the national societal innovation platform.</p>
+      <div class="mandatory-note"><span data-i18n="fieldsMandatory">Fields marked with</span> <span class="star">*</span> <span data-i18n="areMandatory">are mandatory</span></div>
+    </div>
+
+    <div class="form-body">
+      <form onsubmit="handleRegister(event)">
+
+        <!-- ROLE SELECTION -->
+        <div class="section-label" data-i18n="selectRole">Select Your Role</div>
+        <div class="form-group">
+          <div class="role-selector" id="role-selector">
+            <div class="role-option active" data-role="citizen"><span class="role-icon">👤</span><span data-i18n="roleCitizen">Citizen</span></div>
+            <div class="role-option" data-role="university"><span class="role-icon">🎓</span><span data-i18n="roleUniversity">University</span></div>
+            <div class="role-option" data-role="industry"><span class="role-icon">🏭</span><span data-i18n="roleIndustry">Industry</span></div>
+            <div class="role-option" data-role="govt"><span class="role-icon">🏛️</span><span data-i18n="roleGovt">Government</span></div>
+            <div class="role-option" data-role="expert"><span class="role-icon">⭐</span><span data-i18n="roleExpert">Expert</span></div>
+          </div>
+        </div>
+
+        <!-- COMMON: BASIC DETAILS -->
+        <div class="section-label" style="margin-top: 22px;" data-i18n="basicDetails">Basic Details</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="reg-username"><span data-i18n="usernameLabel">Username / Display ID</span> <span class="req">*</span></label>
+            <input id="reg-username" type="text" class="form-input" data-i18n-placeholder="usernamePlaceholder" placeholder="Choose a unique username" required maxlength="50">
+            <div class="hint-text" data-i18n="usernameHint">This will be your public identifier on CollabX</div>
+          </div>
+          <div class="form-group">
+            <label for="reg-email"><span data-i18n="emailLabel">Email Address</span> <span class="req">*</span></label>
+            <input id="reg-email" type="email" class="form-input" data-i18n-placeholder="emailPlaceholder" placeholder="you@example.com" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="reg-phone"><span data-i18n="phoneLabel">Mobile Number</span> <span class="req">*</span></label>
+            <input id="reg-phone" type="tel" class="form-input" data-i18n-placeholder="phonePlaceholder" placeholder="+91 XXXXX XXXXX" pattern="[+0-9 ]{10,15}" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-password"><span data-i18n="passwordLabel">Password</span> <span class="req">*</span></label>
+            <input id="reg-password" type="password" class="form-input" data-i18n-placeholder="passwordPlaceholder" placeholder="Min 6 characters" minlength="6" required>
+          </div>
+        </div>
+
+        <!-- DYNAMIC ROLE-SPECIFIC FIELDS -->
+        <div id="role-fields-container">
+
+          <!-- CITIZEN -->
+          <div class="role-fields active" data-role="citizen">
+            <div class="section-label" style="margin-top: 22px;" data-i18n="citizenDetails">Citizen Details</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="c-state" data-i18n="stateLabel">State / UT</label>
+                <select id="c-state" class="form-select">
+                  <option value="" data-i18n="selectState">— Select State —</option>
+                  <option>Andhra Pradesh</option><option>Bihar</option><option>Delhi</option>
+                  <option>Gujarat</option><option>Jharkhand</option><option>Karnataka</option>
+                  <option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option>
+                  <option>Odisha</option><option>Punjab</option><option>Tamil Nadu</option>
+                  <option>Telangana</option><option>Uttar Pradesh</option><option>West Bengal</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="c-district" data-i18n="districtLabel">District / City</label>
+                <input id="c-district" type="text" class="form-input" data-i18n-placeholder="districtPlaceholder" placeholder="e.g., Ranchi, Bengaluru">
+              </div>
+            </div>
+          </div>
+
+          <!-- UNIVERSITY -->
+          <div class="role-fields" data-role="university">
+            <div class="section-label" style="margin-top: 22px;" data-i18n="institutionDetails">Institution Details</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="u-institution"><span data-i18n="institutionLabel">University / Institution Name</span> <span class="req">*</span></label>
+                <input id="u-institution" type="text" class="form-input" data-i18n-placeholder="institutionPlaceholder" placeholder="e.g., IIT Delhi, NIT Trichy">
+              </div>
+              <div class="form-group">
+                <label for="u-code"><span data-i18n="regCodeLabel">AICTE / UGC Registration Code</span> <span class="req">*</span></label>
+                <input id="u-code" type="text" class="form-input" data-i18n-placeholder="regCodePlaceholder" placeholder="e.g., 1-1234567">
+              </div>
+            </div>
+
+            <!-- NEW: DEPARTMENT CHECKBOXES -->
+            <div class="form-group">
+              <label><span data-i18n="departmentsLabel">Departments / Domains of Expertise</span> <span class="req">*</span></label>
+              <div class="hint-text" data-i18n="departmentsHint">Select all departments that apply to your institution. AI will use these to match relevant challenges.</div>
+              <div class="dept-grid" id="dept-grid">
+                <label class="dept-item"><input type="checkbox" value="Civil Engineering"><span>Civil Engineering</span></label>
+                <label class="dept-item"><input type="checkbox" value="Environmental Engineering"><span>Environmental Engineering</span></label>
+                <label class="dept-item"><input type="checkbox" value="Urban Planning"><span>Urban Planning</span></label>
+                <label class="dept-item"><input type="checkbox" value="Architecture"><span>Architecture</span></label>
+                <label class="dept-item"><input type="checkbox" value="Mechanical Engineering"><span>Mechanical Engineering</span></label>
+                <label class="dept-item"><input type="checkbox" value="Electrical Engineering"><span>Electrical Engineering</span></label>
+                <label class="dept-item"><input type="checkbox" value="Energy Studies"><span>Energy Studies</span></label>
+                <label class="dept-item"><input type="checkbox" value="Chemical Engineering"><span>Chemical Engineering</span></label>
+                <label class="dept-item"><input type="checkbox" value="Computer Science"><span>Computer Science</span></label>
+                <label class="dept-item"><input type="checkbox" value="Public Health"><span>Public Health</span></label>
+                <label class="dept-item"><input type="checkbox" value="Medicine"><span>Medicine</span></label>
+                <label class="dept-item"><input type="checkbox" value="Biomedical Engineering"><span>Biomedical Engineering</span></label>
+                <label class="dept-item"><input type="checkbox" value="Life Sciences"><span>Life Sciences</span></label>
+                <label class="dept-item"><input type="checkbox" value="Agriculture"><span>Agriculture</span></label>
+                <label class="dept-item"><input type="checkbox" value="Agricultural Engineering"><span>Agricultural Engineering</span></label>
+                <label class="dept-item"><input type="checkbox" value="Environmental Science"><span>Environmental Science</span></label>
+                <label class="dept-item"><input type="checkbox" value="Ecology"><span>Ecology</span></label>
+                <label class="dept-item"><input type="checkbox" value="Education"><span>Education</span></label>
+                <label class="dept-item"><input type="checkbox" value="Social Sciences"><span>Social Sciences</span></label>
+                <label class="dept-item"><input type="checkbox" value="Public Policy"><span>Public Policy</span></label>
+                <label class="dept-item"><input type="checkbox" value="Law"><span>Law</span></label>
+                <label class="dept-item"><input type="checkbox" value="Economics"><span>Economics</span></label>
+                <label class="dept-item"><input type="checkbox" value="Health Technology"><span>Health Technology</span></label>
+                <label class="dept-item"><input type="checkbox" value="Agricultural Technology"><span>Agricultural Technology</span></label>
+                <label class="dept-item"><input type="checkbox" value="Food Technology"><span>Food Technology</span></label>
+                <label class="dept-item"><input type="checkbox" value="Transportation Engineering"><span>Transportation Engineering</span></label>
+                <label class="dept-item"><input type="checkbox" value="Disaster Management"><span>Disaster Management</span></label>
+                <label class="dept-item"><input type="checkbox" value="GIS"><span>GIS</span></label>
+                <label class="dept-item"><input type="checkbox" value="IoT"><span>IoT</span></label>
+                <label class="dept-item"><input type="checkbox" value="NLP"><span>NLP</span></label>
+                <label class="dept-item"><input type="checkbox" value="Renewable Energy Engineering"><span>Renewable Energy Engineering</span></label>
+              </div>
+              <span class="selected-count" id="dept-count">0 selected</span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="u-designation"><span data-i18n="designationLabel">Your Designation</span> <span class="req">*</span></label>
+                <select id="u-designation" class="form-select">
+                  <option value="" data-i18n="selectDesignation">— Select —</option>
+                  <option data-i18n="desigFaculty">Faculty</option>
+                  <option data-i18n="desigHOD">Head of Department</option>
+                  <option data-i18n="desigDean">Dean / Director</option>
+                  <option data-i18n="desigScholar">Research Scholar</option>
+                  <option data-i18n="desigStudent">Student Representative</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="u-empid"><span data-i18n="empIdLabel">Official Employee / Student ID</span> <span class="req">*</span></label>
+                <input id="u-empid" type="text" class="form-input" data-i18n-placeholder="empIdPlaceholder" placeholder="e.g., IITD/FAC/2024/001">
+              </div>
+            </div>
+
+            <div class="form-row single">
+              <div class="form-group">
+                <label for="u-official-email" data-i18n="officialEmailLabel">Official Institutional Email</label>
+                <input id="u-official-email" type="email" class="form-input" data-i18n-placeholder="officialEmailPlaceholder" placeholder="name@institution.ac.in">
+                <div class="hint-text" data-i18n="officialEmailHint">Faster verification if provided</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- INDUSTRY -->
+          <div class="role-fields" data-role="industry">
+            <div class="section-label" style="margin-top: 22px;" data-i18n="companyDetails">Company Details</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="i-company"><span data-i18n="companyLabel">Company / Organization Name</span> <span class="req">*</span></label>
+                <input id="i-company" type="text" class="form-input" data-i18n-placeholder="companyPlaceholder" placeholder="e.g., Tata Motors Ltd.">
+              </div>
+              <div class="form-group">
+                <label for="i-gst"><span data-i18n="gstLabel">GST Number</span> <span class="req">*</span></label>
+                <input id="i-gst" type="text" class="form-input" data-i18n-placeholder="gstPlaceholder" placeholder="e.g., 22AAAAA0000A1Z5" maxlength="15">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="i-cin" data-i18n="cinLabel">CIN / Registration Number</label>
+                <input id="i-cin" type="text" class="form-input" data-i18n-placeholder="cinPlaceholder" placeholder="e.g., L28920MH1945PLC004520">
+              </div>
+              <div class="form-group">
+                <label for="i-sector"><span data-i18n="sectorLabel">Primary Sector</span> <span class="req">*</span></label>
+                <select id="i-sector" class="form-select">
+                  <option value="" data-i18n="selectSector">— Select Sector —</option>
+                  <option data-i18n="sectorIT">Information Technology</option>
+                  <option data-i18n="sectorMfg">Manufacturing</option>
+                  <option data-i18n="sectorInfra">Infrastructure</option>
+                  <option data-i18n="sectorEnergy">Energy &amp; Utilities</option>
+                  <option data-i18n="sectorHealth">Healthcare</option>
+                  <option data-i18n="sectorEdu">Education</option>
+                  <option data-i18n="sectorAgri">Agriculture</option>
+                  <option data-i18n="sectorTransport">Transport &amp; Logistics</option>
+                  <option data-i18n="sectorOther">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="i-contact-role"><span data-i18n="contactRoleLabel">Contact Role</span> <span class="req">*</span></label>
+                <input id="i-contact-role" type="text" class="form-input" data-i18n-placeholder="contactRolePlaceholder" placeholder="e.g., CSR Head, R&amp;D Manager">
+              </div>
+              <div class="form-group">
+                <label for="i-designation"><span data-i18n="designationLabel">Designation</span> <span class="req">*</span></label>
+                <input id="i-designation" type="text" class="form-input" data-i18n-placeholder="designationPlaceholder" placeholder="e.g., Manager, Director">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="i-expertise">Industry Expertise</label>
+                <input id="i-expertise" type="text" class="form-input" placeholder="e.g., IoT + Sensors, prototyping">
+              </div>
+              <div class="form-group">
+                <label for="i-support">Available Support</label>
+                <input id="i-support" type="text" class="form-input" placeholder="e.g., Technical mentoring + prototype support">
+              </div>
+            </div>
+          </div>
+
+          <!-- GOVERNMENT -->
+          <div class="role-fields" data-role="govt">
+            <div class="section-label" style="margin-top: 22px;" data-i18n="govtDetails">Government Official Details</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="g-ministry"><span data-i18n="ministryLabel">Ministry / Department</span> <span class="req">*</span></label>
+                <input id="g-ministry" type="text" class="form-input" data-i18n-placeholder="ministryPlaceholder" placeholder="e.g., Ministry of Education">
+              </div>
+              <div class="form-group">
+                <label for="g-designation"><span data-i18n="designationLabel">Designation</span> <span class="req">*</span></label>
+                <input id="g-designation" type="text" class="form-input" data-i18n-placeholder="govtDesignationPlaceholder" placeholder="e.g., Section Officer, Director">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="g-empid"><span data-i18n="empIdLabel">Employee ID</span> <span class="req">*</span></label>
+                <input id="g-empid" type="text" class="form-input" data-i18n-placeholder="govtEmpIdPlaceholder" placeholder="Official Government Employee ID">
+              </div>
+              <div class="form-group">
+                <label for="g-official-email"><span data-i18n="officialGovEmailLabel">Official Email (gov.in / nic.in)</span> <span class="req">*</span></label>
+                <input id="g-official-email" type="email" class="form-input" data-i18n-placeholder="govEmailPlaceholder" placeholder="name@gov.in">
+                <div class="hint-text" data-i18n="govEmailHint">Must be a government domain email</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="g-state" data-i18n="stateLabel">State / UT (if applicable)</label>
+                <select id="g-state" class="form-select">
+                  <option value="" data-i18n="selectState">— Select State —</option>
+                  <option data-i18n="centralGovt">Central Government</option>
+                  <option>Andhra Pradesh</option><option>Bihar</option><option>Delhi</option>
+                  <option>Gujarat</option><option>Jharkhand</option><option>Karnataka</option>
+                  <option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option>
+                  <option>Odisha</option><option>Punjab</option><option>Tamil Nadu</option>
+                  <option>Telangana</option><option>Uttar Pradesh</option><option>West Bengal</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="g-office" data-i18n="officeAddressLabel">Office Address</label>
+                <input id="g-office" type="text" class="form-input" data-i18n-placeholder="officeAddressPlaceholder" placeholder="City / Office Location">
+              </div>
+            </div>
+          </div>
+
+          <!-- EXPERT -->
+          <div class="role-fields" data-role="expert">
+            <div class="section-label" style="margin-top: 22px;" data-i18n="expertDetails">Expert Details</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="e-domain"><span data-i18n="domainLabel">Primary Domain</span> <span class="req">*</span></label>
+                <select id="e-domain" class="form-select">
+                  <option value="" data-i18n="selectDomain">— Select Domain —</option>
+                  <option data-i18n="domainUrban">Urban Planning &amp; Infrastructure</option>
+                  <option data-i18n="domainWater">Water &amp; Sanitation</option>
+                  <option data-i18n="domainEnergy">Energy &amp; Sustainability</option>
+                  <option data-i18n="domainHealth">Public Health</option>
+                  <option data-i18n="domainEdTech">Education Technology</option>
+                  <option data-i18n="domainAgri">Agriculture &amp; Rural Development</option>
+                  <option data-i18n="domainTransport">Transport &amp; Mobility</option>
+                  <option data-i18n="domainDigital">Digital Governance</option>
+                  <option data-i18n="domainEnv">Environmental Science</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="e-experience"><span data-i18n="experienceLabel">Years of Experience</span> <span class="req">*</span></label>
+                <input id="e-experience" type="number" class="form-input" data-i18n-placeholder="experiencePlaceholder" placeholder="e.g., 10" min="1" max="60">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="e-qualification"><span data-i18n="qualificationLabel">Highest Qualification</span> <span class="req">*</span></label>
+                <input id="e-qualification" type="text" class="form-input" data-i18n-placeholder="qualificationPlaceholder" placeholder="e.g., Ph.D., M.Tech, M.Sc">
+              </div>
+              <div class="form-group">
+                <label for="e-current-org" data-i18n="currentOrgLabel">Current Organization</label>
+                <input id="e-current-org" type="text" class="form-input" data-i18n-placeholder="currentOrgPlaceholder" placeholder="e.g., IIT Bombay, CSIR">
+              </div>
+            </div>
+            <div class="form-row single">
+              <div class="form-group">
+                <label for="e-linkedin" data-i18n="linkedinLabel">LinkedIn / Professional Profile</label>
+                <input id="e-linkedin" type="url" class="form-input" data-i18n-placeholder="linkedinPlaceholder" placeholder="https://linkedin.com/in/yourprofile">
+                <div class="hint-text" data-i18n="linkedinHint">Helps verify your credentials</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SECURITY / VERIFICATION -->
+        <div class="section-label" style="margin-top: 22px;" data-i18n="verificationLabel">Verification</div>
+
+        <div class="form-group">
+          <label><span data-i18n="captchaLabel">Verification Code</span> <span class="req">*</span></label>
+          <div class="captcha-row">
+            <div class="captcha-box" id="captcha-box">A7X9K</div>
+            <button type="button" class="captcha-refresh" onclick="refreshCaptcha()" data-i18n="refreshCaptcha">↻ New Code</button>
+            <input id="reg-captcha" type="text" class="form-input captcha-input" data-i18n-placeholder="captchaPlaceholder" placeholder="Enter code" required>
+          </div>
+        </div>
+
+        <!-- TERMS -->
+        <div class="terms-row">
+          <input type="checkbox" id="reg-terms" required>
+          <label for="reg-terms" style="font-weight:400; color:#555; margin:0; cursor:pointer;">
+            <span data-i18n="termsPrefix">I have read and agree to the</span>
+            <a href="#" data-i18n="termsOfUse">Terms of Use</a>,
+            <a href="#" data-i18n="privacyPolicy">Privacy Policy</a>,
+            <span data-i18n="termsAnd">and</span>
+            <a href="#" data-i18n="dataProtection">Data Protection Guidelines</a>.
+            <span data-i18n="termsConfirm">I confirm that the information provided is accurate.</span>
+          </label>
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'" data-i18n="cancelBtn">Cancel</button>
+          <button type="submit" id="register-btn" class="btn btn-primary" data-i18n="createAccountBtn">Create Account</button>
+        </div>
+
+        <div id="status" class="status-msg"></div>
+      </form>
+
+      <div id="registration-help" class="help-box">
+        <strong data-i18n="helpTitle">Need help?</strong>
+        <span data-i18n="helpText">For registration assistance, contact the CollabX Support Desk at support@collabx.gov.in or call 1800-XXX-XXXX (Toll-free, 9 AM – 6 PM IST).</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="mini-footer">
+  <span>© 2026 CollabX</span>
+  <span>·</span>
+  <span data-i18n="govInit">Government of India Initiative</span>
+  <span>·</span>
+</footer>
+
+<script>
+  const API_BASE = "http://127.0.0.1:8000";
+  const LANG_KEY = "collabx_lang";
+  let selectedRole = "citizen";
+  let captchaCode = "";
+
+  // ============ TRANSLATIONS ============
+  const I18N = {
+    en: {
+      govBar: "Government of India · Ministry of Education", skipContent: "Skip to Main Content", screenReader: "Screen Reader",
+      tagline: "Digital Platform for Societal Innovation", navHome: "Home", navAbout: "About", navChallenges: "Public Challenges",
+      navLogin: "Login", navRegister: "Register", breadAccount: "Account", breadRegister: "New User Registration",
+      regTitle: "New User Registration", regSubtitle: "Create your account to participate in CollabX — the national societal innovation platform.",
+      fieldsMandatory: "Fields marked with", areMandatory: "are mandatory",
+      selectRole: "Select Your Role", roleCitizen: "Citizen", roleUniversity: "University", roleIndustry: "Industry", roleGovt: "Government", roleExpert: "Expert",
+      basicDetails: "Basic Details", usernameLabel: "Username / Display ID", usernamePlaceholder: "Choose a unique username",
+      usernameHint: "This will be your public identifier on CollabX", emailLabel: "Email Address", emailPlaceholder: "you@example.com",
+      phoneLabel: "Mobile Number", phonePlaceholder: "+91 XXXXX XXXXX", passwordLabel: "Password", passwordPlaceholder: "Min 6 characters",
+      citizenDetails: "Citizen Details", stateLabel: "State / UT", selectState: "— Select State —", districtLabel: "District / City",
+      districtPlaceholder: "e.g., Ranchi, Bengaluru",
+      institutionDetails: "Institution Details", institutionLabel: "University / Institution Name", institutionPlaceholder: "e.g., IIT Delhi, NIT Trichy",
+      regCodeLabel: "AICTE / UGC Registration Code", regCodePlaceholder: "e.g., 1-1234567", departmentsLabel: "Departments / Domains of Expertise",
+      departmentsHint: "Select all departments that apply to your institution. AI will use these to match relevant challenges.",
+      departmentLabel: "Department", departmentPlaceholder: "e.g., Computer Science, Civil Engineering", designationLabel: "Your Designation", selectDesignation: "— Select —",
+      desigFaculty: "Faculty", desigHOD: "Head of Department", desigDean: "Dean / Director", desigScholar: "Research Scholar", desigStudent: "Student Representative",
+      empIdLabel: "Official Employee / Student ID", empIdPlaceholder: "e.g., IITD/FAC/2024/001",
+      officialEmailLabel: "Official Institutional Email", officialEmailPlaceholder: "name@institution.ac.in", officialEmailHint: "Faster verification if provided",
+      companyDetails: "Company Details", companyLabel: "Company / Organization Name", companyPlaceholder: "e.g., Tata Motors Ltd.",
+      gstLabel: "GST Number", gstPlaceholder: "e.g., 22AAAAA0000A1Z5", cinLabel: "CIN / Registration Number", cinPlaceholder: "e.g., L28920MH1945PLC004520",
+      sectorLabel: "Primary Sector", selectSector: "— Select Sector —", sectorIT: "Information Technology", sectorMfg: "Manufacturing",
+      sectorInfra: "Infrastructure", sectorEnergy: "Energy & Utilities", sectorHealth: "Healthcare", sectorEdu: "Education",
+      sectorAgri: "Agriculture", sectorTransport: "Transport & Logistics", sectorOther: "Other",
+      contactRoleLabel: "Contact Role", contactRolePlaceholder: "e.g., CSR Head, R&D Manager", designationPlaceholder: "e.g., Manager, Director",
+      govtDetails: "Government Official Details", ministryLabel: "Ministry / Department", ministryPlaceholder: "e.g., Ministry of Education",
+      govtDesignationPlaceholder: "e.g., Section Officer, Director", govtEmpIdPlaceholder: "Official Government Employee ID",
+      officialGovEmailLabel: "Official Email (gov.in / nic.in)", govEmailPlaceholder: "name@gov.in", govEmailHint: "Must be a government domain email",
+      centralGovt: "Central Government", officeAddressLabel: "Office Address", officeAddressPlaceholder: "City / Office Location",
+      expertDetails: "Expert Details", domainLabel: "Primary Domain", selectDomain: "— Select Domain —",
+      domainUrban: "Urban Planning & Infrastructure", domainWater: "Water & Sanitation", domainEnergy: "Energy & Sustainability",
+      domainHealth: "Public Health", domainEdTech: "Education Technology", domainAgri: "Agriculture & Rural Development",
+      domainTransport: "Transport & Mobility", domainDigital: "Digital Governance", domainEnv: "Environmental Science",
+      experienceLabel: "Years of Experience", experiencePlaceholder: "e.g., 10", qualificationLabel: "Highest Qualification",
+      qualificationPlaceholder: "e.g., Ph.D., M.Tech, M.Sc", currentOrgLabel: "Current Organization", currentOrgPlaceholder: "e.g., IIT Bombay, CSIR",
+      linkedinLabel: "LinkedIn / Professional Profile", linkedinPlaceholder: "https://linkedin.com/in/yourprofile", linkedinHint: "Helps verify your credentials",
+      verificationLabel: "Verification", captchaLabel: "Verification Code", refreshCaptcha: "↻ New Code", captchaPlaceholder: "Enter code",
+      termsPrefix: "I have read and agree to the", termsOfUse: "Terms of Use", privacyPolicy: "Privacy Policy", termsAnd: "and",
+      dataProtection: "Data Protection Guidelines", termsConfirm: "I confirm that the information provided is accurate.",
+      cancelBtn: "Cancel", createAccountBtn: "Create Account",
+      helpTitle: "Need help?", helpText: "For registration assistance, contact the CollabX Support Desk at support@collabx.gov.in or call 1800-XXX-XXXX (Toll-free, 9 AM – 6 PM IST).",
+      govInit: "Government of India Initiative",
+      captchaError: "✗ Incorrect verification code. Please try again.",
+      creatingAccount: "Creating account...", accountCreated: "✓ Account created successfully. Redirecting to login...",
+      registrationFailed: "Registration failed. Try again.", deptRequired: "Please select at least one department.", selectedCount: "selected"
+    },
+    hi: {
+      govBar: "भारत सरकार · शिक्षा मंत्रालय", skipContent: "मुख्य सामग्री पर जाएं", screenReader: "स्क्रीन रीडर",
+      tagline: "सामाजिक नवाचार के लिए डिजिटल मंच", navHome: "होम", navAbout: "परिचय", navChallenges: "सार्वजनिक चुनौतियाँ",
+      navLogin: "लॉगिन", navRegister: "पंजीकरण", breadAccount: "खाता", breadRegister: "नया उपयोगकर्ता पंजीकरण",
+      regTitle: "नया उपयोगकर्ता पंजीकरण", regSubtitle: "CollabX में भाग लेने के लिए अपना खाता बनाएं — राष्ट्रीय सामाजिक नवाचार मंच।",
+      fieldsMandatory: "चिह्नित फ़ील्ड", areMandatory: "अनिवार्य हैं",
+      selectRole: "अपनी भूमिका चुनें", roleCitizen: "नागरिक", roleUniversity: "विश्वविद्यालय", roleIndustry: "उद्योग", roleGovt: "सरकार", roleExpert: "विशेषज्ञ",
+      basicDetails: "बुनियादी विवरण", usernameLabel: "उपयोगकर्ता नाम / प्रदर्शन आईडी", usernamePlaceholder: "एक अद्वितीय उपयोगकर्ता नाम चुनें",
+      usernameHint: "यह CollabX पर आपकी सार्वजनिक पहचान होगी", emailLabel: "ईमेल पता", emailPlaceholder: "you@example.com",
+      phoneLabel: "मोबाइल नंबर", phonePlaceholder: "+91 XXXXX XXXXX", passwordLabel: "पासवर्ड", passwordPlaceholder: "न्यूनतम 6 वर्ण",
+      citizenDetails: "नागरिक विवरण", stateLabel: "राज्य / केंद्र शासित प्रदेश", selectState: "— राज्य चुनें —", districtLabel: "जिला / शहर",
+      districtPlaceholder: "जैसे, रांची, बेंगलुरु",
+      institutionDetails: "संस्थान विवरण", institutionLabel: "विश्वविद्यालय / संस्थान का नाम", institutionPlaceholder: "जैसे, IIT दिल्ली, NIT त्रिची",
+      regCodeLabel: "AICTE / UGC पंजीकरण कोड", regCodePlaceholder: "जैसे, 1-1234567", departmentsLabel: "विभाग / विशेषज्ञता के क्षेत्र",
+      departmentsHint: "अपने संस्थान पर लागू होने वाले सभी विभाग चुनें। AI इनका उपयोग प्रासंगिक चुनौतियों से मिलान करने के लिए करेगा।",
+      departmentLabel: "विभाग", departmentPlaceholder: "जैसे, कंप्यूटर विज्ञान, सिविल इंजीनियरिंग", designationLabel: "आपका पदनाम", selectDesignation: "— चुनें —",
+      desigFaculty: "संकाय", desigHOD: "विभागाध्यक्ष", desigDean: "डीन / निदेशक", desigScholar: "शोध छात्र", desigStudent: "छात्र प्रतिनिधि",
+      empIdLabel: "आधिकारिक कर्मचारी / छात्र आईडी", empIdPlaceholder: "जैसे, IITD/FAC/2024/001",
+      officialEmailLabel: "आधिकारिक संस्थागत ईमेल", officialEmailPlaceholder: "name@institution.ac.in", officialEmailHint: "प्रदान किए जाने पर तेज़ सत्यापन",
+      companyDetails: "कंपनी विवरण", companyLabel: "कंपनी / संगठन का नाम", companyPlaceholder: "जैसे, टाटा मोटर्स लिमिटेड",
+      gstLabel: "GST नंबर", gstPlaceholder: "जैसे, 22AAAAA0000A1Z5", cinLabel: "CIN / पंजीकरण संख्या", cinPlaceholder: "जैसे, L28920MH1945PLC004520",
+      sectorLabel: "प्राथमिक क्षेत्र", selectSector: "— क्षेत्र चुनें —", sectorIT: "सूचना प्रौद्योगिकी", sectorMfg: "विनिर्माण",
+      sectorInfra: "अवसंरचना", sectorEnergy: "ऊर्जा और उपयोगिताएँ", sectorHealth: "स्वास्थ्य सेवा", sectorEdu: "शिक्षा",
+      sectorAgri: "कृषि", sectorTransport: "परिवहन और रसद", sectorOther: "अन्य",
+      contactRoleLabel: "संपर्क भूमिका", contactRolePlaceholder: "जैसे, CSR प्रमुख, R&D प्रबंधक", designationPlaceholder: "जैसे, प्रबंधक, निदेशक",
+      govtDetails: "सरकारी अधिकारी विवरण", ministryLabel: "मंत्रालय / विभाग", ministryPlaceholder: "जैसे, शिक्षा मंत्रालय",
+      govtDesignationPlaceholder: "जैसे, अनुभाग अधिकारी, निदेशक", govtEmpIdPlaceholder: "आधिकारिक सरकारी कर्मचारी आईडी",
+      officialGovEmailLabel: "आधिकारिक ईमेल (gov.in / nic.in)", govEmailPlaceholder: "name@gov.in", govEmailHint: "सरकारी डोमेन ईमेल होना चाहिए",
+      centralGovt: "केंद्र सरकार", officeAddressLabel: "कार्यालय पता", officeAddressPlaceholder: "शहर / कार्यालय स्थान",
+      expertDetails: "विशेषज्ञ विवरण", domainLabel: "प्राथमिक डोमेन", selectDomain: "— डोमेन चुनें —",
+      domainUrban: "शहरी नियोजन और अवसंरचना", domainWater: "जल और स्वच्छता", domainEnergy: "ऊर्जा और स्थिरता",
+      domainHealth: "सार्वजनिक स्वास्थ्य", domainEdTech: "शिक्षा प्रौद्योगिकी", domainAgri: "कृषि और ग्रामीण विकास",
+      domainTransport: "परिवहन और गतिशीलता", domainDigital: "डिजिटल शासन", domainEnv: "पर्यावरण विज्ञान",
+      experienceLabel: "अनुभव के वर्ष", experiencePlaceholder: "जैसे, 10", qualificationLabel: "उच्चतम योग्यता",
+      qualificationPlaceholder: "जैसे, पीएच.डी., एम.टेक, एम.एससी", currentOrgLabel: "वर्तमान संगठन", currentOrgPlaceholder: "जैसे, IIT बॉम्बे, CSIR",
+      linkedinLabel: "लिंक्डइन / पेशेवर प्रोफ़ाइल", linkedinPlaceholder: "https://linkedin.com/in/yourprofile", linkedinHint: "आपकी साख सत्यापित करने में मदद करता है",
+      verificationLabel: "सत्यापन", captchaLabel: "सत्यापन कोड", refreshCaptcha: "↻ नया कोड", captchaPlaceholder: "कोड दर्ज करें",
+      termsPrefix: "मैंने पढ़ा है और सहमत हूँ", termsOfUse: "उपयोग की शर्तें", privacyPolicy: "गोपनीयता नीति", termsAnd: "और",
+      dataProtection: "डेटा संरक्षण दिशानिर्देश", termsConfirm: "मैं पुष्टि करता हूँ कि प्रदान की गई जानकारी सटीक है।",
+      cancelBtn: "रद्द करें", createAccountBtn: "खाता बनाएं",
+      helpTitle: "मदद चाहिए?", helpText: "पंजीकरण सहायता के लिए, CollabX सहायता डेस्क से support@collabx.gov.in पर संपर्क करें या 1800-XXX-XXXX पर कॉल करें (टोल-फ्री, सुबह 9 बजे – शाम 6 बजे IST)।",
+      govInit: "भारत सरकार की पहल",
+      captchaError: "✗ गलत सत्यापन कोड। कृपया पुनः प्रयास करें।",
+      creatingAccount: "खाता बनाया जा रहा है...", accountCreated: "✓ खाता सफलतापूर्वक बनाया गया। लॉगिन पर रीडायरेक्ट हो रहा है...",
+      registrationFailed: "पंजीकरण विफल। पुनः प्रयास करें।", deptRequired: "कृपया कम से कम एक विभाग चुनें।", selectedCount: "चयनित"
+    },
+    ta: {
+      govBar: "இந்திய அரசு · கல்வி அமைச்சகம்", skipContent: "முக்கிய உள்ளடக்கம்", screenReader: "திரை வாசிப்பான்",
+      tagline: "சமூக புதுமைக்கான டிஜிட்டல் தளம்", navHome: "முகப்பு", navAbout: "பற்றி", navChallenges: "பொது சவால்கள்",
+      navLogin: "உள்நுழை", navRegister: "பதிவு", breadAccount: "கணக்கு", breadRegister: "புதிய பயனர் பதிவு",
+      regTitle: "புதிய பயனர் பதிவு", regSubtitle: "CollabX இல் பங்கேற்க உங்கள் கணக்கை உருவாக்கவும் — தேசிய சமூக புதுமை தளம்.",
+      fieldsMandatory: "குறியிடப்பட்ட புலங்கள்", areMandatory: "கட்டாயம்",
+      selectRole: "உங்கள் பங்கைத் தேர்ந்தெடுக்கவும்", roleCitizen: "குடிமகன்", roleUniversity: "பல்கலைக்கழகம்", roleIndustry: "தொழில்", roleGovt: "அரசு", roleExpert: "நிபுணர்",
+      basicDetails: "அடிப்படை விவரங்கள்", usernameLabel: "பயனர் பெயர் / காட்சி ஐடி", usernamePlaceholder: "தனித்துவமான பயனர் பெயரைத் தேர்ந்தெடுக்கவும்",
+      usernameHint: "இது CollabX இல் உங்கள் பொது அடையாளமாக இருக்கும்", emailLabel: "மின்னஞ்சல் முகவரி", emailPlaceholder: "you@example.com",
+      phoneLabel: "கைபேசி எண்", phonePlaceholder: "+91 XXXXX XXXXX", passwordLabel: "கடவுச்சொல்", passwordPlaceholder: "குறைந்தது 6 எழுத்துகள்",
+      citizenDetails: "குடிமகன் விவரங்கள்", stateLabel: "மாநிலம் / யூனியன் பிரதேசம்", selectState: "— மாநிலத்தைத் தேர்ந்தெடுக்கவும் —", districtLabel: "மாவட்டம் / நகரம்",
+      districtPlaceholder: "எ.கா., ராஞ்சி, பெங்களூரு",
+      institutionDetails: "நிறுவன விவரங்கள்", institutionLabel: "பல்கலைக்கழகம் / நிறுவனத்தின் பெயர்", institutionPlaceholder: "எ.கா., IIT டெல்லி, NIT திருச்சி",
+      regCodeLabel: "AICTE / UGC பதிவு குறியீடு", regCodePlaceholder: "எ.கா., 1-1234567", departmentsLabel: "துறைகள் / நிபுணத்துவம்",
+      departmentsHint: "உங்கள் நிறுவனத்திற்குப் பொருந்தும் அனைத்து துறைகளையும் தேர்ந்தெடுக்கவும். AI இவற்றைப் பொருத்தமான சவால்களைப் பொருத்த பயன்படுத்தும்.",
+      departmentLabel: "துறை", departmentPlaceholder: "எ.கா., கணினி அறிவியல், சிவில் பொறியியல்", designationLabel: "உங்கள் பதவி", selectDesignation: "— தேர்ந்தெடுக்கவும் —",
+      desigFaculty: "ஆசிரியர்", desigHOD: "துறைத் தலைவர்", desigDean: "டீன் / இயக்குநர்", desigScholar: "ஆய்வு அறிஞர்", desigStudent: "மாணவர் பிரதிநிதி",
+      empIdLabel: "அதிகாரப்பூர்வ ஊழியர் / மாணவர் ஐடி", empIdPlaceholder: "எ.கா., IITD/FAC/2024/001",
+      officialEmailLabel: "அதிகாரப்பூர்வ நிறுவன மின்னஞ்சல்", officialEmailPlaceholder: "name@institution.ac.in", officialEmailHint: "வழங்கப்பட்டால் விரைவான சரிபார்ப்பு",
+      companyDetails: "நிறுவன விவரங்கள்", companyLabel: "நிறுவனம் / அமைப்பின் பெயர்", companyPlaceholder: "எ.கா., டாடா மோட்டார்ஸ் லிமிடெட்",
+      gstLabel: "GST எண்", gstPlaceholder: "எ.கா., 22AAAAA0000A1Z5", cinLabel: "CIN / பதிவு எண்", cinPlaceholder: "எ.கா., L28920MH1945PLC004520",
+      sectorLabel: "முதன்மை துறை", selectSector: "— துறையைத் தேர்ந்தெடுக்கவும் —", sectorIT: "தகவல் தொழில்நுட்பம்", sectorMfg: "உற்பத்தி",
+      sectorInfra: "உள்கட்டமைப்பு", sectorEnergy: "ஆற்றல் & பயன்பாடுகள்", sectorHealth: "சுகாதாரம்", sectorEdu: "கல்வி",
+      sectorAgri: "விவசாயம்", sectorTransport: "போக்குவரத்து & தளவாடங்கள்", sectorOther: "மற்றவை",
+      contactRoleLabel: "தொடர்பு பங்கு", contactRolePlaceholder: "எ.கா., CSR தலைவர், R&D மேலாளர்", designationPlaceholder: "எ.கா., மேலாளர், இயக்குநர்",
+      govtDetails: "அரசு அதிகாரி விவரங்கள்", ministryLabel: "அமைச்சகம் / துறை", ministryPlaceholder: "எ.கா., கல்வி அமைச்சகம்",
+      govtDesignationPlaceholder: "எ.கா., பிரிவு அதிகாரி, இயக்குநர்", govtEmpIdPlaceholder: "அதிகாரப்பூர்வ அரசு ஊழியர் ஐடி",
+      officialGovEmailLabel: "அதிகாரப்பூர்வ மின்னஞ்சல் (gov.in / nic.in)", govEmailPlaceholder: "name@gov.in", govEmailHint: "அரசு டொமைன் மின்னஞ்சலாக இருக்க வேண்டும்",
+      centralGovt: "மத்திய அரசு", officeAddressLabel: "அலுவலக முகவரி", officeAddressPlaceholder: "நகரம் / அலுவலக இடம்",
+      expertDetails: "நிபுணர் விவரங்கள்", domainLabel: "முதன்மை டொமைன்", selectDomain: "— டொமைனைத் தேர்ந்தெடுக்கவும் —",
+      domainUrban: "நகர்ப்புற திட்டமிடல் & உள்கட்டமைப்பு", domainWater: "நீர் & சுகாதாரம்", domainEnergy: "ஆற்றல் & நிலைத்தன்மை",
+      domainHealth: "பொது சுகாதாரம்", domainEdTech: "கல்வி தொழில்நுட்பம்", domainAgri: "விவசாயம் & ஊரக வளர்ச்சி",
+      domainTransport: "போக்குவரத்து & இயக்கம்", domainDigital: "டிஜிட்டல் நிர்வாகம்", domainEnv: "சுற்றுச்சூழல் அறிவியல்",
+      experienceLabel: "அனுபவ ஆண்டுகள்", experiencePlaceholder: "எ.கா., 10", qualificationLabel: "உயர்ந்த தகுதி",
+      qualificationPlaceholder: "எ.கா., Ph.D., M.Tech, M.Sc", currentOrgLabel: "தற்போதைய அமைப்பு", currentOrgPlaceholder: "எ.கா., IIT பம்பாய், CSIR",
+      linkedinLabel: "LinkedIn / தொழில்முறை சுயவிவரம்", linkedinPlaceholder: "https://linkedin.com/in/yourprofile", linkedinHint: "உங்கள் சான்றுகளைச் சரிபார்க்க உதவுகிறது",
+      verificationLabel: "சரிபார்ப்பு", captchaLabel: "சரிபார்ப்பு குறியீடு", refreshCaptcha: "↻ புதிய குறியீடு", captchaPlaceholder: "குறியீட்டை உள்ளிடவும்",
+      termsPrefix: "நான் படித்து ஒப்புக்கொள்கிறேன்", termsOfUse: "பயன்பாட்டு விதிமுறைகள்", privacyPolicy: "தனியுரிமைக் கொள்கை", termsAnd: "மற்றும்",
+      dataProtection: "தரவு பாதுகாப்பு வழிகாட்டுதல்கள்", termsConfirm: "வழங்கப்பட்ட தகவல் துல்லியமானது என்று உறுதிப்படுத்துகிறேன்.",
+      cancelBtn: "ரத்து", createAccountBtn: "கணக்கை உருவாக்கு",
+      helpTitle: "உதவி தேவையா?", helpText: "பதிவு உதவிக்கு, CollabX ஆதரவு மையத்தை support@collabx.gov.in இல் தொடர்பு கொள்ளவும் அல்லது 1800-XXX-XXXX (கட்டணமில்லா, காலை 9 – மாலை 6 IST) அழைக்கவும்.",
+      govInit: "இந்திய அரசு முயற்சி",
+      captchaError: "✗ தவறான சரிபார்ப்பு குறியீடு. மீண்டும் முயற்சிக்கவும்.",
+      creatingAccount: "கணக்கு உருவாக்கப்படுகிறது...", accountCreated: "✓ கணக்கு வெற்றிகரமாக உருவாக்கப்பட்டது. உள்நுழைவுக்கு வழிமாற்றப்படுகிறது...",
+      registrationFailed: "பதிவு தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவும்.", deptRequired: "குறைந்தது ஒரு துறையைத் தேர்ந்தெடுக்கவும்.", selectedCount: "தேர்ந்தெடுக்கப்பட்டது"
+    },
+    te: {
+      govBar: "భారత ప్రభుత్వం · విద్యా మంత్రిత్వ శాఖ", skipContent: "ప్రధాన కంటెంట్కు", screenReader: "స్క్రీన్ రీడర్",
+      tagline: "సామాజిక ఆవిష్కరణ కోసం డిజిటల్ వేదిక", navHome: "హోమ్", navAbout: "గురించి", navChallenges: "పబ్లిక్ ఛాలెంజ్లు",
+      navLogin: "లాగిన్", navRegister: "నమోదు", breadAccount: "ఖాతా", breadRegister: "కొత్త వినియోగదారు నమోదు",
+      regTitle: "కొత్త వినియోగదారు నమోదు", regSubtitle: "CollabX లో పాల్గొనడానికి మీ ఖాతాను సృష్టించండి — జాతీయ సామాజిక ఆవిష్కరణ వేదిక.",
+      fieldsMandatory: "గుర్తించిన ఫీల్డ్లు", areMandatory: "తప్పనిసరి",
+      selectRole: "మీ పాత్రను ఎంచుకోండి", roleCitizen: "పౌరుడు", roleUniversity: "విశ్వవిద్యాలయం", roleIndustry: "పరిశ్రమ", roleGovt: "ప్రభుత్వం", roleExpert: "నిపుణుడు",
+      basicDetails: "ప్రాథమిక వివరాలు", usernameLabel: "వినియోగదారు పేరు / డిస్ప్లే ID", usernamePlaceholder: "ప్రత్యేక వినియోగదారు పేరును ఎంచుకోండి",
+      usernameHint: "ఇది CollabX లో మీ పబ్లిక్ గుర్తింపు", emailLabel: "ఇమెయిల్ చిరునామా", emailPlaceholder: "you@example.com",
+      phoneLabel: "మొబైల్ నంబర్", phonePlaceholder: "+91 XXXXX XXXXX", passwordLabel: "పాస్వర్డ్", passwordPlaceholder: "కనీసం 6 అక్షరాలు",
+      citizenDetails: "పౌర వివరాలు", stateLabel: "రాష్ట్రం / UT", selectState: "— రాష్ట్రాన్ని ఎంచుకోండి —", districtLabel: "జిల్లా / నగరం",
+      districtPlaceholder: "ఉదా., రాంచీ, బెంగళూరు",
+      institutionDetails: "సంస్థ వివరాలు", institutionLabel: "విశ్వవిద్యాలయం / సంస్థ పేరు", institutionPlaceholder: "ఉదా., IIT ఢిల్లీ, NIT తిరుచి",
+      regCodeLabel: "AICTE / UGC నమోదు కోడ్", regCodePlaceholder: "ఉదా., 1-1234567", departmentsLabel: "విభాగాలు / నైపుణ్యం",
+      departmentsHint: "మీ సంస్థకు వర్తించే అన్ని విభాగాలను ఎంచుకోండి. AI వీటిని ఉపయోగించి సంబంధిత ఛాలెంజ్లను సరిపోలుస్తుంది.",
+      departmentLabel: "విభాగం", departmentPlaceholder: "ఉదా., కంప్యూటర్ సైన్స్, సివిల్ ఇంజనీరింగ్", designationLabel: "మీ హోదా", selectDesignation: "— ఎంచుకోండి —",
+      desigFaculty: "ఫ్యాకల్టీ", desigHOD: "విభాగాధిపతి", desigDean: "డీన్ / డైరెక్టర్", desigScholar: "పరిశోధన పండితుడు", desigStudent: "విద్యార్థి ప్రతినిధి",
+      empIdLabel: "అధికారిక ఉద్యోగి / విద్యార్థి ID", empIdPlaceholder: "ఉదా., IITD/FAC/2024/001",
+      officialEmailLabel: "అధికారిక సంస్థాగత ఇమెయిల్", officialEmailPlaceholder: "name@institution.ac.in", officialEmailHint: "అందించినట్లయితే వేగవంతమైన ధృవీకరణ",
+      companyDetails: "కంపెనీ వివరాలు", companyLabel: "కంపెనీ / సంస్థ పేరు", companyPlaceholder: "ఉదా., టాటా మోటార్స్ లిమిటెడ్",
+      gstLabel: "GST నంబర్", gstPlaceholder: "ఉదా., 22AAAAA0000A1Z5", cinLabel: "CIN / నమోదు నంబర్", cinPlaceholder: "ఉదా., L28920MH1945PLC004520",
+      sectorLabel: "ప్రాథమిక రంగం", selectSector: "— రంగాన్ని ఎంచుకోండి —", sectorIT: "సమాచార సాంకేతికత", sectorMfg: "తయారీ",
+      sectorInfra: "మౌలిక సదుపాయాలు", sectorEnergy: "శక్తి & యుటిలిటీలు", sectorHealth: "ఆరోగ్య సంరక్షణ", sectorEdu: "విద్య",
+      sectorAgri: "వ్యవసాయం", sectorTransport: "రవాణా & లాజిస్టిక్స్", sectorOther: "ఇతర",
+      contactRoleLabel: "సంప్రదింపు పాత్ర", contactRolePlaceholder: "ఉదా., CSR హెడ్, R&D మేనేజర్", designationPlaceholder: "ఉదా., మేనేజర్, డైరెక్టర్",
+      govtDetails: "ప్రభుత్వ అధికారి వివరాలు", ministryLabel: "మంత్రిత్వ శాఖ / విభాగం", ministryPlaceholder: "ఉదా., విద్యా మంత్రిత్వ శాఖ",
+      govtDesignationPlaceholder: "ఉదా., సెక్షన్ ఆఫీసర్, డైరెక్టర్", govtEmpIdPlaceholder: "అధికారిక ప్రభుత్వ ఉద్యోగి ID",
+      officialGovEmailLabel: "అధికారిక ఇమెయిల్ (gov.in / nic.in)", govEmailPlaceholder: "name@gov.in", govEmailHint: "ప్రభుత్వ డొమైన్ ఇమెయిల్ అయి ఉండాలి",
+      centralGovt: "కేంద్ర ప్రభుత్వం", officeAddressLabel: "కార్యాలయ చిరునామా", officeAddressPlaceholder: "నగరం / కార్యాలయ స్థానం",
+      expertDetails: "నిపుణుల వివరాలు", domainLabel: "ప్రాథమిక డొమైన్", selectDomain: "— డొమైన్ను ఎంచుకోండి —",
+      domainUrban: "పట్టణ ప్రణాళిక & మౌలిక సదుపాయాలు", domainWater: "నీరు & పారిశుధ్యం", domainEnergy: "శక్తి & సుస్థిరత",
+      domainHealth: "ప్రజారోగ్యం", domainEdTech: "విద్యా సాంకేతికత", domainAgri: "వ్యవసాయం & గ్రామీణాభివృద్ధి",
+      domainTransport: "రవాణా & మొబిలిటీ", domainDigital: "డిజిటల్ పాలన", domainEnv: "పర్యావరణ శాస్త్రం",
+      experienceLabel: "అనుభవ సంవత్సరాలు", experiencePlaceholder: "ఉదా., 10", qualificationLabel: "అత్యున్నత అర్హత",
+      qualificationPlaceholder: "ఉదా., Ph.D., M.Tech, M.Sc", currentOrgLabel: "ప్రస్తుత సంస్థ", currentOrgPlaceholder: "ఉదా., IIT బాంబే, CSIR",
+      linkedinLabel: "LinkedIn / వృత్తిపరమైన ప్రొఫైల్", linkedinPlaceholder: "https://linkedin.com/in/yourprofile", linkedinHint: "మీ ఆధారాలను ధృవీకరించడంలో సహాయపడుతుంది",
+      verificationLabel: "ధృవీకరణ", captchaLabel: "ధృవీకరణ కోడ్", refreshCaptcha: "↻ కొత్త కోడ్", captchaPlaceholder: "కోడ్ను నమోదు చేయండి",
+      termsPrefix: "నేను చదివాను మరియు అంగీకరిస్తున్నాను", termsOfUse: "వినియోగ నిబంధనలు", privacyPolicy: "గోప్యతా విధానం", termsAnd: "మరియు",
+      dataProtection: "డేటా రక్షణ మార్గదర్శకాలు", termsConfirm: "అందించిన సమాచారం ఖచ్చితమైనదని నేను ధృవీకరిస్తున్నాను.",
+      cancelBtn: "రద్దు", createAccountBtn: "ఖాతాను సృష్టించండి",
+      helpTitle: "సహాయం కావాలా?", helpText: "నమోదు సహాయం కోసం, CollabX మద్దతు డెస్క్ను support@collabx.gov.in వద్ద సంప్రదించండి లేదా 1800-XXX-XXXX (టోల్-ఫ్రీ, ఉదయం 9 – సాయంత్రం 6 IST)కు కాల్ చేయండి.",
+      govInit: "భారత ప్రభుత్వ చొరవ",
+      captchaError: "✗ తప్పు ధృవీకరణ కోడ్. దయచేసి మళ్లీ ప్రయత్నించండి.",
+      creatingAccount: "ఖాతా సృష్టించబడుతోంది...", accountCreated: "✓ ఖాతా విజయవంతంగా సృష్టించబడింది. లాగిన్కు రీడైరెక్ట్ అవుతోంది...",
+      registrationFailed: "నమోదు విఫలమైంది. మళ్లీ ప్రయత్నించండి.", deptRequired: "కనీసం ఒక విభాగాన్ని ఎంచుకోండి.", selectedCount: "ఎంపిక"
+    },
+    bn: { govBar: "ভারত সরকার · শিক্ষা মন্ত্রক", skipContent: "প্রধান বিষয়বস্তু", screenReader: "স্ক্রিন রিডার", tagline: "সামাজিক উদ্ভাবনের জন্য ডিজিটাল প্ল্যাটফর্ম", navHome: "হোম", navAbout: "সম্পর্কে", navChallenges: "চ্যালেঞ্জ", navLogin: "লগইন", navRegister: "নিবন্ধন", breadAccount: "অ্যাকাউন্ট", breadRegister: "নতুন ব্যবহারকারী নিবন্ধন", regTitle: "নতুন ব্যবহারকারী নিবন্ধন", regSubtitle: "CollabX-এ অংশগ্রহণ করতে আপনার অ্যাকাউন্ট তৈরি করুন — জাতীয় সামাজিক উদ্ভাবন প্ল্যাটফর্ম।", fieldsMandatory: "চিহ্নিত ক্ষেত্র", areMandatory: "বাধ্যতামূলক", selectRole: "আপনার ভূমিকা নির্বাচন করুন", roleCitizen: "নাগরিক", roleUniversity: "বিশ্ববিদ্যালয়", roleIndustry: "শিল্প", roleGovt: "সরকার", roleExpert: "বিশেষজ্ঞ", basicDetails: "মৌলিক তথ্য", usernameLabel: "ব্যবহারকারীর নাম / ডিসপ্লে আইডি", usernamePlaceholder: "একটি অনন্য ব্যবহারকারীর নাম চয়ন করুন", usernameHint: "এটি CollabX-এ আপনার সর্বজনীন পরিচয় হবে", emailLabel: "ইমেল ঠিকানা", emailPlaceholder: "you@example.com", phoneLabel: "মোবাইল নম্বর", phonePlaceholder: "+91 XXXXX XXXXX", passwordLabel: "পাসওয়ার্ড", passwordPlaceholder: "সর্বনিম্ন 6 অক্ষর", citizenDetails: "নাগরিক তথ্য", stateLabel: "রাজ্য / কেন্দ্রশাসিত অঞ্চল", selectState: "— রাজ্য নির্বাচন করুন —", districtLabel: "জেলা / শহর", districtPlaceholder: "যেমন, রাঁচি, বেঙ্গালুরু", institutionDetails: "প্রতিষ্ঠানের তথ্য", institutionLabel: "বিশ্ববিদ্যালয় / প্রতিষ্ঠানের নাম", institutionPlaceholder: "যেমন, IIT দিল্লি, NIT ত্রিচি", regCodeLabel: "AICTE / UGC নিবন্ধন কোড", regCodePlaceholder: "যেমন, 1-1234567", departmentsLabel: "বিভাগ / দক্ষতা", departmentsHint: "আপনার প্রতিষ্ঠানের জন্য প্রযোজ্য সব বিভাগ নির্বাচন করুন।", departmentLabel: "বিভাগ", departmentPlaceholder: "যেমন, কম্পিউটার সায়েন্স, সিভিল ইঞ্জিনিয়ারিং", designationLabel: "আপনার পদবি", selectDesignation: "— নির্বাচন করুন —", desigFaculty: "অনুষদ", desigHOD: "বিভাগীয় প্রধান", desigDean: "ডিন / পরিচালক", desigScholar: "গবেষণা পণ্ডিত", desigStudent: "ছাত্র প্রতিনিধি", empIdLabel: "সরকারি কর্মচারী / ছাত্র আইডি", empIdPlaceholder: "যেমন, IITD/FAC/2024/001", officialEmailLabel: "সরকারি প্রাতিষ্ঠানিক ইমেল", officialEmailPlaceholder: "name@institution.ac.in", officialEmailHint: "প্রদান করা হলে দ্রুত যাচাই", companyDetails: "কোম্পানির তথ্য", companyLabel: "কোম্পানি / সংস্থার নাম", companyPlaceholder: "যেমন, টাটা মোটরস লিমিটেড", gstLabel: "GST নম্বর", gstPlaceholder: "যেমন, 22AAAAA0000A1Z5", cinLabel: "CIN / নিবন্ধন নম্বর", cinPlaceholder: "যেমন, L28920MH1945PLC004520", sectorLabel: "প্রাথমিক খাত", selectSector: "— খাত নির্বাচন করুন —", sectorIT: "তথ্য প্রযুক্তি", sectorMfg: "উত্পাদন", sectorInfra: "অবকাঠামো", sectorEnergy: "শক্তি ও ইউটিলিটি", sectorHealth: "স্বাস্থ্যসেবা", sectorEdu: "শিক্ষা", sectorAgri: "কৃষি", sectorTransport: "পরিবহন ও লজিস্টিকস", sectorOther: "অন্যান্য", contactRoleLabel: "যোগাযোগের ভূমিকা", contactRolePlaceholder: "যেমন, CSR প্রধান, R&D ম্যানেজার", designationPlaceholder: "যেমন, ম্যানেজার, পরিচালক", govtDetails: "সরকারি কর্মকর্তার তথ্য", ministryLabel: "মন্ত্রণালয় / বিভাগ", ministryPlaceholder: "যেমন, শিক্ষা মন্ত্রক", govtDesignationPlaceholder: "যেমন, সেকশন অফিসার, পরিচালক", govtEmpIdPlaceholder: "সরকারি কর্মচারী আইডি", officialGovEmailLabel: "সরকারি ইমেল (gov.in / nic.in)", govEmailPlaceholder: "name@gov.in", govEmailHint: "সরকারি ডোমেইন ইমেল হতে হবে", centralGovt: "কেন্দ্রীয় সরকার", officeAddressLabel: "অফিসের ঠিকানা", officeAddressPlaceholder: "শহর / অফিসের অবস্থান", expertDetails: "বিশেষজ্ঞের তথ্য", domainLabel: "প্রাথমিক ডোমেইন", selectDomain: "— ডোমেইন নির্বাচন করুন —", domainUrban: "নগর পরিকল্পনা ও অবকাঠামো", domainWater: "জল ও স্যানিটেশন", domainEnergy: "শক্তি ও স্থায়িত্ব", domainHealth: "জনস্বাস্থ্য", domainEdTech: "শিক্ষা প্রযুক্তি", domainAgri: "কৃষি ও গ্রামীণ উন্নয়ন", domainTransport: "পরিবহন ও গতিশীলতা", domainDigital: "ডিজিটাল শাসন", domainEnv: "পরিবেশ বিজ্ঞান", experienceLabel: "অভিজ্ঞতার বছর", experiencePlaceholder: "যেমন, 10", qualificationLabel: "সর্বোচ্চ যোগ্যতা", qualificationPlaceholder: "যেমন, Ph.D., M.Tech, M.Sc", currentOrgLabel: "বর্তমান সংস্থা", currentOrgPlaceholder: "যেমন, IIT বোম্বে, CSIR", linkedinLabel: "LinkedIn / পেশাদার প্রোফাইল", linkedinPlaceholder: "https://linkedin.com/in/yourprofile", linkedinHint: "আপনার যোগ্যতা যাচাই করতে সাহায্য করে", verificationLabel: "যাচাইকরণ", captchaLabel: "যাচাইকরণ কোড", refreshCaptcha: "↻ নতুন কোড", captchaPlaceholder: "কোড লিখুন", termsPrefix: "আমি পড়েছি এবং সম্মত", termsOfUse: "ব্যবহারের শর্তাবলী", privacyPolicy: "গোপনীয়তা নীতি", termsAnd: "এবং", dataProtection: "ডেটা সুরক্ষা নির্দেশিকা", termsConfirm: "আমি নিশ্চিত করছি যে প্রদত্ত তথ্য সঠিক।", cancelBtn: "বাতিল", createAccountBtn: "অ্যাকাউন্ট তৈরি করুন", helpTitle: "সাহায্য দরকার?", helpText: "নিবন্ধন সহায়তার জন্য, CollabX সহায়তা ডেস্কে support@collabx.gov.in এ যোগাযোগ করুন বা 1800-XXX-XXXX (টোল-ফ্রি, সকাল 9 – সন্ধ্যা 6 IST) এ কল করুন।", govInit: "ভারত সরকার উদ্যোগ", captchaError: "✗ ভুল যাচাইকরণ কোড। আবার চেষ্টা করুন।", creatingAccount: "অ্যাকাউন্ট তৈরি হচ্ছে...", accountCreated: "✓ অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে। লগইনে রিডাইরেক্ট হচ্ছে...", registrationFailed: "নিবন্ধন ব্যর্থ। আবার চেষ্টা করুন।", deptRequired: "অন্তত একটি বিভাগ নির্বাচন করুন।", selectedCount: "নির্বাচিত" },
+    mr: { govBar: "भारत सरकार · शिक्षण मंत्रालय", skipContent: "मुख्य सामग्री", screenReader: "स्क्रीन रीडर", tagline: "सामाजिक नवोपक्रमासाठी डिजिटल व्यासपीठ", navHome: "मुख्यपृष्ठ", navAbout: "विषयी", navChallenges: "आव्हाने", navLogin: "लॉगिन", navRegister: "नोंदणी", breadAccount: "खाते", breadRegister: "नवीन वापरकर्ता नोंदणी", regTitle: "नवीन वापरकर्ता नोंदणी", regSubtitle: "CollabX मध्ये सहभागी होण्यासाठी तुमचे खाते तयार करा — राष्ट्रीय सामाजिक नवोपक्रम व्यासपीठ.", fieldsMandatory: "चिन्हांकित फील्ड", areMandatory: "अनिवार्य आहेत", selectRole: "तुमची भूमिका निवडा", roleCitizen: "नागरिक", roleUniversity: "विद्यापीठ", roleIndustry: "उद्योग", roleGovt: "सरकार", roleExpert: "तज्ञ", basicDetails: "मूलभूत तपशील", usernameLabel: "वापरकर्तानाव / प्रदर्शन आयडी", usernamePlaceholder: "एक अद्वितीय वापरकर्तानाव निवडा", usernameHint: "हे CollabX वर तुमची सार्वजनिक ओळख असेल", emailLabel: "ईमेल पत्ता", emailPlaceholder: "you@example.com", phoneLabel: "मोबाइल क्रमांक", phonePlaceholder: "+91 XXXXX XXXXX", passwordLabel: "पासवर्ड", passwordPlaceholder: "किमान 6 वर्ण", citizenDetails: "नागरिक तपशील", stateLabel: "राज्य / केंद्रशासित प्रदेश", selectState: "— राज्य निवडा —", districtLabel: "जिल्हा / शहर", districtPlaceholder: "उदा., रांची, बेंगळुरू", institutionDetails: "संस्थेचे तपशील", institutionLabel: "विद्यापीठ / संस्थेचे नाव", institutionPlaceholder: "उदा., IIT दिल्ली, NIT त्रिची", regCodeLabel: "AICTE / UGC नोंदणी कोड", regCodePlaceholder: "उदा., 1-1234567", departmentsLabel: "विभाग / कौशल्य", departmentsHint: "तुमच्या संस्थेला लागू असलेले सर्व विभाग निवडा.", departmentLabel: "विभाग", departmentPlaceholder: "उदा., संगणक विज्ञान, स्थापत्य अभियांत्रिकी", designationLabel: "तुमचे पदनाम", selectDesignation: "— निवडा —", desigFaculty: "अध्यापक", desigHOD: "विभागप्रमुख", desigDean: "डीन / संचालक", desigScholar: "संशोधन विद्वान", desigStudent: "विद्यार्थी प्रतिनिधी", empIdLabel: "अधिकृत कर्मचारी / विद्यार्थी आयडी", empIdPlaceholder: "उदा., IITD/FAC/2024/001", officialEmailLabel: "अधिकृत संस्थात्मक ईमेल", officialEmailPlaceholder: "name@institution.ac.in", officialEmailHint: "प्रदान केल्यास जलद पडताळणी", companyDetails: "कंपनी तपशील", companyLabel: "कंपनी / संस्थेचे नाव", companyPlaceholder: "उदा., टाटा मोटर्स लिमिटेड", gstLabel: "GST क्रमांक", gstPlaceholder: "उदा., 22AAAAA0000A1Z5", cinLabel: "CIN / नोंदणी क्रमांक", cinPlaceholder: "उदा., L28920MH1945PLC004520", sectorLabel: "प्राथमिक क्षेत्र", selectSector: "— क्षेत्र निवडा —", sectorIT: "माहिती तंत्रज्ञान", sectorMfg: "उत्पादन", sectorInfra: "पायाभूत सुविधा", sectorEnergy: "ऊर्जा आणि उपयुक्तता", sectorHealth: "आरोग्य सेवा", sectorEdu: "शिक्षण", sectorAgri: "कृषी", sectorTransport: "वाहतूक आणि लॉजिस्टिक्स", sectorOther: "इतर", contactRoleLabel: "संपर्क भूमिका", contactRolePlaceholder: "उदा., CSR प्रमुख, R&D व्यवस्थापक", designationPlaceholder: "उदा., व्यवस्थापक, संचालक", govtDetails: "सरकारी अधिकारी तपशील", ministryLabel: "मंत्रालय / विभाग", ministryPlaceholder: "उदा., शिक्षण मंत्रालय", govtDesignationPlaceholder: "उदा., विभाग अधिकारी, संचालक", govtEmpIdPlaceholder: "अधिकृत सरकारी कर्मचारी आयडी", officialGovEmailLabel: "अधिकृत ईमेल (gov.in / nic.in)", govEmailPlaceholder: "name@gov.in", govEmailHint: "सरकारी डोमेन ईमेल असणे आवश्यक", centralGovt: "केंद्र सरकार", officeAddressLabel: "कार्यालय पत्ता", officeAddressPlaceholder: "शहर / कार्यालय स्थान", expertDetails: "तज्ञ तपशील", domainLabel: "प्राथमिक डोमेन", selectDomain: "— डोमेन निवडा —", domainUrban: "नागरी नियोजन आणि पायाभूत सुविधा", domainWater: "पाणी आणि स्वच्छता", domainEnergy: "ऊर्जा आणि शाश्वतता", domainHealth: "सार्वजनिक आरोग्य", domainEdTech: "शिक्षण तंत्रज्ञान", domainAgri: "कृषी आणि ग्रामीण विकास", domainTransport: "वाहतूक आणि गतिशीलता", domainDigital: "डिजिटल प्रशासन", domainEnv: "पर्यावरण विज्ञान", experienceLabel: "अनुभवाची वर्षे", experiencePlaceholder: "उदा., 10", qualificationLabel: "सर्वोच्च पात्रता", qualificationPlaceholder: "उदा., Ph.D., M.Tech, M.Sc", currentOrgLabel: "सध्याची संस्था", currentOrgPlaceholder: "उदा., IIT मुंबई, CSIR", linkedinLabel: "LinkedIn / व्यावसायिक प्रोफाइल", linkedinPlaceholder: "https://linkedin.com/in/yourprofile", linkedinHint: "तुमची ओळख पडताळण्यास मदत करते", verificationLabel: "पडताळणी", captchaLabel: "पडताळणी कोड", refreshCaptcha: "↻ नवीन कोड", captchaPlaceholder: "कोड प्रविष्ट करा", termsPrefix: "मी वाचले आहे आणि सहमत आहे", termsOfUse: "वापर अटी", privacyPolicy: "गोपनीयता धोरण", termsAnd: "आणि", dataProtection: "डेटा संरक्षण मार्गदर्शक तत्त्वे", termsConfirm: "मी पुष्टी करतो की दिलेली माहिती अचूक आहे.", cancelBtn: "रद्द करा", createAccountBtn: "खाते तयार करा", helpTitle: "मदत हवी?", helpText: "नोंदणी सहाय्यतेसाठी, CollabX सहाय्यता डेस्कशी support@collabx.gov.in वर संपर्क साधा किंवा 1800-XXX-XXXX (टोल-फ्री, सकाळी 9 – संध्याकाळी 6 IST) वर कॉल करा.", govInit: "भारत सरकार उपक्रम", captchaError: "✗ चुकीचा पडताळणी कोड. कृपया पुन्हा प्रयत्न करा.", creatingAccount: "खाते तयार होत आहे...", accountCreated: "✓ खाते यशस्वीरित्या तयार केले. लॉगिनवर रीडायरेक्ट होत आहे...", registrationFailed: "नोंदणी अयशस्वी. पुन्हा प्रयत्न करा.", deptRequired: "कृपया किमान एक विभाग निवडा.", selectedCount: "निवडलेले" },
+    gu: { govBar: "ભારત સરકાર · શિક્ષણ મંત્રાલય", skipContent: "મુખ્ય સામગ્રી", screenReader: "સ્ક્રીન રીડર", tagline: "સામાજિક નવીનતા માટે ડિજિટલ પ્લેટફોર્મ", navHome: "હોમ", navAbout: "વિશે", navChallenges: "પડકારો", navLogin: "લોગિન", navRegister: "નોંધણી", breadAccount: "એકાઉન્ટ", breadRegister: "નવો વપરાશકર્તા નોંધણી", regTitle: "નવો વપરાશકર્તા નોંધણી", regSubtitle: "CollabX માં ભાગ લેવા માટે તમારું એકાઉન્ટ બનાવો — રાષ્ટ્રીય સામાજિક નવીનતા પ્લેટફોર્મ.", fieldsMandatory: "ચિહ્નિત ક્ષેત્રો", areMandatory: "ફરજિયાત છે", selectRole: "તમારી ભૂમિકા પસંદ કરો", roleCitizen: "નાગરિક", roleUniversity: "યુનિવર્સિટી", roleIndustry: "ઉદ્યોગ", roleGovt: "સરકાર", roleExpert: "નિષ્ણાત", basicDetails: "મૂળભૂત વિગતો", usernameLabel: "વપરાશકર્તાનામ / ડિસ્પ્લે ID", usernamePlaceholder: "એક અનન્ય વપરાશકર્તાનામ પસંદ કરો", usernameHint: "આ CollabX પર તમારી જાહેર ઓળખ હશે", emailLabel: "ઇમેઇલ સરનામું", emailPlaceholder: "you@example.com", phoneLabel: "મોબાઇલ નંબર", phonePlaceholder: "+91 XXXXX XXXXX", passwordLabel: "પાસવર્ડ", passwordPlaceholder: "ન્યૂનતમ 6 અક્ષરો", citizenDetails: "નાગરિક વિગતો", stateLabel: "રાજ્ય / UT", selectState: "— રાજ્ય પસંદ કરો —", districtLabel: "જિલ્લો / શહેર", districtPlaceholder: "દા.ત., રાંચી, બેંગલુરુ", institutionDetails: "સંસ્થાની વિગતો", institutionLabel: "યુનિવર્સિટી / સંસ્થાનું નામ", institutionPlaceholder: "દા.ત., IIT દિલ્હી, NIT ત્રિચી", regCodeLabel: "AICTE / UGC નોંધણી કોડ", regCodePlaceholder: "દા.ત., 1-1234567", departmentsLabel: "વિભાગો / નિપુણતા", departmentsHint: "તમારી સંસ્થાને લાગુ પડતા બધા વિભાગો પસંદ કરો.", departmentLabel: "વિભાગ", departmentPlaceholder: "દા.ત., કમ્પ્યુટર સાયન્સ, સિવિલ એન્જિનિયરિંગ", designationLabel: "તમારું હોદ્દો", selectDesignation: "— પસંદ કરો —", desigFaculty: "ફેકલ્ટી", desigHOD: "વિભાગીય અધ્યક્ષ", desigDean: "ડીન / ડિરેક્ટર", desigScholar: "સંશોધન વિદ્વાન", desigStudent: "વિદ્યાર્થી પ્રતિનિધિ", empIdLabel: "સત્તાવાર કર્મચારી / વિદ્યાર્થી ID", empIdPlaceholder: "દા.ત., IITD/FAC/2024/001", officialEmailLabel: "સત્તાવાર સંસ્થાકીય ઇમેઇલ", officialEmailPlaceholder: "name@institution.ac.in", officialEmailHint: "પ્રદાન કરવામાં આવે તો ઝડપી ચકાસણી", companyDetails: "કંપનીની વિગતો", companyLabel: "કંપની / સંસ્થાનું નામ", companyPlaceholder: "દા.ત., ટાટા મોટર્સ લિમિટેડ", gstLabel: "GST નંબર", gstPlaceholder: "દા.ત., 22AAAAA0000A1Z5", cinLabel: "CIN / નોંધણી નંબર", cinPlaceholder: "દા.ત., L28920MH1945PLC004520", sectorLabel: "પ્રાથમિક ક્ષેત્ર", selectSector: "— ક્ષેત્ર પસંદ કરો —", sectorIT: "માહિતી ટેકનોલોજી", sectorMfg: "ઉત્પાદન", sectorInfra: "ઇન્ફ્રાસ્ટ્રક્ચર", sectorEnergy: "ઊર્જા અને ઉપયોગિતાઓ", sectorHealth: "આરોગ્ય સંભાળ", sectorEdu: "શિક્ષણ", sectorAgri: "કૃષિ", sectorTransport: "પરિવહન અને લોજિસ્ટિક્સ", sectorOther: "અન્ય", contactRoleLabel: "સંપર્ક ભૂમિકા", contactRolePlaceholder: "દા.ત., CSR વડા, R&D મેનેજર", designationPlaceholder: "દા.ત., મેનેજર, ડિરેક્ટર", govtDetails: "સરકારી અધિકારીની વિગતો", ministryLabel: "મંત્રાલય / વિભાગ", ministryPlaceholder: "દા.ત., શિક્ષણ મંત્રાલય", govtDesignationPlaceholder: "દા.ત., સેક્શન ઓફિસર, ડિરેક્ટર", govtEmpIdPlaceholder: "સત્તાવાર સરકારી કર્મચારી ID", officialGovEmailLabel: "સત્તાવાર ઇમેઇલ (gov.in / nic.in)", govEmailPlaceholder: "name@gov.in", govEmailHint: "સરકારી ડોમેન ઇમેઇલ હોવું આવશ્યક", centralGovt: "કેન્દ્ર સરકાર", officeAddressLabel: "કાર્યાલય સરનામું", officeAddressPlaceholder: "શહેર / કાર્યાલય સ્થાન", expertDetails: "નિષ્ણાત વિગતો", domainLabel: "પ્રાથમિક ડોમેન", selectDomain: "— ડોમેન પસંદ કરો —", domainUrban: "શહેરી આયોજન અને ઇન્ફ્રાસ્ટ્રક્ચર", domainWater: "પાણી અને સ્વચ્છતા", domainEnergy: "ઊર્જા અને ટકાઉપણું", domainHealth: "જાહેર આરોગ્ય", domainEdTech: "શિક્ષણ ટેકનોલોજી", domainAgri: "કૃષિ અને ગ્રામીણ વિકાસ", domainTransport: "પરિવહન અને ગતિશીલતા", domainDigital: "ડિજિટલ ગવર્નન્સ", domainEnv: "પર્યાવરણ વિજ્ઞાન", experienceLabel: "અનુભવના વર્ષો", experiencePlaceholder: "દા.ત., 10", qualificationLabel: "ઉચ્ચતમ લાયકાત", qualificationPlaceholder: "દા.ત., Ph.D., M.Tech, M.Sc", currentOrgLabel: "વર્તમાન સંસ્થા", currentOrgPlaceholder: "દા.ત., IIT બોમ્બે, CSIR", linkedinLabel: "LinkedIn / વ્યાવસાયિક પ્રોફાઇલ", linkedinPlaceholder: "https://linkedin.com/in/yourprofile", linkedinHint: "તમારી ઓળખ ચકાસવામાં મદદ કરે છે", verificationLabel: "ચકાસણી", captchaLabel: "ચકાસણી કોડ", refreshCaptcha: "↻ નવો કોડ", captchaPlaceholder: "કોડ દાખલ કરો", termsPrefix: "મેં વાંચ્યું છે અને સહમત છું", termsOfUse: "વપરાશની શરતો", privacyPolicy: "ગોપનીયતા નીતિ", termsAnd: "અને", dataProtection: "ડેટા સંરક્ષણ માર્ગદર્શિકા", termsConfirm: "હું પુષ્ટિ કરું છું કે પ્રદાન કરેલી માહિતી સચોટ છે.", cancelBtn: "રદ કરો", createAccountBtn: "એકાઉન્ટ બનાવો", helpTitle: "મદદ જોઈએ?", helpText: "નોંધણી સહાય માટે, CollabX સપોર્ટ ડેસ્કને support@collabx.gov.in પર સંપર્ક કરો અથવા 1800-XXX-XXXX (ટોલ-ફ્રી, સવારે 9 – સાંજે 6 IST) પર કૉલ કરો.", govInit: "ભારત સરકાર પહેલ", captchaError: "✗ ખોટો ચકાસણી કોડ. ફરી પ્રયાસ કરો.", creatingAccount: "એકાઉન્ટ બની રહ્યું છે...", accountCreated: "✓ એકાઉન્ટ સફળતાપૂર્વક બન્યું. લોગિન પર રીડાયરેક્ટ થઈ રહ્યું છે...", registrationFailed: "નોંધણી નિષ્ફળ. ફરી પ્રયાસ કરો.", deptRequired: "કૃપા કરીને ઓછામાં ઓછો એક વિભાગ પસંદ કરો.", selectedCount: "પસંદ કરેલા" },
+    kn: { govBar: "ಭಾರತ ಸರ್ಕಾರ · ಶಿಕ್ಷಣ ಸಚಿವಾಲಯ", skipContent: "ಮುಖ್ಯ ವಿಷಯ", screenReader: "ಸ್ಕ್ರೀನ್ ರೀಡರ್", tagline: "ಸಾಮಾಜಿಕ ಆವಿಷ್ಕಾರಕ್ಕಾಗಿ ವೇದಿಕೆ", navHome: "ಮುಖಪುಟ", navAbout: "ಬಗ್ಗೆ", navChallenges: "ಸವಾಲುಗಳು", navLogin: "ಲಾಗಿನ್", navRegister: "ನೋಂದಣಿ", breadAccount: "ಖಾತೆ", breadRegister: "ಹೊಸ ಬಳಕೆದಾರ ನೋಂದಣಿ", regTitle: "ಹೊಸ ಬಳಕೆದಾರ ನೋಂದಣಿ", regSubtitle: "CollabX ನಲ್ಲಿ ಭಾಗವಹಿಸಲು ನಿಮ್ಮ ಖಾತೆಯನ್ನು ರಚಿಸಿ — ರಾಷ್ಟ್ರೀಯ ಸಾಮಾಜಿಕ ಆವಿಷ್ಕಾರ ವೇದಿಕೆ.", fieldsMandatory: "ಗುರುತಿಸಿದ ಕ್ಷೇತ್ರಗಳು", areMandatory: "ಕಡ್ಡಾಯ", selectRole: "ನಿಮ್ಮ ಪಾತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ", roleCitizen: "ನಾಗರಿಕ", roleUniversity: "ವಿಶ್ವವಿದ್ಯಾಲಯ", roleIndustry: "ಉದ್ಯಮ", roleGovt: "ಸರ್ಕಾರ", roleExpert: "ತಜ್ಞ", basicDetails: "ಮೂಲ ವಿವರಗಳು", usernameLabel: "ಬಳಕೆದಾರಹೆಸರು / ಪ್ರದರ್ಶನ ID", usernamePlaceholder: "ಅನನ್ಯ ಬಳಕೆದಾರಹೆಸರನ್ನು ಆಯ್ಕೆಮಾಡಿ", usernameHint: "ಇದು CollabX ನಲ್ಲಿ ನಿಮ್ಮ ಸಾರ್ವಜನಿಕ ಗುರುತು", emailLabel: "ಇಮೇಲ್ ವಿಳಾಸ", emailPlaceholder: "you@example.com", phoneLabel: "ಮೊಬೈಲ್ ಸಂಖ್ಯೆ", phonePlaceholder: "+91 XXXXX XXXXX", passwordLabel: "ಪಾಸ್ವರ್ಡ್", passwordPlaceholder: "ಕನಿಷ್ಠ 6 ಅಕ್ಷರಗಳು", citizenDetails: "ನಾಗರಿಕ ವಿವರಗಳು", stateLabel: "ರಾಜ್ಯ / UT", selectState: "— ರಾಜ್ಯವನ್ನು ಆಯ್ಕೆಮಾಡಿ —", districtLabel: "ಜಿಲ್ಲೆ / ನಗರ", districtPlaceholder: "ಉದಾ., ರಾಂಚಿ, ಬೆಂಗಳೂರು", institutionDetails: "ಸಂಸ್ಥೆಯ ವಿವರಗಳು", institutionLabel: "ವಿಶ್ವವಿದ್ಯಾಲಯ / ಸಂಸ್ಥೆಯ ಹೆಸರು", institutionPlaceholder: "ಉದಾ., IIT ದೆಹಲಿ, NIT ತಿರುಚಿ", regCodeLabel: "AICTE / UGC ನೋಂದಣಿ ಕೋಡ್", regCodePlaceholder: "ಉದಾ., 1-1234567", departmentsLabel: "ವಿಭಾಗಗಳು / ಪರಿಣತಿ", departmentsHint: "ನಿಮ್ಮ ಸಂಸ್ಥೆಗೆ ಅನ್ವಯವಾಗುವ ಎಲ್ಲಾ ವಿಭಾಗಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ.", departmentLabel: "ವಿಭಾಗ", departmentPlaceholder: "ಉದಾ., ಕಂಪ್ಯೂಟರ್ ಸೈನ್ಸ್, ಸಿವಿಲ್ ಎಂಜಿನಿಯರಿಂಗ್", designationLabel: "ನಿಮ್ಮ ಹುದ್ದೆ", selectDesignation: "— ಆಯ್ಕೆಮಾಡಿ —", desigFaculty: "ಅಧ್ಯಾಪಕ", desigHOD: "ವಿಭಾಗ ಮುಖ್ಯಸ್ಥ", desigDean: "ಡೀನ್ / ನಿರ್ದೇಶಕ", desigScholar: "ಸಂಶೋಧನಾ ವಿದ್ವಾಂಸ", desigStudent: "ವಿದ್ಯಾರ್ಥಿ ಪ್ರತಿನಿಧಿ", empIdLabel: "ಅಧಿಕೃತ ಉದ್ಯೋಗಿ / ವಿದ್ಯಾರ್ಥಿ ID", empIdPlaceholder: "ಉದಾ., IITD/FAC/2024/001", officialEmailLabel: "ಅಧಿಕೃತ ಸಾಂಸ್ಥಿಕ ಇಮೇಲ್", officialEmailPlaceholder: "name@institution.ac.in", officialEmailHint: "ಒದಗಿಸಿದರೆ ವೇಗದ ಪರಿಶೀಲನೆ", companyDetails: "ಕಂಪನಿ ವಿವರಗಳು", companyLabel: "ಕಂಪನಿ / ಸಂಸ್ಥೆಯ ಹೆಸರು", companyPlaceholder: "ಉದಾ., ಟಾಟಾ ಮೋಟಾರ್ಸ್ ಲಿಮಿಟೆಡ್", gstLabel: "GST ಸಂಖ್ಯೆ", gstPlaceholder: "ಉದಾ., 22AAAAA0000A1Z5", cinLabel: "CIN / ನೋಂದಣಿ ಸಂಖ್ಯೆ", cinPlaceholder: "ಉದಾ., L28920MH1945PLC004520", sectorLabel: "ಪ್ರಾಥಮಿಕ ಕ್ಷೇತ್ರ", selectSector: "— ಕ್ಷೇತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ —", sectorIT: "ಮಾಹಿತಿ ತಂತ್ರಜ್ಞಾನ", sectorMfg: "ಉತ್ಪಾದನೆ", sectorInfra: "ಮೂಲಸೌಕರ್ಯ", sectorEnergy: "ಶಕ್ತಿ ಮತ್ತು ಉಪಯುಕ್ತತೆಗಳು", sectorHealth: "ಆರೋಗ್ಯ ಸೇವೆ", sectorEdu: "ಶಿಕ್ಷಣ", sectorAgri: "ಕೃಷಿ", sectorTransport: "ಸಾರಿಗೆ ಮತ್ತು ಲಾಜಿಸ್ಟಿಕ್ಸ್", sectorOther: "ಇತರೆ", contactRoleLabel: "ಸಂಪರ್ಕ ಪಾತ್ರ", contactRolePlaceholder: "ಉದಾ., CSR ಮುಖ್ಯಸ್ಥ, R&D ಮ್ಯಾನೇಜರ್", designationPlaceholder: "ಉದಾ., ಮ್ಯಾನೇಜರ್, ನಿರ್ದೇಶಕ", govtDetails: "ಸರ್ಕಾರಿ ಅಧಿಕಾರಿ ವಿವರಗಳು", ministryLabel: "ಸಚಿವಾಲಯ / ಇಲಾಖೆ", ministryPlaceholder: "ಉದಾ., ಶಿಕ್ಷಣ ಸಚಿವಾಲಯ", govtDesignationPlaceholder: "ಉದಾ., ವಿಭಾಗ ಅಧಿಕಾರಿ, ನಿರ್ದೇಶಕ", govtEmpIdPlaceholder: "ಅಧಿಕೃತ ಸರ್ಕಾರಿ ಉದ್ಯೋಗಿ ID", officialGovEmailLabel: "ಅಧಿಕೃತ ಇಮೇಲ್ (gov.in / nic.in)", govEmailPlaceholder: "name@gov.in", govEmailHint: "ಸರ್ಕಾರಿ ಡೊಮೇನ್ ಇಮೇಲ್ ಆಗಿರಬೇಕು", centralGovt: "ಕೇಂದ್ರ ಸರ್ಕಾರ", officeAddressLabel: "ಕಚೇರಿ ವಿಳಾಸ", officeAddressPlaceholder: "ನಗರ / ಕಚೇರಿ ಸ್ಥಳ", expertDetails: "ತಜ್ಞ ವಿವರಗಳು", domainLabel: "ಪ್ರಾಥಮಿಕ ಡೊಮೇನ್", selectDomain: "— ಡೊಮೇನ್ ಆಯ್ಕೆಮಾಡಿ —", domainUrban: "ನಗರ ಯೋಜನೆ ಮತ್ತು ಮೂಲಸೌಕರ್ಯ", domainWater: "ನೀರು ಮತ್ತು ನೈರ್ಮಲ್ಯ", domainEnergy: "ಶಕ್ತಿ ಮತ್ತು ಸುಸ್ಥಿರತೆ", domainHealth: "ಸಾರ್ವಜನಿಕ ಆರೋಗ್ಯ", domainEdTech: "ಶಿಕ್ಷಣ ತಂತ್ರಜ್ಞಾನ", domainAgri: "ಕೃಷಿ ಮತ್ತು ಗ್ರಾಮೀಣ ಅಭಿವೃದ್ಧಿ", domainTransport: "ಸಾರಿಗೆ ಮತ್ತು ಚಲನಶೀಲತೆ", domainDigital: "ಡಿಜಿಟಲ್ ಆಡಳಿತ", domainEnv: "ಪರಿಸರ ವಿಜ್ಞಾನ", experienceLabel: "ಅನುಭವದ ವರ್ಷಗಳು", experiencePlaceholder: "ಉದಾ., 10", qualificationLabel: "ಉನ್ನತ ಅರ್ಹತೆ", qualificationPlaceholder: "ಉದಾ., Ph.D., M.Tech, M.Sc", currentOrgLabel: "ಪ್ರಸ್ತುತ ಸಂಸ್ಥೆ", currentOrgPlaceholder: "ಉದಾ., IIT ಬಾಂಬೆ, CSIR", linkedinLabel: "LinkedIn / ವೃತ್ತಿಪರ ಪ್ರೊಫೈಲ್", linkedinPlaceholder: "https://linkedin.com/in/yourprofile", linkedinHint: "ನಿಮ್ಮ ರುಜುವಾತುಗಳನ್ನು ಪರಿಶೀಲಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ", verificationLabel: "ಪರಿಶೀಲನೆ", captchaLabel: "ಪರಿಶೀಲನಾ ಕೋಡ್", refreshCaptcha: "↻ ಹೊಸ ಕೋಡ್", captchaPlaceholder: "ಕೋಡ್ ನಮೂದಿಸಿ", termsPrefix: "ನಾನು ಓದಿದ್ದೇನೆ ಮತ್ತು ಒಪ್ಪುತ್ತೇನೆ", termsOfUse: "ಬಳಕೆಯ ನಿಯಮಗಳು", privacyPolicy: "ಗೋಪ್ಯತಾ ನೀತಿ", termsAnd: "ಮತ್ತು", dataProtection: "ಡೇಟಾ ಸಂರಕ್ಷಣಾ ಮಾರ್ಗಸೂಚಿಗಳು", termsConfirm: "ಒದಗಿಸಿದ ಮಾಹಿತಿ ನಿಖರವಾಗಿದೆ ಎಂದು ನಾನು ದೃಢೀಕರಿಸುತ್ತೇನೆ.", cancelBtn: "ರದ್ದುಮಾಡಿ", createAccountBtn: "ಖಾತೆ ರಚಿಸಿ", helpTitle: "ಸಹಾಯ ಬೇಕೇ?", helpText: "ನೋಂದಣಿ ಸಹಾಯಕ್ಕಾಗಿ, CollabX ಬೆಂಬಲ ಡೆಸ್ಕ್ ಅನ್ನು support@collabx.gov.in ನಲ್ಲಿ ಸಂಪರ್ಕಿಸಿ ಅಥವಾ 1800-XXX-XXXX (ಟೋಲ್-ಫ್ರೀ, ಬೆಳಿಗ್ಗೆ 9 – ಸಂಜೆ 6 IST) ಗೆ ಕರೆ ಮಾಡಿ.", govInit: "ಭಾರತ ಸರ್ಕಾರ ಉಪಕ್ರಮ", captchaError: "✗ ತಪ್ಪು ಪರಿಶೀಲನಾ ಕೋಡ್. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.", creatingAccount: "ಖಾತೆ ರಚಿಸಲಾಗುತ್ತಿದೆ...", accountCreated: "✓ ಖಾತೆ ಯಶಸ್ವಿಯಾಗಿ ರಚಿಸಲಾಗಿದೆ. ಲಾಗಿನ್ಗೆ ಮರುನಿರ್ದೇಶಿಸಲಾಗುತ್ತಿದೆ...", registrationFailed: "ನೋಂದಣಿ ವಿಫಲವಾಗಿದೆ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.", deptRequired: "ದಯವಿಟ್ಟು ಕನಿಷ್ಠ ಒಂದು ವಿಭಾಗವನ್ನು ಆಯ್ಕೆಮಾಡಿ.", selectedCount: "ಆಯ್ಕೆ" },
+    ml: { govBar: "ഇന്ത്യാ ഗവൺമെന്റ് · വിദ്യാഭ്യാസ മന്ത്രാലയം", skipContent: "പ്രധാന ഉള്ളടക്കം", screenReader: "സ്ക്രീൻ റീഡർ", tagline: "സാമൂഹിക നവീകരണത്തിനായുള്ള ഡിജിറ്റൽ പ്ലാറ്റ്ഫോം", navHome: "ഹോം", navAbout: "കുറിച്ച്", navChallenges: "വെല്ലുവിളികൾ", navLogin: "ലോഗിൻ", navRegister: "രജിസ്റ്റർ", breadAccount: "അക്കൗണ്ട്", breadRegister: "പുതിയ ഉപയോക്തൃ രജിസ്ട്രേഷൻ", regTitle: "പുതിയ ഉപയോക്തൃ രജിസ്ട്രേഷൻ", regSubtitle: "CollabX ൽ പങ്കെടുക്കാൻ നിങ്ങളുടെ അക്കൗണ്ട് സൃഷ്ടിക്കുക — ദേശീയ സാമൂഹിക നവീകരണ പ്ലാറ്റ്ഫോം.", fieldsMandatory: "അടയാളപ്പെടുത്തിയ ഫീൽഡുകൾ", areMandatory: "നിർബന്ധമാണ്", selectRole: "നിങ്ങളുടെ പങ്ക് തിരഞ്ഞെടുക്കുക", roleCitizen: "പൗരൻ", roleUniversity: "സർവകലാശാല", roleIndustry: "വ്യവസായം", roleGovt: "സർക്കാർ", roleExpert: "വിദഗ്ധൻ", basicDetails: "അടിസ്ഥാന വിവരങ്ങൾ", usernameLabel: "ഉപയോക്തൃനാമം / ഡിസ്പ്ലേ ID", usernamePlaceholder: "അദ്വിതീയ ഉപയോക്തൃനാമം തിരഞ്ഞെടുക്കുക", usernameHint: "ഇത് CollabX ൽ നിങ്ങളുടെ പൊതു ഐഡന്റിറ്റിയായിരിക്കും", emailLabel: "ഇമെയിൽ വിലാസം", emailPlaceholder: "you@example.com", phoneLabel: "മൊബൈൽ നമ്പർ", phonePlaceholder: "+91 XXXXX XXXXX", passwordLabel: "പാസ്വേഡ്", passwordPlaceholder: "കുറഞ്ഞത് 6 പ്രതീകങ്ങൾ", citizenDetails: "പൗര വിവരങ്ങൾ", stateLabel: "സംസ്ഥാനം / UT", selectState: "— സംസ്ഥാനം തിരഞ്ഞെടുക്കുക —", districtLabel: "ജില്ല / നഗരം", districtPlaceholder: "ഉദാ., റാഞ്ചി, ബെംഗളൂരു", institutionDetails: "സ്ഥാപന വിവരങ്ങൾ", institutionLabel: "സർവകലാശാല / സ്ഥാപനത്തിന്റെ പേര്", institutionPlaceholder: "ഉദാ., IIT ഡൽഹി, NIT തിരുച്ചി", regCodeLabel: "AICTE / UGC രജിസ്ട്രേഷൻ കോഡ്", regCodePlaceholder: "ഉദാ., 1-1234567", departmentsLabel: "വിഭാഗങ്ങൾ / വൈദഗ്ധ്യം", departmentsHint: "നിങ്ങളുടെ സ്ഥാപനത്തിന് ബാധകമായ എല്ലാ വിഭാഗങ്ങളും തിരഞ്ഞെടുക്കുക.", departmentLabel: "വിഭാഗം", departmentPlaceholder: "ഉദാ., കമ്പ്യൂട്ടർ സയൻസ്, സിവിൽ എൻജിനീയറിംഗ്", designationLabel: "നിങ്ങളുടെ പദവി", selectDesignation: "— തിരഞ്ഞെടുക്കുക —", desigFaculty: "ഫാക്കൽറ്റി", desigHOD: "വിഭാഗം മേധാവി", desigDean: "ഡീൻ / ഡയറക്ടർ", desigScholar: "ഗവേഷണ പണ്ഡിതൻ", desigStudent: "വിദ്യാർത്ഥി പ്രതിനിധി", empIdLabel: "ഔദ്യോഗിക ജീവനക്കാരൻ / വിദ്യാർത്ഥി ID", empIdPlaceholder: "ഉദാ., IITD/FAC/2024/001", officialEmailLabel: "ഔദ്യോഗിക സ്ഥാപന ഇമെയിൽ", officialEmailPlaceholder: "name@institution.ac.in", officialEmailHint: "നൽകിയാൽ വേഗത്തിലുള്ള സ്ഥിരീകരണം", companyDetails: "കമ്പനി വിവരങ്ങൾ", companyLabel: "കമ്പനി / ഓർഗനൈസേഷന്റെ പേര്", companyPlaceholder: "ഉദാ., ടാറ്റ മോട്ടോഴ്സ് ലിമിറ്റഡ്", gstLabel: "GST നമ്പർ", gstPlaceholder: "ഉദാ., 22AAAAA0000A1Z5", cinLabel: "CIN / രജിസ്ട്രേഷൻ നമ്പർ", cinPlaceholder: "ഉദാ., L28920MH1945PLC004520", sectorLabel: "പ്രാഥമിക മേഖല", selectSector: "— മേഖല തിരഞ്ഞെടുക്കുക —", sectorIT: "വിവര സാങ്കേതികവിദ്യ", sectorMfg: "നിർമ്മാണം", sectorInfra: "അടിസ്ഥാന സൗകര്യങ്ങൾ", sectorEnergy: "ഊർജ്ജവും യൂട്ടിലിറ്റികളും", sectorHealth: "ആരോഗ്യ സംരക്ഷണം", sectorEdu: "വിദ്യാഭ്യാസം", sectorAgri: "കൃഷി", sectorTransport: "ഗതാഗതവും ലോജിസ്റ്റിക്സും", sectorOther: "മറ്റുള്ളവ", contactRoleLabel: "കോൺടാക്റ്റ് പങ്ക്", contactRolePlaceholder: "ഉദാ., CSR മേധാവി, R&D മാനേജർ", designationPlaceholder: "ഉദാ., മാനേജർ, ഡയറക്ടർ", govtDetails: "സർക്കാർ ഉദ്യോഗസ്ഥ വിവരങ്ങൾ", ministryLabel: "മന്ത്രാലയം / വകുപ്പ്", ministryPlaceholder: "ഉദാ., വിദ്യാഭ്യാസ മന്ത്രാലയം", govtDesignationPlaceholder: "ഉദാ., സെക്ഷൻ ഓഫീസർ, ഡയറക്ടർ", govtEmpIdPlaceholder: "ഔദ്യോഗിക സർക്കാർ ജീവനക്കാരൻ ID", officialGovEmailLabel: "ഔദ്യോഗിക ഇമെയിൽ (gov.in / nic.in)", govEmailPlaceholder: "name@gov.in", govEmailHint: "സർക്കാർ ഡൊമെയ്ൻ ഇമെയിൽ ആയിരിക്കണം", centralGovt: "കേന്ദ്ര സർക്കാർ", officeAddressLabel: "ഓഫീസ് വിലാസം", officeAddressPlaceholder: "നഗരം / ഓഫീസ് സ്ഥാനം", expertDetails: "വിദഗ്ധ വിവരങ്ങൾ", domainLabel: "പ്രാഥമിക ഡൊമെയ്ൻ", selectDomain: "— ഡൊമെയ്ൻ തിരഞ്ഞെടുക്കുക —", domainUrban: "നഗര ആസൂത്രണവും അടിസ്ഥാന സൗകര്യങ്ങളും", domainWater: "ജലവും ശുചിത്വവും", domainEnergy: "ഊർജ്ജവും സുസ്ഥിരതയും", domainHealth: "പൊതുജനാരോഗ്യം", domainEdTech: "വിദ്യാഭ്യാസ സാങ്കേതികവിദ്യ", domainAgri: "കൃഷിയും ഗ്രാമവികസനവും", domainTransport: "ഗതാഗതവും ചലനാത്മകതയും", domainDigital: "ഡിജിറ്റൽ ഗവേണൻസ്", domainEnv: "പരിസ്ഥിതി ശാസ്ത്രം", experienceLabel: "അനുഭവ വർഷങ്ങൾ", experiencePlaceholder: "ഉദാ., 10", qualificationLabel: "ഉയർന്ന യോഗ്യത", qualificationPlaceholder: "ഉദാ., Ph.D., M.Tech, M.Sc", currentOrgLabel: "നിലവിലെ ഓർഗനൈസേഷൻ", currentOrgPlaceholder: "ഉദാ., IIT ബോംബെ, CSIR", linkedinLabel: "LinkedIn / പ്രൊഫഷണൽ പ്രൊഫൈൽ", linkedinPlaceholder: "https://linkedin.com/in/yourprofile", linkedinHint: "നിങ്ങളുടെ യോഗ്യത സ്ഥിരീകരിക്കാൻ സഹായിക്കുന്നു", verificationLabel: "സ്ഥിരീകരണം", captchaLabel: "സ്ഥിരീകരണ കോഡ്", refreshCaptcha: "↻ പുതിയ കോഡ്", captchaPlaceholder: "കോഡ് നൽകുക", termsPrefix: "ഞാൻ വായിച്ചു സമ്മതിക്കുന്നു", termsOfUse: "ഉപയോഗ നിബന്ധനകൾ", privacyPolicy: "സ്വകാര്യതാ നയം", termsAnd: "കൂടാതെ", dataProtection: "ഡാറ്റ സംരക്ഷണ മാർഗ്ഗനിർദ്ദേശങ്ങൾ", termsConfirm: "നൽകിയ വിവരങ്ങൾ കൃത്യമാണെന്ന് ഞാൻ സ്ഥിരീകരിക്കുന്നു.", cancelBtn: "റദ്ദാക്കുക", createAccountBtn: "അക്കൗണ്ട് സൃഷ്ടിക്കുക", helpTitle: "സഹായം വേണോ?", helpText: "രജിസ്ട്രേഷൻ സഹായത്തിന്, CollabX സപ്പോർട്ട് ഡെസ്കിനെ support@collabx.gov.in ൽ ബന്ധപ്പെടുക അല്ലെങ്കിൽ 1800-XXX-XXXX (ടോൾ-ഫ്രീ, രാവിലെ 9 – വൈകുന്നേരം 6 IST) ൽ വിളിക്കുക.", govInit: "ഇന്ത്യാ ഗവൺമെന്റ് സംരംഭം", captchaError: "✗ തെറ്റായ സ്ഥിരീകരണ കോഡ്. വീണ്ടും ശ്രമിക്കുക.", creatingAccount: "അക്കൗണ്ട് സൃഷ്ടിക്കുന്നു...", accountCreated: "✓ അക്കൗണ്ട് വിജയകരമായി സൃഷ്ടിച്ചു. ലോഗിനിലേക്ക് റീഡയറക്ട് ചെയ്യുന്നു...", registrationFailed: "രജിസ്ട്രേഷൻ പരാജയപ്പെട്ടു. വീണ്ടും ശ്രമിക്കുക.", deptRequired: "കുറഞ്ഞത് ഒരു വിഭാഗമെങ്കിലും തിരഞ്ഞെടുക്കുക.", selectedCount: "തിരഞ്ഞെടുത്തത്" },
+    pa: { govBar: "ਭਾਰਤ ਸਰਕਾਰ · ਸਿੱਖਿਆ ਮੰਤਰਾਲਾ", skipContent: "ਮੁੱਖ ਸਮੱਗਰੀ", screenReader: "ਸਕਰੀਨ ਰੀਡਰ", tagline: "ਸਮਾਜਿਕ ਨਵੀਨਤਾ ਲਈ ਡਿਜੀਟਲ ਪਲੇਟਫਾਰਮ", navHome: "ਘਰ", navAbout: "ਬਾਰੇ", navChallenges: "ਚੁਣੌਤੀਆਂ", navLogin: "ਲੌਗਇਨ", navRegister: "ਰਜਿਸਟਰ", breadAccount: "ਖਾਤਾ", breadRegister: "ਨਵਾਂ ਉਪਭੋਗਤਾ ਰਜਿਸਟ੍ਰੇਸ਼ਨ", regTitle: "ਨਵਾਂ ਉਪਭੋਗਤਾ ਰਜਿਸਟ੍ਰੇਸ਼ਨ", regSubtitle: "CollabX ਵਿੱਚ ਭਾਗ ਲੈਣ ਲਈ ਆਪਣਾ ਖਾਤਾ ਬਣਾਓ — ਰਾਸ਼ਟਰੀ ਸਮਾਜਿਕ ਨਵੀਨਤਾ ਪਲੇਟਫਾਰਮ।", fieldsMandatory: "ਨਿਸ਼ਾਨਿਤ ਖੇਤਰ", areMandatory: "ਲਾਜ਼ਮੀ ਹਨ", selectRole: "ਆਪਣੀ ਭੂਮਿਕਾ ਚੁਣੋ", roleCitizen: "ਨਾਗਰਿਕ", roleUniversity: "ਯੂਨੀਵਰਸਿਟੀ", roleIndustry: "ਉਦਯੋਗ", roleGovt: "ਸਰਕਾਰ", roleExpert: "ਮਾਹਰ", basicDetails: "ਬੁਨਿਆਦੀ ਵੇਰਵੇ", usernameLabel: "ਉਪਭੋਗਤਾ ਨਾਮ / ਡਿਸਪਲੇ ID", usernamePlaceholder: "ਇੱਕ ਵਿਲੱਖਣ ਉਪਭੋਗਤਾ ਨਾਮ ਚੁਣੋ", usernameHint: "ਇਹ CollabX 'ਤੇ ਤੁਹਾਡੀ ਜਨਤਕ ਪਛਾਣ ਹੋਵੇਗੀ", emailLabel: "ਈਮੇਲ ਪਤਾ", emailPlaceholder: "you@example.com", phoneLabel: "ਮੋਬਾਈਲ ਨੰਬਰ", phonePlaceholder: "+91 XXXXX XXXXX", passwordLabel: "ਪਾਸਵਰਡ", passwordPlaceholder: "ਘੱਟੋ-ਘੱਟ 6 ਅੱਖਰ", citizenDetails: "ਨਾਗਰਿਕ ਵੇਰਵੇ", stateLabel: "ਰਾਜ / UT", selectState: "— ਰਾਜ ਚੁਣੋ —", districtLabel: "ਜ਼ਿਲ੍ਹਾ / ਸ਼ਹਿਰ", districtPlaceholder: "ਉਦਾ., ਰਾਂਚੀ, ਬੰਗਲੌਰ", institutionDetails: "ਸੰਸਥਾ ਵੇਰਵੇ", institutionLabel: "ਯੂਨੀਵਰਸਿਟੀ / ਸੰਸਥਾ ਦਾ ਨਾਮ", institutionPlaceholder: "ਉਦਾ., IIT ਦਿੱਲੀ, NIT ਤ੍ਰਿਚੀ", regCodeLabel: "AICTE / UGC ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਕੋਡ", regCodePlaceholder: "ਉਦਾ., 1-1234567", departmentsLabel: "ਵਿਭਾਗ / ਮੁਹਾਰਤ", departmentsHint: "ਤੁਹਾਡੀ ਸੰਸਥਾ ਲਈ ਲਾਗੂ ਹੋਣ ਵਾਲੇ ਸਾਰੇ ਵਿਭਾਗ ਚੁਣੋ।", departmentLabel: "ਵਿਭਾਗ", departmentPlaceholder: "ਉਦਾ., ਕੰਪਿਊਟਰ ਸਾਇੰਸ, ਸਿਵਲ ਇੰਜੀਨੀਅਰਿੰਗ", designationLabel: "ਤੁਹਾਡਾ ਅਹੁਦਾ", selectDesignation: "— ਚੁਣੋ —", desigFaculty: "ਫੈਕਲਟੀ", desigHOD: "ਵਿਭਾਗ ਮੁਖੀ", desigDean: "ਡੀਨ / ਡਾਇਰੈਕਟਰ", desigScholar: "ਖੋਜ ਵਿਦਵਾਨ", desigStudent: "ਵਿਦਿਆਰਥੀ ਪ੍ਰਤੀਨਿਧੀ", empIdLabel: "ਅਧਿਕਾਰਤ ਕਰਮਚਾਰੀ / ਵਿਦਿਆਰਥੀ ID", empIdPlaceholder: "ਉਦਾ., IITD/FAC/2024/001", officialEmailLabel: "ਅਧਿਕਾਰਤ ਸੰਸਥਾਗਤ ਈਮੇਲ", officialEmailPlaceholder: "name@institution.ac.in", officialEmailHint: "ਪ੍ਰਦਾਨ ਕੀਤੇ ਜਾਣ 'ਤੇ ਤੇਜ਼ ਪੁਸ਼ਟੀ", companyDetails: "ਕੰਪਨੀ ਵੇਰਵੇ", companyLabel: "ਕੰਪਨੀ / ਸੰਸਥਾ ਦਾ ਨਾਮ", companyPlaceholder: "ਉਦਾ., ਟਾਟਾ ਮੋਟਰਸ ਲਿਮਿਟੇਡ", gstLabel: "GST ਨੰਬਰ", gstPlaceholder: "ਉਦਾ., 22AAAAA0000A1Z5", cinLabel: "CIN / ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਨੰਬਰ", cinPlaceholder: "ਉਦਾ., L28920MH1945PLC004520", sectorLabel: "ਮੁੱਖ ਖੇਤਰ", selectSector: "— ਖੇਤਰ ਚੁਣੋ —", sectorIT: "ਸੂਚਨਾ ਤਕਨਾਲੋਜੀ", sectorMfg: "ਨਿਰਮਾਣ", sectorInfra: "ਬੁਨਿਆਦੀ ਢਾਂਚਾ", sectorEnergy: "ਊਰਜਾ ਅਤੇ ਉਪਯੋਗਤਾਵਾਂ", sectorHealth: "ਸਿਹਤ ਸੰਭਾਲ", sectorEdu: "ਸਿੱਖਿਆ", sectorAgri: "ਖੇਤੀਬਾੜੀ", sectorTransport: "ਟ੍ਰਾਂਸਪੋਰਟ ਅਤੇ ਲੌਜਿਸਟਿਕਸ", sectorOther: "ਹੋਰ", contactRoleLabel: "ਸੰਪਰਕ ਭੂਮਿਕਾ", contactRolePlaceholder: "ਉਦਾ., CSR ਮੁਖੀ, R&D ਮੈਨੇਜਰ", designationPlaceholder: "ਉਦਾ., ਮੈਨੇਜਰ, ਡਾਇਰੈਕਟਰ", govtDetails: "ਸਰਕਾਰੀ ਅਧਿਕਾਰੀ ਵੇਰਵੇ", ministryLabel: "ਮੰਤਰਾਲਾ / ਵਿਭਾਗ", ministryPlaceholder: "ਉਦਾ., ਸਿੱਖਿਆ ਮੰਤਰਾਲਾ", govtDesignationPlaceholder: "ਉਦਾ., ਸੈਕਸ਼ਨ ਅਫਸਰ, ਡਾਇਰੈਕਟਰ", govtEmpIdPlaceholder: "ਅਧਿਕਾਰਤ ਸਰਕਾਰੀ ਕਰਮਚਾਰੀ ID", officialGovEmailLabel: "ਅਧਿਕਾਰਤ ਈਮੇਲ (gov.in / nic.in)", govEmailPlaceholder: "name@gov.in", govEmailHint: "ਸਰਕਾਰੀ ਡੋਮੇਨ ਈਮੇਲ ਹੋਣੀ ਚਾਹੀਦੀ ਹੈ", centralGovt: "ਕੇਂਦਰ ਸਰਕਾਰ", officeAddressLabel: "ਦਫਤਰ ਪਤਾ", officeAddressPlaceholder: "ਸ਼ਹਿਰ / ਦਫਤਰ ਸਥਾਨ", expertDetails: "ਮਾਹਰ ਵੇਰਵੇ", domainLabel: "ਮੁੱਖ ਡੋਮੇਨ", selectDomain: "— ਡੋਮੇਨ ਚੁਣੋ —", domainUrban: "ਸ਼ਹਿਰੀ ਯੋਜਨਾਬੰਦੀ ਅਤੇ ਬੁਨਿਆਦੀ ਢਾਂਚਾ", domainWater: "ਪਾਣੀ ਅਤੇ ਸਫਾਈ", domainEnergy: "ਊਰਜਾ ਅਤੇ ਟਿਕਾਊਤਾ", domainHealth: "ਜਨਤਕ ਸਿਹਤ", domainEdTech: "ਸਿੱਖਿਆ ਤਕਨਾਲੋਜੀ", domainAgri: "ਖੇਤੀਬਾੜੀ ਅਤੇ ਪੇਂਡੂ ਵਿਕਾਸ", domainTransport: "ਟ੍ਰਾਂਸਪੋਰਟ ਅਤੇ ਗਤੀਸ਼ੀਲਤਾ", domainDigital: "ਡਿਜੀਟਲ ਗਵਰਨੈਂਸ", domainEnv: "ਵਾਤਾਵਰਣ ਵਿਗਿਆਨ", experienceLabel: "ਤਜਰਬੇ ਦੇ ਸਾਲ", experiencePlaceholder: "ਉਦਾ., 10", qualificationLabel: "ਸਭ ਤੋਂ ਉੱਚੀ ਯੋਗਤਾ", qualificationPlaceholder: "ਉਦਾ., Ph.D., M.Tech, M.Sc", currentOrgLabel: "ਮੌਜੂਦਾ ਸੰਸਥਾ", currentOrgPlaceholder: "ਉਦਾ., IIT ਬੰਬੇ, CSIR", linkedinLabel: "LinkedIn / ਪੇਸ਼ੇਵਰ ਪ੍ਰੋਫਾਈਲ", linkedinPlaceholder: "https://linkedin.com/in/yourprofile", linkedinHint: "ਤੁਹਾਡੀ ਪਛਾਣ ਦੀ ਪੁਸ਼ਟੀ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰਦਾ ਹੈ", verificationLabel: "ਪੁਸ਼ਟੀ", captchaLabel: "ਪੁਸ਼ਟੀ ਕੋਡ", refreshCaptcha: "↻ ਨਵਾਂ ਕੋਡ", captchaPlaceholder: "ਕੋਡ ਦਰਜ ਕਰੋ", termsPrefix: "ਮੈਂ ਪੜ੍ਹਿਆ ਹੈ ਅਤੇ ਸਹਿਮਤ ਹਾਂ", termsOfUse: "ਵਰਤੋਂ ਦੀਆਂ ਸ਼ਰਤਾਂ", privacyPolicy: "ਗੋਪਨੀਯਤਾ ਨੀਤੀ", termsAnd: "ਅਤੇ", dataProtection: "ਡੇਟਾ ਸੁਰੱਖਿਆ ਦਿਸ਼ਾ-ਨਿਰਦੇਸ਼", termsConfirm: "ਮੈਂ ਪੁਸ਼ਟੀ ਕਰਦਾ ਹਾਂ ਕਿ ਪ੍ਰਦਾਨ ਕੀਤੀ ਜਾਣਕਾਰੀ ਸਹੀ ਹੈ।", cancelBtn: "ਰੱਦ ਕਰੋ", createAccountBtn: "ਖਾਤਾ ਬਣਾਓ", helpTitle: "ਮਦਦ ਚਾਹੀਦੀ ਹੈ?", helpText: "ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਸਹਾਇਤਾ ਲਈ, CollabX ਸਹਾਇਤਾ ਡੈਸਕ ਨਾਲ support@collabx.gov.in 'ਤੇ ਸੰਪਰਕ ਕਰੋ ਜਾਂ 1800-XXX-XXXX (ਟੋਲ-ਫ੍ਰੀ, ਸਵੇਰੇ 9 – ਸ਼ਾਮ 6 IST) 'ਤੇ ਕਾਲ ਕਰੋ।", govInit: "ਭਾਰਤ ਸਰਕਾਰ ਪਹਿਲਕਦਮੀ", captchaError: "✗ ਗਲਤ ਪੁਸ਼ਟੀ ਕੋਡ। ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।", creatingAccount: "ਖਾਤਾ ਬਣਾ ਰਿਹਾ ਹੈ...", accountCreated: "✓ ਖਾਤਾ ਸਫਲਤਾਪੂਰਵਕ ਬਣਾਇਆ ਗਿਆ। ਲੌਗਇਨ 'ਤੇ ਰੀਡਾਇਰੈਕਟ ਹੋ ਰਿਹਾ ਹੈ...", registrationFailed: "ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਅਸਫਲ। ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।", deptRequired: "ਕਿਰਪਾ ਕਰਕੇ ਘੱਟੋ-ਘੱਟ ਇੱਕ ਵਿਭਾਗ ਚੁਣੋ।", selectedCount: "ਚੁਣੇ" },
+    or: { govBar: "ଭାରତ ସରକାର · ଶିକ୍ଷା ମନ୍ତ୍ରଣାଳୟ", skipContent: "ମୁଖ୍ୟ ବିଷୟବସ୍ତୁ", screenReader: "ସ୍କ୍ରିନ ରିଡର", tagline: "ସାମାଜିକ ନବସୃଜନ ପାଇଁ ଡିଜିଟାଲ ପ୍ଲାଟଫର୍ମ", navHome: "ହୋମ", navAbout: "ବିଷୟରେ", navChallenges: "ଆହ୍ୱାନ", navLogin: "ଲଗଇନ", navRegister: "ପଞ୍ଜୀକରଣ", breadAccount: "ଖାତା", breadRegister: "ନୂଆ ବ୍ୟବହାରକାରୀ ପଞ୍ଜୀକରଣ", regTitle: "ନୂଆ ବ୍ୟବହାରକାରୀ ପଞ୍ଜୀକରଣ", regSubtitle: "CollabX ରେ ଅଂଶଗ୍ରହଣ କରିବାକୁ ଆପଣଙ୍କର ଖାତା ସୃଷ୍ଟି କରନ୍ତୁ — ଜାତୀୟ ସାମାଜିକ ନବସୃଜନ ପ୍ଲାଟଫର୍ମ।", fieldsMandatory: "ଚିହ୍ନିତ କ୍ଷେତ୍ର", areMandatory: "ବାଧ୍ୟତାମୂଳକ", selectRole: "ଆପଣଙ୍କର ଭୂମିକା ଚୟନ କରନ୍ତୁ", roleCitizen: "ନାଗରିକ", roleUniversity: "ବିଶ୍ୱବିଦ୍ୟାଳୟ", roleIndustry: "ଶିଳ୍ପ", roleGovt: "ସରକାର", roleExpert: "ବିଶେଷଜ୍ଞ", basicDetails: "ମୌଳିକ ବିବରଣୀ", usernameLabel: "ବ୍ୟବହାରକାରୀ ନାମ / ପ୍ରଦର୍ଶନ ID", usernamePlaceholder: "ଏକ ଅନନ୍ୟ ବ୍ୟବହାରକାରୀ ନାମ ଚୟନ କରନ୍ତୁ", usernameHint: "ଏହା CollabX ରେ ଆପଣଙ୍କର ସାର୍ବଜନୀନ ପରିଚୟ ହେବ", emailLabel: "ଇମେଲ ଠିକଣା", emailPlaceholder: "you@example.com", phoneLabel: "ମୋବାଇଲ ନମ୍ବର", phonePlaceholder: "+91 XXXXX XXXXX", passwordLabel: "ପାସୱାର୍ଡ", passwordPlaceholder: "ସର୍ବନିମ୍ନ 6 ଅକ୍ଷର", citizenDetails: "ନାଗରିକ ବିବରଣୀ", stateLabel: "ରାଜ୍ୟ / UT", selectState: "— ରାଜ୍ୟ ଚୟନ କରନ୍ତୁ —", districtLabel: "ଜିଲ୍ଲା / ସହର", districtPlaceholder: "ଉଦା., ରାଞ୍ଚି, ବେଙ୍ଗାଲୁରୁ", institutionDetails: "ଅନୁଷ୍ଠାନ ବିବରଣୀ", institutionLabel: "ବିଶ୍ୱବିଦ୍ୟାଳୟ / ଅନୁଷ୍ଠାନର ନାମ", institutionPlaceholder: "ଉଦା., IIT ଦିଲ୍ଲୀ, NIT ତ୍ରିଚି", regCodeLabel: "AICTE / UGC ପଞ୍ଜୀକରଣ କୋଡ୍", regCodePlaceholder: "ଉଦା., 1-1234567", departmentsLabel: "ବିଭାଗ / ଦକ୍ଷତା", departmentsHint: "ଆପଣଙ୍କ ଅନୁଷ୍ଠାନ ପାଇଁ ପ୍ରଯୁଜ୍ୟ ସମସ୍ତ ବିଭାଗ ଚୟନ କରନ୍ତୁ।", departmentLabel: "ବିଭାଗ", departmentPlaceholder: "ଉଦା., କମ୍ପ୍ୟୁଟର ସାଇନ୍ସ, ସିଭିଲ ଇଞ୍ଜିନିୟରିଂ", designationLabel: "ଆପଣଙ୍କର ପଦବୀ", selectDesignation: "— ଚୟନ କରନ୍ତୁ —", desigFaculty: "ଅଧ୍ୟାପକ", desigHOD: "ବିଭାଗ ମୁଖ୍ୟ", desigDean: "ଡିନ / ନିର୍ଦ୍ଦେଶକ", desigScholar: "ଗବେଷଣା ପଣ୍ଡିତ", desigStudent: "ଛାତ୍ର ପ୍ରତିନିଧି", empIdLabel: "ଅଧିକୃତ କର୍ମଚାରୀ / ଛାତ୍ର ID", empIdPlaceholder: "ଉଦା., IITD/FAC/2024/001", officialEmailLabel: "ଅଧିକୃତ ଅନୁଷ୍ଠାନିକ ଇମେଲ", officialEmailPlaceholder: "name@institution.ac.in", officialEmailHint: "ପ୍ରଦାନ କଲେ ଶୀଘ୍ର ଯାଞ୍ଚ", companyDetails: "କମ୍ପାନୀ ବିବରଣୀ", companyLabel: "କମ୍ପାନୀ / ସଂସ୍ଥାର ନାମ", companyPlaceholder: "ଉଦା., ଟାଟା ମୋଟର୍ସ ଲିମିଟେଡ୍", gstLabel: "GST ନମ୍ବର", gstPlaceholder: "ଉଦା., 22AAAAA0000A1Z5", cinLabel: "CIN / ପଞ୍ଜୀକରଣ ନମ୍ବର", cinPlaceholder: "ଉଦା., L28920MH1945PLC004520", sectorLabel: "ପ୍ରାଥମିକ କ୍ଷେତ୍ର", selectSector: "— କ୍ଷେତ୍ର ଚୟନ କରନ୍ତୁ —", sectorIT: "ସୂଚନା ପ୍ରଯୁକ୍ତିବିଦ୍ୟା", sectorMfg: "ଉତ୍ପାଦନ", sectorInfra: "ଭିତ୍ତିଭୂମି", sectorEnergy: "ଶକ୍ତି ଏବଂ ଉପଯୋଗିତା", sectorHealth: "ସ୍ୱାସ୍ଥ୍ୟସେବା", sectorEdu: "ଶିକ୍ଷା", sectorAgri: "କୃଷି", sectorTransport: "ପରିବହନ ଏବଂ ଲଜିଷ୍ଟିକ୍ସ", sectorOther: "ଅନ୍ୟାନ୍ୟ", contactRoleLabel: "ଯୋଗାଯୋଗ ଭୂମିକା", contactRolePlaceholder: "ଉଦା., CSR ମୁଖ୍ୟ, R&D ମ୍ୟାନେଜର", designationPlaceholder: "ଉଦା., ମ୍ୟାନେଜର, ନିର୍ଦ୍ଦେଶକ", govtDetails: "ସରକାରୀ ଅଧିକାରୀ ବିବରଣୀ", ministryLabel: "ମନ୍ତ୍ରଣାଳୟ / ବିଭାଗ", ministryPlaceholder: "ଉଦା., ଶିକ୍ଷା ମନ୍ତ୍ରଣାଳୟ", govtDesignationPlaceholder: "ଉଦା., ବିଭାଗ ଅଧିକାରୀ, ନିର୍ଦ୍ଦେଶକ", govtEmpIdPlaceholder: "ଅଧିକୃତ ସରକାରୀ କର୍ମଚାରୀ ID", officialGovEmailLabel: "ଅଧିକୃତ ଇମେଲ (gov.in / nic.in)", govEmailPlaceholder: "name@gov.in", govEmailHint: "ସରକାରୀ ଡୋମେନ ଇମେଲ ହେବା ଆବଶ୍ୟକ", centralGovt: "କେନ୍ଦ୍ର ସରକାର", officeAddressLabel: "କାର୍ଯ୍ୟାଲୟ ଠିକଣା", officeAddressPlaceholder: "ସହର / କାର୍ଯ୍ୟାଲୟ ସ୍ଥାନ", expertDetails: "ବିଶେଷଜ୍ଞ ବିବରଣୀ", domainLabel: "ପ୍ରାଥମିକ ଡୋମେନ", selectDomain: "— ଡୋମେନ ଚୟନ କରନ୍ତୁ —", domainUrban: "ସହରୀ ଯୋଜନା ଏବଂ ଭିତ୍ତିଭୂମି", domainWater: "ଜଳ ଏବଂ ପରିମଳ", domainEnergy: "ଶକ୍ତି ଏବଂ ସ୍ଥିରତା", domainHealth: "ଜନସ୍ୱାସ୍ଥ୍ୟ", domainEdTech: "ଶିକ୍ଷା ପ୍ରଯୁକ୍ତିବିଦ୍ୟା", domainAgri: "କୃଷି ଏବଂ ଗ୍ରାମୀଣ ବିକାଶ", domainTransport: "ପରିବହନ ଏବଂ ଗତିଶୀଳତା", domainDigital: "ଡିଜିଟାଲ ଶାସନ", domainEnv: "ପରିବେଶ ବିଜ୍ଞାନ", experienceLabel: "ଅଭିଜ୍ଞତାର ବର୍ଷ", experiencePlaceholder: "ଉଦା., 10", qualificationLabel: "ସର୍ବୋଚ୍ଚ ଯୋଗ୍ୟତା", qualificationPlaceholder: "ଉଦା., Ph.D., M.Tech, M.Sc", currentOrgLabel: "ବର୍ତ୍ତମାନ ସଂସ୍ଥା", currentOrgPlaceholder: "ଉଦା., IIT ବମ୍ବେ, CSIR", linkedinLabel: "LinkedIn / ବୃତ୍ତିଗତ ପ୍ରୋଫାଇଲ", linkedinPlaceholder: "https://linkedin.com/in/yourprofile", linkedinHint: "ଆପଣଙ୍କର ଯୋଗ୍ୟତା ଯାଞ୍ଚ କରିବାରେ ସାହାଯ୍ୟ କରେ", verificationLabel: "ଯାଞ୍ଚ", captchaLabel: "ଯାଞ୍ଚ କୋଡ୍", refreshCaptcha: "↻ ନୂଆ କୋଡ୍", captchaPlaceholder: "କୋଡ୍ ପ୍ରବେଶ କରନ୍ତୁ", termsPrefix: "ମୁଁ ପଢ଼ିଛି ଏବଂ ସମ୍ମତ", termsOfUse: "ବ୍ୟବହାରର ସର୍ତ୍ତାବଳୀ", privacyPolicy: "ଗୋପନୀୟତା ନୀତି", termsAnd: "ଏବଂ", dataProtection: "ଡାଟା ସୁରକ୍ଷା ନିର୍ଦ୍ଦେଶାବଳୀ", termsConfirm: "ମୁଁ ନିଶ୍ଚିତ କରୁଛି ଯେ ପ୍ରଦାନ କରାଯାଇଥିବା ସୂଚନା ସଠିକ୍।", cancelBtn: "ବାତିଲ", createAccountBtn: "ଖାତା ସୃଷ୍ଟି କରନ୍ତୁ", helpTitle: "ସାହାଯ୍ୟ ଆବଶ୍ୟକ?", helpText: "ପଞ୍ଜୀକରଣ ସହାୟତା ପାଇଁ, CollabX ସହାୟତା ଡେସ୍କକୁ support@collabx.gov.in ରେ ଯୋଗାଯୋଗ କରନ୍ତୁ କିମ୍ବା 1800-XXX-XXXX (ଟୋଲ-ଫ୍ରି, ସକାଳ 9 – ସନ୍ଧ୍ୟା 6 IST) କୁ କଲ କରନ୍ତୁ।", govInit: "ଭାରତ ସରକାର ପଦକ୍ଷେପ", captchaError: "✗ ଭୁଲ ଯାଞ୍ଚ କୋଡ୍। ଦୟାକରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।", creatingAccount: "ଖାତା ସୃଷ୍ଟି ହେଉଛି...", accountCreated: "✓ ଖାତା ସଫଳତାର ସହ ସୃଷ୍ଟି ହେଲା। ଲଗଇନକୁ ରିଡାଇରେକ୍ଟ ହେଉଛି...", registrationFailed: "ପଞ୍ଜୀକରଣ ବିଫଳ। ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।", deptRequired: "ଦୟାକରି ଅତିକମରେ ଏକ ବିଭାଗ ଚୟନ କରନ୍ତୁ।", selectedCount: "ଚୟନିତ" },
+    as: { govBar: "ভাৰত চৰকাৰ · শিক্ষা মন্ত্ৰালয়", skipContent: "মুখ্য সমল", screenReader: "স্ক্ৰীন ৰিডাৰ", tagline: "সামাজিক উদ্ভাৱনৰ বাবে ডিজিটেল প্লেটফৰ্ম", navHome: "হোম", navAbout: "বিষয়ে", navChallenges: "প্ৰত্যাহ্বান", navLogin: "লগইন", navRegister: "পঞ্জীয়ন", breadAccount: "একাউণ্ট", breadRegister: "নতুন ব্যৱহাৰকাৰী পঞ্জীয়ন", regTitle: "নতুন ব্যৱহাৰকাৰী পঞ্জীয়ন", regSubtitle: "CollabX ত অংশগ্ৰহণ কৰিবলৈ আপোনাৰ একাউণ্ট সৃষ্টি কৰক — ৰাষ্ট্ৰীয় সামাজিক উদ্ভাৱন প্লেটফৰ্ম।", fieldsMandatory: "চিহ্নিত ক্ষেত্ৰ", areMandatory: "বাধ্যতামূলক", selectRole: "আপোনাৰ ভূমিকা বাছনি কৰক", roleCitizen: "নাগৰিক", roleUniversity: "বিশ্ববিদ্যালয়", roleIndustry: "উদ্যোগ", roleGovt: "চৰকাৰ", roleExpert: "বিশেষজ্ঞ", basicDetails: "মৌলিক বিৱৰণ", usernameLabel: "ব্যৱহাৰকাৰী নাম / ডিছপ্লে ID", usernamePlaceholder: "এটা অনন্য ব্যৱহাৰকাৰী নাম বাছনি কৰক", usernameHint: "এইটো CollabX ত আপোনাৰ ৰাজহুৱা পৰিচয় হ'ব", emailLabel: "ইমেইল ঠিকনা", emailPlaceholder: "you@example.com", phoneLabel: "মোবাইল নম্বৰ", phonePlaceholder: "+91 XXXXX XXXXX", passwordLabel: "পাছৱৰ্ড", passwordPlaceholder: "নিম্নতম 6 টা আখৰ", citizenDetails: "নাগৰিক বিৱৰণ", stateLabel: "ৰাজ্য / UT", selectState: "— ৰাজ্য বাছনি কৰক —", districtLabel: "জিলা / চহৰ", districtPlaceholder: "যেনে, ৰাঁচী, বেংগালুৰু", institutionDetails: "প্ৰতিষ্ঠানৰ বিৱৰণ", institutionLabel: "বিশ্ববিদ্যালয় / প্ৰতিষ্ঠানৰ নাম", institutionPlaceholder: "যেনে, IIT দিল্লী, NIT ত্ৰিচি", regCodeLabel: "AICTE / UGC পঞ্জীয়ন ক'ড", regCodePlaceholder: "যেনে, 1-1234567", departmentsLabel: "বিভাগ / দক্ষতা", departmentsHint: "আপোনাৰ প্ৰতিষ্ঠানৰ বাবে প্ৰযোজ্য সকলো বিভাগ বাছনি কৰক।", departmentLabel: "বিভাগ", departmentPlaceholder: "যেনে, কম্পিউটাৰ বিজ্ঞান, চিভিল অভিযান্ত্ৰিকী", designationLabel: "আপোনাৰ পদবী", selectDesignation: "— বাছনি কৰক —", desigFaculty: "অধ্যাপক", desigHOD: "বিভাগ মুৰব্বী", desigDean: "ডিন / পৰিচালক", desigScholar: "গৱেষণা পণ্ডিত", desigStudent: "ছাত্ৰ প্ৰতিনিধি", empIdLabel: "চৰকাৰী কৰ্মচাৰী / ছাত্ৰ ID", empIdPlaceholder: "যেনে, IITD/FAC/2024/001", officialEmailLabel: "চৰকাৰী প্ৰতিষ্ঠানিক ইমেইল", officialEmailPlaceholder: "name@institution.ac.in", officialEmailHint: "প্ৰদান কৰিলে দ্ৰুত প্ৰমাণীকৰণ", companyDetails: "কোম্পানীৰ বিৱৰণ", companyLabel: "কোম্পানী / সংস্থাৰ নাম", companyPlaceholder: "যেনে, টাটা মটৰ্ছ লিমিটেড", gstLabel: "GST নম্বৰ", gstPlaceholder: "যেনে, 22AAAAA0000A1Z5", cinLabel: "CIN / পঞ্জীয়ন নম্বৰ", cinPlaceholder: "যেনে, L28920MH1945PLC004520", sectorLabel: "প্ৰাথমিক খণ্ড", selectSector: "— খণ্ড বাছনি কৰক —", sectorIT: "তথ্য প্ৰযুক্তি", sectorMfg: "উৎপাদন", sectorInfra: "আধাৰভূত", sectorEnergy: "শক্তি আৰু উপযোগিতা", sectorHealth: "স্বাস্থ্যসেৱা", sectorEdu: "শিক্ষা", sectorAgri: "কৃষি", sectorTransport: "পৰিবহন আৰু লজিষ্টিকছ", sectorOther: "অন্য", contactRoleLabel: "যোগাযোগৰ ভূমিকা", contactRolePlaceholder: "যেনে, CSR মুৰব্বী, R&D পৰিচালক", designationPlaceholder: "যেনে, পৰিচালক, পৰিচালক", govtDetails: "চৰকাৰী বিষয়াৰ বিৱৰণ", ministryLabel: "মন্ত্ৰালয় / বিভাগ", ministryPlaceholder: "যেনে, শিক্ষা মন্ত্ৰালয়", govtDesignationPlaceholder: "যেনে, শাখা বিষয়া, পৰিচালক", govtEmpIdPlaceholder: "চৰকাৰী কৰ্মচাৰী ID", officialGovEmailLabel: "চৰকাৰী ইমেইল (gov.in / nic.in)", govEmailPlaceholder: "name@gov.in", govEmailHint: "চৰকাৰী ডমেইন ইমেইল হ'ব লাগিব", centralGovt: "কেন্দ্ৰীয় চৰকাৰ", officeAddressLabel: "কাৰ্যালয়ৰ ঠিকনা", officeAddressPlaceholder: "চহৰ / কাৰ্যালয় স্থান", expertDetails: "বিশেষজ্ঞৰ বিৱৰণ", domainLabel: "প্ৰাথমিক ডমেইন", selectDomain: "— ডমেইন বাছনি কৰক —", domainUrban: "নগৰীয়া পৰিকল্পনা আৰু আধাৰভূত", domainWater: "পানী আৰু অনাময়", domainEnergy: "শক্তি আৰু স্থিৰতা", domainHealth: "জনস্বাস্থ্য", domainEdTech: "শিক্ষা প্ৰযুক্তি", domainAgri: "কৃষি আৰু গ্ৰাম্য উন্নয়ন", domainTransport: "পৰিবহন আৰু গতিশীলতা", domainDigital: "ডিজিটেল শাসন", domainEnv: "পৰিৱেশ বিজ্ঞান", experienceLabel: "অভিজ্ঞতাৰ বছৰ", experiencePlaceholder: "যেনে, 10", qualificationLabel: "সৰ্বোচ্চ যোগ্যতা", qualificationPlaceholder: "যেনে, Ph.D., M.Tech, M.Sc", currentOrgLabel: "বৰ্তমান সংস্থা", currentOrgPlaceholder: "যেনে, IIT বম্বে, CSIR", linkedinLabel: "LinkedIn / বৃত্তিগত প্ৰফাইল", linkedinPlaceholder: "https://linkedin.com/in/yourprofile", linkedinHint: "আপোনাৰ যোগ্যতা প্ৰমাণ কৰিবলৈ সহায় কৰে", verificationLabel: "প্ৰমাণীকৰণ", captchaLabel: "প্ৰমাণীকৰণ ক'ড", refreshCaptcha: "↻ নতুন ক'ড", captchaPlaceholder: "ক'ড লিখক", termsPrefix: "মই পঢ়িছোঁ আৰু সন্মত", termsOfUse: "ব্যৱহাৰৰ চৰ্তাৱলী", privacyPolicy: "গোপনীয়তা নীতি", termsAnd: "আৰু", dataProtection: "ডাটা সুৰক্ষা নিৰ্দেশিকা", termsConfirm: "মই নিশ্চিত কৰিছোঁ যে প্ৰদান কৰা তথ্য সঠিক।", cancelBtn: "বাতিল", createAccountBtn: "একাউণ্ট সৃষ্টি কৰক", helpTitle: "সহায় লাগে?", helpText: "পঞ্জীয়ন সহায়তাৰ বাবে, CollabX সহায়তা ডেস্কক support@collabx.gov.in ত যোগাযোগ কৰক বা 1800-XXX-XXXX (টল-ফ্ৰি, পুৱা 9 – সন্ধিয়া 6 IST) লৈ কল কৰক।", govInit: "ভাৰত চৰকাৰৰ পদক্ষেপ", captchaError: "✗ ভুল প্ৰমাণীকৰণ ক'ড। পুনৰ চেষ্টা কৰক।", creatingAccount: "একাউণ্ট সৃষ্টি কৰি আছে...", accountCreated: "✓ একাউণ্ট সফলভাৱে সৃষ্টি হ'ল। লগইনলৈ ৰিডাইৰেক্ট কৰি আছে...", registrationFailed: "পঞ্জীয়ন বিফল। পুনৰ চেষ্টা কৰক।", deptRequired: "অনুগ্ৰহ কৰি অন্তত এটা বিভাগ বাছনি কৰক।", selectedCount: "বাছনি" },
+    ur: { govBar: "حکومت ہند · وزارت تعلیم", skipContent: "مرکزی مواد", screenReader: "اسکرین ریڈر", tagline: "سماجی اختراع کے لیے ڈیجیٹل پلیٹ فارم", navHome: "ہوم", navAbout: "بارے میں", navChallenges: "چیلنجز", navLogin: "لاگ ان", navRegister: "رجسٹر", breadAccount: "اکاؤنٹ", breadRegister: "نیا صارف رجسٹریشن", regTitle: "نیا صارف رجسٹریشن", regSubtitle: "CollabX میں حصہ لینے کے لیے اپنا اکاؤنٹ بنائیں — قومی سماجی اختراع پلیٹ فارم۔", fieldsMandatory: "نشان زدہ خانے", areMandatory: "لازمی ہیں", selectRole: "اپنا کردار منتخب کریں", roleCitizen: "شہری", roleUniversity: "یونیورسٹی", roleIndustry: "صنعت", roleGovt: "حکومت", roleExpert: "ماہر", basicDetails: "بنیادی تفصیلات", usernameLabel: "صارف نام / ڈسپلے ID", usernamePlaceholder: "ایک منفرد صارف نام منتخب کریں", usernameHint: "یہ CollabX پر آپ کی عوامی شناخت ہوگی", emailLabel: "ای میل پتہ", emailPlaceholder: "you@example.com", phoneLabel: "موبائل نمبر", phonePlaceholder: "+91 XXXXX XXXXX", passwordLabel: "پاس ورڈ", passwordPlaceholder: "کم از کم 6 حروف", citizenDetails: "شہری تفصیلات", stateLabel: "ریاست / UT", selectState: "— ریاست منتخب کریں —", districtLabel: "ضلع / شہر", districtPlaceholder: "مثلاً، رانچی، بنگلورو", institutionDetails: "ادارے کی تفصیلات", institutionLabel: "یونیورسٹی / ادارے کا نام", institutionPlaceholder: "مثلاً، IIT دہلی، NIT تریچی", regCodeLabel: "AICTE / UGC رجسٹریشن کوڈ", regCodePlaceholder: "مثلاً، 1-1234567", departmentsLabel: "شعبے / مہارت", departmentsHint: "اپنے ادارے پر لاگو ہونے والے تمام شعبے منتخب کریں۔", departmentLabel: "شعبہ", departmentPlaceholder: "مثلاً، کمپیوٹر سائنس، سول انجینئرنگ", designationLabel: "آپ کا عہدہ", selectDesignation: "— منتخب کریں —", desigFaculty: "فیکلٹی", desigHOD: "شعبہ سربراہ", desigDean: "ڈین / ڈائریکٹر", desigScholar: "تحقیقی اسکالر", desigStudent: "طالب علم نمائندہ", empIdLabel: "سرکاری ملازم / طالب علم ID", empIdPlaceholder: "مثلاً، IITD/FAC/2024/001", officialEmailLabel: "سرکاری ادارہ جاتی ای میل", officialEmailPlaceholder: "name@institution.ac.in", officialEmailHint: "فراہم کرنے پر تیز تصدیق", companyDetails: "کمپنی کی تفصیلات", companyLabel: "کمپنی / تنظیم کا نام", companyPlaceholder: "مثلاً، ٹاٹا موٹرز لمیٹڈ", gstLabel: "GST نمبر", gstPlaceholder: "مثلاً، 22AAAAA0000A1Z5", cinLabel: "CIN / رجسٹریشن نمبر", cinPlaceholder: "مثلاً، L28920MH1945PLC004520", sectorLabel: "بنیادی شعبہ", selectSector: "— شعبہ منتخب کریں —", sectorIT: "انفارمیشن ٹیکنالوجی", sectorMfg: "مینوفیکچرنگ", sectorInfra: "بنیادی ڈھانچہ", sectorEnergy: "توانائی اور یوٹیلیٹیز", sectorHealth: "صحت کی دیکھ بھال", sectorEdu: "تعلیم", sectorAgri: "زراعت", sectorTransport: "ٹرانسپورٹ اور لاجسٹکس", sectorOther: "دیگر", contactRoleLabel: "رابطہ کردار", contactRolePlaceholder: "مثلاً، CSR سربراہ، R&D منیجر", designationPlaceholder: "مثلاً، منیجر، ڈائریکٹر", govtDetails: "سرکاری افسر کی تفصیلات", ministryLabel: "وزارت / محکمہ", ministryPlaceholder: "مثلاً، وزارت تعلیم", govtDesignationPlaceholder: "مثلاً، سیکشن افسر، ڈائریکٹر", govtEmpIdPlaceholder: "سرکاری ملازم ID", officialGovEmailLabel: "سرکاری ای میل (gov.in / nic.in)", govEmailPlaceholder: "name@gov.in", govEmailHint: "سرکاری ڈومین ای میل ہونا چاہیے", centralGovt: "مرکزی حکومت", officeAddressLabel: "دفتر کا پتہ", officeAddressPlaceholder: "شہر / دفتر کا مقام", expertDetails: "ماہر کی تفصیلات", domainLabel: "بنیادی ڈومین", selectDomain: "— ڈومین منتخب کریں —", domainUrban: "شہری منصوبہ بندی اور بنیادی ڈھانچہ", domainWater: "پانی اور صفائی", domainEnergy: "توانائی اور پائیداری", domainHealth: "عوامی صحت", domainEdTech: "تعلیمی ٹیکنالوجی", domainAgri: "زراعت اور دیہی ترقی", domainTransport: "ٹرانسپورٹ اور نقل و حرکت", domainDigital: "ڈیجیٹل گورننس", domainEnv: "ماحولیاتی سائنس", experienceLabel: "تجربے کے سال", experiencePlaceholder: "مثلاً، 10", qualificationLabel: "اعلیٰ ترین قابلیت", qualificationPlaceholder: "مثلاً، Ph.D., M.Tech, M.Sc", currentOrgLabel: "موجودہ تنظیم", currentOrgPlaceholder: "مثلاً، IIT بمبئی، CSIR", linkedinLabel: "LinkedIn / پیشہ ورانہ پروفائل", linkedinPlaceholder: "https://linkedin.com/in/yourprofile", linkedinHint: "آپ کی اسناد کی تصدیق میں مدد کرتا ہے", verificationLabel: "تصدیق", captchaLabel: "تصدیقی کوڈ", refreshCaptcha: "↻ نیا کوڈ", captchaPlaceholder: "کوڈ درج کریں", termsPrefix: "میں نے پڑھا ہے اور متفق ہوں", termsOfUse: "استعمال کی شرائط", privacyPolicy: "رازداری کی پالیسی", termsAnd: "اور", dataProtection: "ڈیٹا تحفظ کی ہدایات", termsConfirm: "میں تصدیق کرتا ہوں کہ فراہم کردہ معلومات درست ہیں۔", cancelBtn: "منسوخ", createAccountBtn: "اکاؤنٹ بنائیں", helpTitle: "مدد چاہیے؟", helpText: "رجسٹریشن معاونت کے لیے، CollabX سپورٹ ڈیسک سے support@collabx.gov.in پر رابطہ کریں یا 1800-XXX-XXXX (ٹول فری، صبح 9 – شام 6 IST) پر کال کریں۔", govInit: "حکومت ہند کی پہل", captchaError: "✗ غلط تصدیقی کوڈ۔ دوبارہ کوشش کریں۔", creatingAccount: "اکاؤنٹ بنایا جا رہا ہے...", accountCreated: "✓ اکاؤنٹ کامیابی سے بن گیا۔ لاگ ان پر ری ڈائریکٹ ہو رہا ہے...", registrationFailed: "رجسٹریشن ناکام۔ دوبارہ کوشش کریں۔", deptRequired: "براہ کرم کم از کم ایک شعبہ منتخب کریں۔", selectedCount: "منتخب" }
+  };
+
+  // ============ TRANSLATION ENGINE ============
+  function applyTranslations(lang) {
+    const t = I18N[lang] || I18N.en;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (t[key]) el.textContent = t[key];
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+      const key = el.getAttribute("data-i18n-placeholder");
+      if (t[key]) el.placeholder = t[key];
+    });
+    document.body.setAttribute("data-lang", lang);
+    document.documentElement.lang = lang;
+    updateDeptCount();
+  }
+
+  function changeGlobalLang(lang) {
+    localStorage.setItem(LANG_KEY, lang);
+    applyTranslations(lang);
+  }
+
+  function escapeHtml(value) {
+    const element = document.createElement("div");
+    element.textContent = value || "";
+    return element.innerHTML;
+  }
+
+  // ============ INIT LANGUAGE ============
+  const savedLang = localStorage.getItem(LANG_KEY) || "en";
+  document.getElementById("globalLang").value = savedLang;
+  applyTranslations(savedLang);
+
+  // ============ ROLE SELECTION ============
+  document.querySelectorAll(".role-option").forEach(opt => {
+    opt.addEventListener("click", () => {
+      document.querySelectorAll(".role-option").forEach(o => o.classList.remove("active"));
+      opt.classList.add("active");
+      selectedRole = opt.dataset.role;
+
+      document.querySelectorAll(".role-fields").forEach(rf => {
+        rf.classList.toggle("active", rf.dataset.role === selectedRole);
+      });
+
+      document.querySelectorAll(".role-fields").forEach(rf => {
+        const isActive = rf.dataset.role === selectedRole;
+        rf.querySelectorAll("input, select, textarea").forEach(field => {
+          if (isActive) {
+            if (field.dataset.wasRequired === "true") field.required = true;
+          } else {
+            if (field.required) field.dataset.wasRequired = "true";
+            field.required = false;
+          }
+        });
+      });
+    });
+  });
+
+  // ============ DEPARTMENT CHECKBOXES ============
+  document.querySelectorAll(".dept-item input[type='checkbox']").forEach(cb => {
+    cb.addEventListener("change", () => {
+      const label = cb.closest(".dept-item");
+      if (cb.checked) label.classList.add("checked");
+      else label.classList.remove("checked");
+      updateDeptCount();
+    });
+  });
+
+  function updateDeptCount() {
+    const checked = document.querySelectorAll("#dept-grid input[type='checkbox']:checked").length;
+    const el = document.getElementById("dept-count");
+    if (el) el.textContent = checked + " " + (I18N[localStorage.getItem(LANG_KEY) || "en"].selectedCount || "selected");
+  }
+
+  function getSelectedDepartments() {
+    const arr = [];
+    document.querySelectorAll("#dept-grid input[type='checkbox']:checked").forEach(cb => arr.push(cb.value));
+    return arr.join(", ");
+  }
+
+  // ============ CAPTCHA ============
+  function generateCaptcha() {
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let code = "";
+    for (let i = 0; i < 5; i++) code += chars[Math.floor(Math.random() * chars.length)];
+    return code;
+  }
+  function refreshCaptcha() {
+    captchaCode = generateCaptcha();
+    document.getElementById("captcha-box").textContent = captchaCode;
+    document.getElementById("reg-captcha").value = "";
+  }
+  refreshCaptcha();
+
+  // ============ REGISTER ============
+  async function handleRegister(e) {
+    e.preventDefault();
+    const btn = document.getElementById("register-btn");
+    const status = document.getElementById("status");
+    const t = I18N[localStorage.getItem(LANG_KEY) || "en"];
+
+    status.className = "status-msg";
+    status.textContent = "";
+
+    const captchaInput = document.getElementById("reg-captcha").value.trim().toUpperCase();
+    if (captchaInput !== captchaCode) {
+      status.className = "status-msg error";
+      status.textContent = t.captchaError || "✗ Incorrect verification code. Please try again.";
+      refreshCaptcha();
+      return;
+    }
+
+    // Build organization string from role-specific fields
+    let organization = "";
+    if (selectedRole === "university") {
+      const institution = document.getElementById("u-institution")?.value.trim() || "";
+      const departments = getSelectedDepartments();
+
+      if (!departments) {
+        status.className = "status-msg error";
+        status.textContent = "✗ " + (t.deptRequired || "Please select at least one department.");
+        return;
+      }
+
+      // Format: "Institution Name | Dept1, Dept2, Dept3"
+      organization = `${institution} | ${departments}`;
+
+    } else if (selectedRole === "industry") {
+      organization = document.getElementById("i-company")?.value.trim() || "";
+    } else if (selectedRole === "govt") {
+      organization = document.getElementById("g-ministry")?.value.trim() || "";
+    } else if (selectedRole === "expert") {
+      organization = document.getElementById("e-current-org")?.value.trim() || "";
+    } else if (selectedRole === "citizen") {
+      organization = document.getElementById("c-district")?.value.trim() || "";
+    }
+
+    btn.disabled = true;
+    btn.textContent = t.creatingAccount || "Creating account...";
+
+    try {
+      const payload = {
+        name: document.getElementById("reg-username").value.trim(),
+        email: document.getElementById("reg-email").value.trim(),
+        password: document.getElementById("reg-password").value,
+        role: selectedRole,
+        organization: organization || null,
+        primary_sector: selectedRole === "industry" ? (document.getElementById("i-sector")?.value || null) : null,
+        expertise: selectedRole === "industry" ? (document.getElementById("i-expertise")?.value.trim() || null) : null,
+        support: selectedRole === "industry" ? (document.getElementById("i-support")?.value.trim() || null) : null,
+      };
+
+      const res = await fetch(`${API_BASE}/users/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        const detail = data.detail;
+        let errMsg;
+        if (typeof detail === "string") {
+          errMsg = detail;
+        } else if (Array.isArray(detail)) {
+          errMsg = detail.map(e => `${e.loc?.slice(-1)[0]}: ${e.msg}`).join(", ");
+        } else {
+          errMsg = t.registrationFailed || "Registration failed";
+        }
+        throw new Error(errMsg);
+      }
+
+      status.className = "status-msg success";
+      const registeredUsername = payload.name;
+      const registeredEmail = payload.email;
+      status.innerHTML = `✓ Account created successfully.<br><strong>Username:</strong> ${escapeHtml(registeredUsername)}<br><strong>Email:</strong> ${escapeHtml(registeredEmail)}<br><small>Redirecting to login...</small>`;
+
+      setTimeout(() => { window.location.href = "login.html"; }, 3500);
+
+    } catch (err) {
+      status.className = "status-msg error";
+      status.textContent = "✗ " + (err.message || t.registrationFailed || "Registration failed. Try again.");
+      refreshCaptcha();
+      btn.disabled = false;
+      btn.textContent = t.createAccountBtn || "Create Account";
+    }
+  }
+</script>
+<script src="i18n.js"></script>
+</body>
+</html>

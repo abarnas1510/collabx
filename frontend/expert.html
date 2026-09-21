@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#0B3C5D">
+<title>Expert Review Dashboard — CollabX | Government of India</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Gurmukhi:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans', 'Segoe UI', sans-serif;
+    background: #F4F6F9; color: #1a1a1a; font-size: 14.5px; line-height: 1.55;
+    min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden;
+  }
+  a { color: #0B3C5D; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  img { max-width: 100%; height: auto; display: block; }
+
+  body[data-lang="hi"] { font-family: 'Noto Sans Devanagari', 'Noto Sans', sans-serif; }
+  body[data-lang="ta"] { font-family: 'Noto Sans Tamil', 'Noto Sans', sans-serif; }
+  body[data-lang="te"] { font-family: 'Noto Sans Telugu', 'Noto Sans', sans-serif; }
+  body[data-lang="bn"] { font-family: 'Noto Sans Bengali', 'Noto Sans', sans-serif; }
+  body[data-lang="gu"] { font-family: 'Noto Sans Gujarati', 'Noto Sans', sans-serif; }
+  body[data-lang="pa"] { font-family: 'Noto Sans Gurmukhi', 'Noto Sans', sans-serif; }
+  body[data-lang="kn"] { font-family: 'Noto Sans Kannada', 'Noto Sans', sans-serif; }
+  body[data-lang="ml"] { font-family: 'Noto Sans Malayalam', 'Noto Sans', sans-serif; }
+  body[data-lang="or"] { font-family: 'Noto Sans Oriya', 'Noto Sans', sans-serif; }
+
+  .tricolor-strip { height: 4px; background: linear-gradient(to right, #FF9933 0%, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%, #138808 100%); }
+
+  .utility-bar { background: #0B3C5D; color: #fff; font-size: 11.5px; padding: 6px 0; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 16px; width: 100%; }
+  .utility-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .utility-inner a { color: #fff; opacity: 0.88; font-size: 11.5px; }
+  .utility-inner a:hover { opacity: 1; text-decoration: underline; }
+  .gov-tag { font-weight: 600; display: flex; align-items: center; gap: 5px; }
+  .gov-tag .dot { width: 5px; height: 5px; background: #FF9933; border-radius: 50%; flex-shrink: 0; }
+  .utility-inner .right { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+  .lang-switcher { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 4px 8px; border-radius: 3px; font-size: 11.5px; font-family: inherit; cursor: pointer; outline: none; max-width: 140px; }
+  .lang-switcher option { color: #1a1a1a; background: #fff; }
+
+  .main-header { background: #fff; border-bottom: 3px solid #0B3C5D; padding: 10px 0; }
+  .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .emblem-block { display: flex; align-items: center; gap: 12px; text-decoration: none; min-width: 0; flex: 1; }
+  .emblem-img { width: 44px; height: 52px; object-fit: contain; flex-shrink: 0; }
+  .brand-text { min-width: 0; }
+  .brand-text h1 { font-family: 'Noto Serif', serif; font-size: 20px; color: #0B3C5D; letter-spacing: 0.6px; line-height: 1; margin-bottom: 3px; }
+  .brand-text h1 span { color: #FF9933; }
+  .brand-text .subtitle { font-size: 10.5px; color: #555; letter-spacing: 0.4px; text-transform: uppercase; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .brand-text .subtitle-hindi { font-size: 10.5px; color: #777; margin-top: 1px; }
+
+  .main-nav { background: #0B3C5D; color: #fff; position: relative; }
+  .main-nav-inner { display: flex; align-items: center; flex-wrap: wrap; }
+  .main-nav a { color: #fff; padding: 11px 16px; font-size: 13px; font-weight: 500; border-right: 1px solid rgba(255,255,255,0.12); transition: background 0.2s; white-space: nowrap; }
+  .main-nav a:first-child { border-left: 1px solid rgba(255,255,255,0.12); }
+  .main-nav a:hover, .main-nav a.active { background: #FF9933; color: #0B3C5D; text-decoration: none; }
+  .nav-toggle { display: none; background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 18px; padding: 6px 12px; border-radius: 3px; cursor: pointer; margin: 8px 16px; font-family: inherit; }
+
+  /* WELCOME BAR */
+  .welcome-bar { background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%); color: #fff; padding: 22px 0; }
+  .welcome-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .welcome-left h1 { font-family: 'Noto Serif', serif; font-size: 26px; line-height: 1.2; margin-bottom: 4px; }
+  .welcome-left p { font-size: 13.5px; opacity: 0.9; }
+  .welcome-left .expert-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .welcome-right { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .btn { padding: 11px 20px; border-radius: 3px; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit; border: none; transition: all 0.15s; -webkit-tap-highlight-color: transparent; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: #0B3C5D; color: #fff; }
+  .btn-primary:hover { background: #082B44; }
+  .btn-accent { background: #FF9933; color: #0B3C5D; }
+  .btn-accent:hover { background: #E68A2E; }
+  .btn-green { background: #138808; color: #fff; }
+  .btn-green:hover { background: #0e6606; }
+  .btn-outline-white { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.6); }
+  .btn-outline-white:hover { background: rgba(255,255,255,0.15); }
+  .btn-sm { padding: 7px 14px; font-size: 12px; }
+
+  /* MAIN */
+  .dash-wrapper { flex: 1; padding: 24px 16px; }
+  .dash-container { max-width: 1280px; margin: 0 auto; }
+
+  /* STATS */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px; }
+  .stat-card { background: #fff; border: 1px solid #D5DDE5; border-radius: 4px; padding: 18px; border-top: 4px solid #6d28d9; transition: all 0.15s; }
+  .stat-card:hover { box-shadow: 0 4px 14px rgba(109,40,217,0.1); transform: translateY(-2px); }
+  .stat-card.orange { border-top-color: #E68A2E; }
+  .stat-card.green { border-top-color: #138808; }
+  .stat-card.red { border-top-color: #C0392B; }
+  .stat-num { font-family: 'Noto Serif', serif; font-size: 34px; font-weight: 700; color: #6d28d9; line-height: 1; margin-bottom: 6px; }
+  .stat-card.orange .stat-num { color: #E68A2E; }
+  .stat-card.green .stat-num { color: #138808; }
+  .stat-card.red .stat-num { color: #C0392B; }
+  .stat-label { font-size: 11.5px; color: #666; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+  /* SECTION */
+  .section-card { background: #fff; border: 1px solid #D5DDE5; border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
+  .section-header { padding: 14px 20px; background: #082B44; color: #fff; border-bottom: 3px solid #FF9933; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .section-header h2 { font-family: 'Noto Serif', serif; font-size: 16px; letter-spacing: 0.4px; display: flex; align-items: center; gap: 8px; }
+  .section-header .count-badge { background: rgba(255,255,255,0.15); color: #fff; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 700; }
+  .section-body { padding: 20px; }
+
+  /* REVIEW CARD */
+  .review-card { background: #fff; border: 1px solid #E5E9EF; border-left: 4px solid #6d28d9; padding: 20px; border-radius: 4px; margin-bottom: 16px; transition: all 0.15s; }
+  .review-card:hover { box-shadow: 0 4px 14px rgba(109,40,217,0.08); border-left-color: #FF9933; }
+  .review-card:last-child { margin-bottom: 0; }
+  .problem-card { background: #fff; border: 1px solid #D5DDE5; border-left: 5px solid #6d28d9; border-radius: 4px; margin-bottom: 18px; overflow: hidden; }
+  .problem-card:hover { box-shadow: 0 4px 14px rgba(109,40,217,0.08); }
+  .problem-card > summary { list-style: none; cursor: pointer; }
+  .problem-card > summary::-webkit-details-marker { display: none; }
+  .problem-card > summary::after { content: "+"; float: right; color: #6d28d9; font-size: 20px; font-weight: 700; line-height: 1; }
+  .problem-card[open] > summary::after { content: "−"; }
+  .problem-header { padding: 16px 18px; background: #F8F7FC; border-bottom: 1px solid #E5E9EF; }
+  .problem-header-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+  .problem-title { min-width: 0; flex: 1; color: #0B3C5D; font-size: 16px; font-weight: 700; line-height: 1.35; overflow-wrap: anywhere; }
+  .problem-meta, .problem-summary { display: flex; gap: 10px 16px; flex-wrap: wrap; align-items: center; margin-top: 8px; font-size: 12px; color: #666; }
+  .challenge-media { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .challenge-media img, .challenge-media video { width: 180px; max-height: 120px; object-fit: contain; background: #0B3C5D; border: 1px solid #D5DDE5; border-radius: 3px; }
+  .problem-summary { color: #6d28d9; font-weight: 700; }
+  .problem-body { padding: 14px 18px 18px; }
+  .solutions-heading { color: #0B3C5D; font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+  .solution-item { border: 1px solid #E5E9EF; border-left: 3px solid #C5CEDA; border-radius: 3px; padding: 12px 14px; margin-bottom: 10px; }
+  .solution-item:last-child { margin-bottom: 0; }
+  .solution-item.selected { border-left-color: #138808; background: #F7FCF7; }
+  .solution-item-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+  .solution-item-title { min-width: 0; flex: 1; color: #0B3C5D; font-size: 13.5px; font-weight: 700; overflow-wrap: anywhere; }
+  .solution-university { color: #666; font-size: 12px; font-weight: 500; }
+  .solution-status { padding: 3px 8px; border-radius: 3px; background: #F4F6F9; color: #666; font-size: 10.5px; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
+  .solution-status.selected { background: #E6F5E4; color: #138808; }
+  .solution-item-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
+  .proposal-toggle { color: #6d28d9; font-size: 12px; font-weight: 700; cursor: pointer; }
+  .solution-item .review-actions { margin-top: 10px; padding-top: 10px; }
+  .problem-view-btn { padding: 7px 12px; background: #0B3C5D; color: #fff; border-radius: 3px; font-size: 11.5px; font-weight: 600; white-space: nowrap; }
+  .problem-view-btn:hover { background: #FF9933; color: #0B3C5D; text-decoration: none; }
+  .problem-empty { color: #7A8B99; font-size: 13px; font-style: italic; }
+  .solution-detail { margin-top: 10px; }
+  .solution-detail summary { color: #6d28d9; cursor: pointer; font-size: 12px; font-weight: 700; }
+  .solution-detail .review-proposal, .solution-detail .review-ai { margin-top: 8px; }
+  .review-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .review-title { font-size: 16px; color: #0B3C5D; font-weight: 700; line-height: 1.35; flex: 1; min-width: 200px; }
+  .review-score { background: #EDE9FE; color: #6d28d9; padding: 5px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 700; white-space: nowrap; }
+  .review-score.high { background: #E6F5E4; color: #138808; }
+  .review-score.med { background: #FDF0DF; color: #B36A1B; }
+  .review-score.low { background: #FBE7E5; color: #C0392B; }
+  .review-challenge { font-size: 12.5px; color: #666; padding: 10px 12px; background: #F4F6F9; border-radius: 3px; margin-bottom: 12px; border-left: 3px solid #0B3C5D; }
+  .review-challenge strong { color: #0B3C5D; }
+  .review-proposal { font-size: 13.5px; color: #333; line-height: 1.7; margin-bottom: 12px; white-space: pre-wrap; }
+  .review-ai { background: #F0F7FF; border-left: 3px solid #0B3C5D; padding: 10px 14px; border-radius: 3px; font-size: 12.5px; color: #0B3C5D; line-height: 1.5; margin-bottom: 14px; }
+  .review-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 11.5px; color: #888; padding-top: 10px; border-top: 1px dashed #E5E9EF; margin-bottom: 14px; }
+  .list-tools { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 14px; }
+  .list-search { min-width: 220px; flex: 1; max-width: 420px; padding: 9px 11px; border: 1px solid #C5CEDA; border-radius: 3px; font: inherit; color: #1a1a1a; }
+  .list-search:focus { outline: none; border-color: #6d28d9; box-shadow: 0 0 0 2px rgba(109,40,217,0.1); }
+  .pagination { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; }
+  .pagination button { padding: 7px 12px; border: 1px solid #C5CEDA; border-radius: 3px; background: #fff; color: #6d28d9; cursor: pointer; font: inherit; }
+  .pagination button:disabled { color: #9aa6b2; background: #F4F6F9; cursor: not-allowed; }
+  .pagination span { font-size: 12px; color: #666; }
+  .compact-details { margin-bottom: 12px; font-size: 12px; color: #6d28d9; }
+  .compact-details summary { cursor: pointer; font-weight: 600; }
+
+  /* SCORING ACTIONS */
+  .review-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; padding-top: 12px; border-top: 1px solid #E5E9EF; }
+  .score-input-group { display: flex; align-items: center; gap: 8px; }
+  .score-input-group label { font-size: 12px; font-weight: 600; color: #555; }
+  .score-input { width: 80px; padding: 8px 10px; border: 1.5px solid #C5CEDA; border-radius: 3px; font-size: 13.5px; font-family: inherit; font-weight: 700; text-align: center; }
+  .score-input:focus { outline: none; border-color: #6d28d9; box-shadow: 0 0 0 2px rgba(109,40,217,0.12); }
+  .select-btn { padding: 9px 18px; background: #138808; color: #fff; border: none; border-radius: 3px; font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+  .select-btn:hover { background: #0e6606; }
+  .select-btn:disabled { background: #7A8B99; cursor: not-allowed; }
+  .already-selected { display: inline-flex; align-items: center; gap: 6px; background: #E6F5E4; color: #138808; padding: 8px 14px; border-radius: 3px; font-size: 12.5px; font-weight: 700; }
+
+  /* FILTER TABS */
+  .filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .filter-tab { padding: 8px 16px; background: #F4F6F9; border: 1px solid #E5E9EF; border-radius: 3px; font-size: 12.5px; font-weight: 600; color: #555; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+  .filter-tab:hover { background: #E6F0F7; color: #0B3C5D; }
+  .filter-tab.active { background: #6d28d9; color: #fff; border-color: #6d28d9; }
+
+  /* EMPTY / LOADING */
+  .empty-state { text-align: center; padding: 50px 20px; color: #94a3b8; }
+  .empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+  .empty-state h3 { font-size: 16px; color: #555; margin-bottom: 6px; font-family: 'Noto Serif', serif; }
+  .empty-state p { font-size: 13.5px; }
+
+  .loading { text-align: center; padding: 50px; color: #94a3b8; }
+  .spinner { width: 32px; height: 32px; border: 3px solid #E5E9EF; border-top-color: #6d28d9; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 24px; right: 24px; left: 24px; max-width: 400px; margin-left: auto; background: #138808; color: #fff; padding: 12px 20px; border-radius: 4px; font-size: 13.5px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 99999; text-align: center; }
+  .toast.error { background: #C0392B; }
+
+  /* FOOTER */
+  .mini-footer { background: #082B44; color: #7A8B99; padding: 14px 0; text-align: center; font-size: 11.5px; margin-top: auto; }
+  .mini-footer span { margin: 0 6px; display: inline-block; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    body { font-size: 14px; }
+    .utility-inner .right a { display: none; }
+    .lang-switcher { max-width: 120px; font-size: 11px; padding: 3px 6px; }
+    .nav-toggle { display: block; }
+    .main-nav-inner { display: none; flex-direction: column; width: 100%; padding: 4px 0 8px; }
+    .main-nav-inner.open { display: flex; }
+    .main-nav a { width: 100%; padding: 11px 20px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .main-nav a:first-child { border-left: none; }
+    .brand-text h1 { font-size: 18px; }
+    .emblem-img { width: 40px; height: 48px; }
+    .brand-text .subtitle { font-size: 9.5px; }
+    .welcome-left h1 { font-size: 20px; }
+    .welcome-right { width: 100%; }
+    .welcome-right .btn { flex: 1; }
+    .section-body { padding: 16px; }
+    .stat-num { font-size: 28px; }
+    .review-card { padding: 16px; }
+    .review-title { font-size: 15px; }
+    .review-actions { flex-direction: column; align-items: stretch; }
+    .score-input-group { justify-content: space-between; }
+    .select-btn { width: 100%; }
+  }
+</style>
+</head>
+<body data-lang="en">
+
+<div class="tricolor-strip"></div>
+
+<div class="utility-bar">
+  <div class="container utility-inner">
+    <div class="left"><span class="gov-tag"><span class="dot"></span> <span data-i18n="govBar">Government of India · Ministry of Education</span></span></div>
+    <div class="right">
+      <select class="lang-switcher" id="globalLang" onchange="changeGlobalLang(this.value)" title="App Language">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="ta">தமிழ்</option>
+        <option value="te">తెలుగు</option>
+        <option value="bn">বাংলা</option>
+        <option value="mr">मराठी</option>
+        <option value="gu">ગુજરાતી</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="ml">മലയാളം</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="or">ଓଡ଼ିଆ</option>
+        <option value="as">অসমীয়া</option>
+        <option value="ur">اردو</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<header class="main-header">
+  <div class="container header-inner">
+    <a href="index.html" class="emblem-block">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/240px-Emblem_of_India.svg.png" alt="State Emblem of India" class="emblem-img"
+        onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/120px-Emblem_of_India.svg.png';">
+      <div class="brand-text">
+        <h1>COLLA<span>B</span>X</h1>
+        <div class="subtitle" data-i18n="tagline">Digital Platform for Societal Innovation</div>
+        <div class="subtitle-hindi">नागरिक समस्याओं का समाधान मंच</div>
+      </div>
+    </a>
+  </div>
+</header>
+
+<nav class="main-nav">
+  <div class="container">
+    <button class="nav-toggle" onclick="document.querySelector('.main-nav-inner').classList.toggle('open')">☰ Menu</button>
+    <div class="main-nav-inner">
+      <a href="index.html" data-i18n="navHome">Home</a>
+      <a href="expert.html" class="active" data-i18n="navDashboard">Expert Review</a>
+      <span id="notifications-panel" style="position:relative;margin-left:auto;"><button type="button" onclick="toggleNotificationPanel()" aria-label="Notifications" title="Notifications" style="position:relative;background:transparent;border:1px solid rgba(255,255,255,0.35);color:#fff;border-radius:3px;padding:7px 10px;cursor:pointer;font:inherit;">🔔<span id="notifications-count" style="position:absolute;top:-7px;right:-7px;min-width:17px;height:17px;padding:1px 4px;border-radius:10px;background:#FF9933;color:#0B3C5D;font-size:10px;font-weight:700;line-height:15px;">0</span></button><span id="notifications-list" style="display:none;position:absolute;right:0;top:42px;width:320px;max-width:calc(100vw - 32px);background:#fff;border:1px solid #D5DDE5;border-top:3px solid #FF9933;border-radius:4px;padding:8px;box-shadow:0 5px 16px rgba(0,0,0,0.18);z-index:1000;"></span></span>
+      <span id="auth-nav"></span>
+    </div>
+  </div>
+</nav>
+
+<!-- WELCOME BAR — NO NAME -->
+<div class="welcome-bar">
+  <div class="container welcome-inner">
+    <div class="welcome-left">
+      <div class="expert-badge">⭐ DOMAIN EXPERT</div>
+      <h1 data-i18n="welcome">Expert Review Dashboard</h1>
+      <p data-i18n="welcomeSub">Verify AI evaluations and select the best solutions for each challenge</p>
+    </div>
+    <div class="welcome-right">
+      <button onclick="refreshAll()" class="btn btn-outline-white">🔄 <span data-i18n="refresh">Refresh</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="dash-wrapper">
+  <div class="dash-container">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="stat-pending">—</div>
+        <div class="stat-label" data-i18n="statPending">Pending Review</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-num" id="stat-reviewed">—</div>
+        <div class="stat-label" data-i18n="statReviewed">Reviewed</div>
+      </div>
+      <div class="stat-card orange">
+        <div class="stat-num" id="stat-selected">—</div>
+        <div class="stat-label" data-i18n="statSelected">Selected Solutions</div>
+      </div>
+    </div>
+
+    <!-- PENDING REVIEW -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2>🔍 <span data-i18n="pendingTitle">Solutions Pending Expert Review</span></h2>
+        <span class="count-badge" id="pending-count">0</span>
+      </div>
+      <div class="section-body">
+        <div class="filter-tabs" id="filter-tabs">
+          <button class="filter-tab active" data-filter="pending" data-i18n="filterPending">Pending Review</button>
+          <button class="filter-tab" data-filter="reviewed" data-i18n="filterReviewed">Reviewed</button>
+          <button class="filter-tab" data-filter="all" data-i18n="filterAll">All</button>
+        </div>
+        <div class="list-tools">
+          <input id="review-search" class="list-search" type="search" placeholder="Search solutions or problems..." aria-label="Search solutions or problems">
+        </div>
+        <div id="reviews-container">
+          <div class="loading">
+            <div class="spinner"></div>
+            <div data-i18n="loadingReviews">Loading solutions for review...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="mini-footer">
+  <span>© 2026 CollabX</span><span>·</span><span data-i18n="govInit">Government of India Initiative</span>
+</footer>
+
+<script>
+  const API_BASE = "http://127.0.0.1:8000";
+  const LANG_KEY = "collabx_lang";
+
+  // ============ TRANSLATIONS ============
+  const I18N = {
+    en: {
+      govBar: "Government of India · Ministry of Education", skipContent: "Skip to Main Content", screenReader: "Screen Reader",
+      tagline: "Digital Platform for Societal Innovation",
+      navHome: "Home", navChallenges: "Public Challenges", navDashboard: "Expert Review",
+      welcome: "Expert Review Dashboard",
+      welcomeSub: "Verify AI evaluations and select the best solutions for each challenge",
+      refresh: "Refresh",
+      statPending: "Pending Review", statReviewed: "Reviewed", statSelected: "Selected Solutions", statAvgScore: "Avg AI Score",
+      pendingTitle: "Solutions Pending Expert Review",
+      filterPending: "Pending Review", filterReviewed: "Reviewed", filterAll: "All",
+      loadingReviews: "Loading solutions for review...",
+      noReviews: "No solutions to review at the moment.", noReviewsSub: "New solutions from universities will appear here.",
+      noMatch: "No solutions match this filter.",
+      challenge: "Challenge", university: "University", submitted: "Submitted",
+      aiScore: "AI Score", aiExplanation: "AI Analysis", proposal: "Proposal",
+      expertScore: "Expert Score (0-100)", saveScoreBtn: "Save Evaluation", selectBtn: "✓ Select as Best Solution",
+      alreadySelected: "✓ Selected as Best", reviewed: "Reviewed",
+      selectSuccess: "✓ Solution selected as best! University will be notified.",
+      selectFail: "✗ Failed to save expert score",
+      scoreRequired: "Please enter an expert score (0-100) first.", scoreSaved: "Evaluation score saved.",
+      priorityHigh: "High Priority", priorityMed: "Medium Priority", priorityLow: "Standard",
+      govInit: "Government of India Initiative"
+    },
+    hi: {
+      govBar: "भारत सरकार · शिक्षा मंत्रालय", skipContent: "मुख्य सामग्री", screenReader: "स्क्रीन रीडर",
+      tagline: "सामाजिक नवाचार के लिए डिजिटल मंच",
+      navHome: "होम", navChallenges: "सार्वजनिक चुनौतियाँ", navDashboard: "विशेषज्ञ समीक्षा",
+      welcome: "विशेषज्ञ समीक्षा डैशबोर्ड",
+      welcomeSub: "AI मूल्यांकन सत्यापित करें और प्रत्येक चुनौती के लिए सर्वश्रेष्ठ समाधान चुनें",
+      refresh: "रिफ्रेश",
+      statPending: "समीक्षा लंबित", statReviewed: "समीक्षित", statSelected: "चयनित समाधान", statAvgScore: "औसत AI स्कोर",
+      pendingTitle: "विशेषज्ञ समीक्षा के लिए लंबित समाधान",
+      filterPending: "समीक्षा लंबित", filterReviewed: "समीक्षित", filterAll: "सभी",
+      loadingReviews: "समीक्षा के लिए समाधान लोड हो रहे हैं...",
+      noReviews: "इस समय समीक्षा के लिए कोई समाधान नहीं।", noReviewsSub: "विश्वविद्यालयों के नए समाधान यहाँ दिखाई देंगे।",
+      noMatch: "इस फ़िल्टर से कोई समाधान मेल नहीं खाता।",
+      challenge: "चुनौती", university: "विश्वविद्यालय", submitted: "जमा किया",
+      aiScore: "AI स्कोर", aiExplanation: "AI विश्लेषण", proposal: "प्रस्ताव",
+      expertScore: "विशेषज्ञ स्कोर (0-100)", selectBtn: "✓ सर्वश्रेष्ठ समाधान के रूप में चुनें",
+      alreadySelected: "✓ सर्वश्रेष्ठ के रूप में चयनित", reviewed: "समीक्षित",
+      selectSuccess: "✓ समाधान सर्वश्रेष्ठ के रूप में चयनित!",
+      selectFail: "✗ विशेषज्ञ स्कोर सहेजने में विफल",
+      scoreRequired: "कृपया पहले विशेषज्ञ स्कोर (0-100) दर्ज करें।",
+      priorityHigh: "उच्च प्राथमिकता", priorityMed: "मध्यम प्राथमिकता", priorityLow: "मानक",
+      govInit: "भारत सरकार की पहल"
+    },
+    ta: {
+      govBar: "இந்திய அரசு · கல்வி அமைச்சகம்", skipContent: "உள்ளடக்கம்", screenReader: "வாசிப்பான்",
+      tagline: "சமூக புதுமை தளம்",
+      navHome: "முகப்பு", navChallenges: "பொது சவால்கள்", navDashboard: "நிபுணர் மதிப்பாய்வு",
+      welcome: "நிபுணர் மதிப்பாய்வு டாஷ்போர்டு",
+      welcomeSub: "AI மதிப்பீடுகளை சரிபார்த்து ஒவ்வொரு சவாலுக்கும் சிறந்த தீர்வுகளைத் தேர்ந்தெடுக்கவும்",
+      refresh: "புதுப்பி",
+      statPending: "மதிப்பாய்வு நிலுவை", statReviewed: "மதிப்பாய்வு", statSelected: "தேர்ந்தெடுக்கப்பட்டவை", statAvgScore: "சராசரி AI மதிப்பெண்",
+      pendingTitle: "நிபுணர் மதிப்பாய்வுக்காக நிலுவையில் உள்ள தீர்வுகள்",
+      filterPending: "நிலுவை", filterReviewed: "மதிப்பாய்வு", filterAll: "அனைத்தும்",
+      loadingReviews: "ஏற்றப்படுகின்றன...",
+      noReviews: "இப்போது மதிப்பாய்வுக்கு தீர்வுகள் இல்லை.", noReviewsSub: "புதிய தீர்வுகள் இங்கே தோன்றும்.",
+      noMatch: "இந்த வடிகட்டலுடன் எதுவும் பொருந்தவில்லை.",
+      challenge: "சவால்", university: "பல்கலைக்கழகம்", submitted: "சமர்ப்பிக்கப்பட்டது",
+      aiScore: "AI மதிப்பெண்", aiExplanation: "AI பகுப்பாய்வு", proposal: "முன்மொழிவு",
+      expertScore: "நிபுணர் மதிப்பெண் (0-100)", selectBtn: "✓ சிறந்த தீர்வாக தேர்ந்தெடு",
+      alreadySelected: "✓ சிறந்ததாக தேர்ந்தெடுக்கப்பட்டது", reviewed: "மதிப்பாய்வு",
+      selectSuccess: "✓ தீர்வு சிறந்ததாக தேர்ந்தெடுக்கப்பட்டது!",
+      selectFail: "✗ சேமிக்க தோல்வி",
+      scoreRequired: "முதலில் நிபுணர் மதிப்பெண் (0-100) உள்ளிடவும்.",
+      priorityHigh: "உயர் முன்னுரிமை", priorityMed: "நடுத்தரம்", priorityLow: "தரநிலை",
+      govInit: "இந்திய அரசு முயற்சி"
+    },
+    te: {
+      govBar: "భారత ప్రభుత్వం · విద్యా మంత్రిత్వ శాఖ", skipContent: "కంటెంట్", screenReader: "రీడర్",
+      tagline: "సామాజిక ఆవిష్కరణ వేదిక",
+      navHome: "హోమ్", navChallenges: "ఛాలెంజ్లు", navDashboard: "నిపుణుల సమీక్ష",
+      welcome: "నిపుణుల సమీక్ష డాష్బోర్డ్",
+      welcomeSub: "AI మూల్యాంకనాలను ధృవీకరించి ప్రతి ఛాలెంజ్కు ఉత్తమ పరిష్కారాలను ఎంచుకోండి",
+      refresh: "రిఫ్రెష్",
+      statPending: "సమీక్ష పెండింగ్", statReviewed: "సమీక్షించబడింది", statSelected: "ఎంపిక పరిష్కారాలు", statAvgScore: "సగటు AI స్కోర్",
+      pendingTitle: "నిపుణుల సమీక్ష కోసం పెండింగ్ పరిష్కారాలు",
+      filterPending: "పెండింగ్", filterReviewed: "సమీక్షించబడింది", filterAll: "అన్నీ",
+      loadingReviews: "లోడ్...",
+      noReviews: "ఇప్పుడు సమీక్షకు ఏమీ లేదు.", noReviewsSub: "కొత్త పరిష్కారాలు ఇక్కడ కనిపిస్తాయి.",
+      noMatch: "ఈ ఫిల్టర్తో ఏదీ సరిపోలలేదు.",
+      challenge: "ఛాలెంజ్", university: "విశ్వవిద్యాలయం", submitted: "సమర్పించబడింది",
+      aiScore: "AI స్కోర్", aiExplanation: "AI విశ్లేషణ", proposal: "ప్రతిపాదన",
+      expertScore: "నిపుణుల స్కోర్ (0-100)", selectBtn: "✓ ఉత్తమ పరిష్కారంగా ఎంచుకోండి",
+      alreadySelected: "✓ ఉత్తమంగా ఎంపిక", reviewed: "సమీక్షించబడింది",
+      selectSuccess: "✓ పరిష్కారం ఎంపిక చేయబడింది!",
+      selectFail: "✗ సేవ్ చేయడం విఫలమైంది",
+      scoreRequired: "మొదట నిపుణుల స్కోర్ (0-100) నమోదు చేయండి.",
+      priorityHigh: "అధిక ప్రాధాన్యత", priorityMed: "మధ్యస్థం", priorityLow: "ప్రామాణికం",
+      govInit: "భారత ప్రభుత్వ చొరవ"
+    },
+    bn: { govBar: "ভারত · শিক্ষা", skipContent: "বিষয়বস্তু", screenReader: "রিডার", tagline: "ডিজিটাল", navHome: "হোম", navChallenges: "চ্যালেঞ্জ", navDashboard: "বিশেষজ্ঞ পর্যালোচনা", welcome: "বিশেষজ্ঞ পর্যালোচনা ড্যাশবোর্ড", welcomeSub: "AI মূল্যায়ন যাচাই করুন এবং সেরা সমাধান নির্বাচন করুন", refresh: "রিফ্রেশ", statPending: "পর্যালোচনা", statReviewed: "পর্যালোচিত", statSelected: "নির্বাচিত", statAvgScore: "গড় AI স্কোর", pendingTitle: "পর্যালোচনার জন্য অপেক্ষমাণ সমাধান", filterPending: "অপেক্ষমাণ", filterReviewed: "পর্যালোচিত", filterAll: "সব", loadingReviews: "লোড...", noReviews: "এখন কোনটিই নেই।", noReviewsSub: "নতুন সমাধান এখানে দেখাবে।", noMatch: "মেলে না।", challenge: "চ্যালেঞ্জ", university: "বিশ্ববিদ্যালয়", submitted: "জমা", aiScore: "AI স্কোর", aiExplanation: "AI বিশ্লেষণ", proposal: "প্রস্তাব", expertScore: "বিশেষজ্ঞ স্কোর (0-100)", selectBtn: "✓ সেরা হিসাবে নির্বাচন", alreadySelected: "✓ নির্বাচিত", reviewed: "পর্যালোচিত", selectSuccess: "✓ নির্বাচিত!", selectFail: "✗ ব্যর্থ", scoreRequired: "প্রথমে স্কোর লিখুন।", priorityHigh: "উচ্চ", priorityMed: "মাঝারি", priorityLow: "স্ট্যান্ডার্ড", govInit: "ভারত সরকার" },
+    mr: { govBar: "भारत · शिक्षण", skipContent: "सामग्री", screenReader: "रीडर", tagline: "डिजिटल", navHome: "मुख्यपृष्ठ", navChallenges: "आव्हाने", navDashboard: "तज्ञ पुनरावलोकन", welcome: "तज्ञ पुनरावलोकन डॅशबोर्ड", welcomeSub: "AI मूल्यांकन सत्यापित करा आणि सर्वोत्तम उपाय निवडा", refresh: "रिफ्रेश", statPending: "पुनरावलोकन", statReviewed: "पुनरावलोकित", statSelected: "निवडलेले", statAvgScore: "सरासरी AI स्कोअर", pendingTitle: "पुनरावलोकनासाठी प्रलंबित उपाय", filterPending: "प्रलंबित", filterReviewed: "पुनरावलोकित", filterAll: "सर्व", loadingReviews: "लोड...", noReviews: "आत्ता काहीही नाही.", noReviewsSub: "नवीन उपाय येथे दिसतील.", noMatch: "जुळत नाही.", challenge: "आव्हान", university: "विद्यापीठ", submitted: "सबमिट", aiScore: "AI स्कोअर", aiExplanation: "AI विश्लेषण", proposal: "प्रस्ताव", expertScore: "तज्ञ स्कोअर (0-100)", selectBtn: "✓ सर्वोत्तम म्हणून निवडा", alreadySelected: "✓ निवडलेले", reviewed: "पुनरावलोकित", selectSuccess: "✓ निवडले!", selectFail: "✗ अयशस्वी", scoreRequired: "आधी स्कोअर टाका.", priorityHigh: "उच्च", priorityMed: "मध्यम", priorityLow: "मानक", govInit: "भारत सरकार" },
+    gu: { govBar: "ભારત · શિક્ષણ", skipContent: "સામગ્રી", screenReader: "રીડર", tagline: "ડિજિટલ", navHome: "હોમ", navChallenges: "પડકારો", navDashboard: "નિષ્ણાત સમીક્ષા", welcome: "નિષ્ણાત સમીક્ષા ડેશબોર્ડ", welcomeSub: "AI મૂલ્યાંકન ચકાસો અને શ્રેષ્ઠ ઉકેલો પસંદ કરો", refresh: "રિફ્રેશ", statPending: "સમીક્ષા", statReviewed: "સમીક્ષિત", statSelected: "પસંદ કરેલા", statAvgScore: "સરેરાશ AI", pendingTitle: "સમીક્ષા માટે બાકી", filterPending: "બાકી", filterReviewed: "સમીક્ષિત", filterAll: "બધા", loadingReviews: "લોડ...", noReviews: "હાલ કંઈ નથી.", noReviewsSub: "નવા ઉકેલો દેખાશે.", noMatch: "મેળ નથી.", challenge: "પડકાર", university: "યુનિવર્સિટી", submitted: "સબમિટ", aiScore: "AI", aiExplanation: "AI વિશ્લેષણ", proposal: "પ્રસ્તાવ", expertScore: "નિષ્ણાત સ્કોર (0-100)", selectBtn: "✓ શ્રેષ્ઠ પસંદ કરો", alreadySelected: "✓ પસંદ", reviewed: "સમીક્ષિત", selectSuccess: "✓ પસંદ!", selectFail: "✗ નિષ્ફળ", scoreRequired: "પહેલા સ્કોર દાખલ કરો.", priorityHigh: "ઉચ્ચ", priorityMed: "મધ્યમ", priorityLow: "પ્રમાણભૂત", govInit: "ભારત સરકાર" },
+    kn: { govBar: "ಭಾರತ · ಶಿಕ್ಷಣ", skipContent: "ವಿಷಯ", screenReader: "ರೀಡರ್", tagline: "ಡಿಜಿಟಲ್", navHome: "ಮುಖಪುಟ", navChallenges: "ಸವಾಲುಗಳು", navDashboard: "ತಜ್ಞರ ಪರಿಶೀಲನೆ", welcome: "ತಜ್ಞರ ಪರಿಶೀಲನೆ ಡ್ಯಾಶ್ಬೋರ್ಡ್", welcomeSub: "AI ಮೌಲ್ಯಮಾಪನಗಳನ್ನು ಪರಿಶೀಲಿಸಿ ಉತ್ತಮ ಪರಿಹಾರಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ", refresh: "ರಿಫ್ರೆಶ್", statPending: "ಪರಿಶೀಲನೆ", statReviewed: "ಪರಿಶೀಲಿಸಲಾಗಿದೆ", statSelected: "ಆಯ್ಕೆ", statAvgScore: "ಸರಾಸರಿ AI", pendingTitle: "ಪರಿಶೀಲನೆಗೆ ಬಾಕಿ", filterPending: "ಬಾಕಿ", filterReviewed: "ಪರಿಶೀಲಿಸಲಾಗಿದೆ", filterAll: "ಎಲ್ಲಾ", loadingReviews: "ಲೋಡ್...", noReviews: "ಈಗ ಏನೂ ಇಲ್ಲ.", noReviewsSub: "ಹೊಸ ಪರಿಹಾರಗಳು ಕಾಣಿಸುತ್ತವೆ.", noMatch: "ಹೊಂದಿಕೆಯಾಗುವುದಿಲ್ಲ.", challenge: "ಸವಾಲು", university: "ವಿಶ್ವವಿದ್ಯಾಲಯ", submitted: "ಸಲ್ಲಿಸಲಾಗಿದೆ", aiScore: "AI", aiExplanation: "AI ವಿಶ್ಲೇಷಣೆ", proposal: "ಪ್ರಸ್ತಾವ", expertScore: "ತಜ್ಞರ ಸ್ಕೋರ್ (0-100)", selectBtn: "✓ ಉತ್ತಮವಾಗಿ ಆಯ್ಕೆ ಮಾಡಿ", alreadySelected: "✓ ಆಯ್ಕೆ", reviewed: "ಪರಿಶೀಲಿಸಲಾಗಿದೆ", selectSuccess: "✓ ಆಯ್ಕೆ!", selectFail: "✗ ವಿಫಲ", scoreRequired: "ಮೊದಲು ಸ್ಕೋರ್ ನಮೂದಿಸಿ.", priorityHigh: "ಹೆಚ್ಚು", priorityMed: "ಮಧ್ಯಮ", priorityLow: "ಪ್ರಮಾಣಿತ", govInit: "ಭಾರತ ಸರ್ಕಾರ" },
+    ml: { govBar: "ഇന്ത്യ · വിദ്യാഭ്യാസം", skipContent: "ഉള്ളടക്കം", screenReader: "റീഡർ", tagline: "ഡിജിറ്റൽ", navHome: "ഹോം", navChallenges: "വെല്ലുവിളികൾ", navDashboard: "വിദഗ്ധ അവലോകനം", welcome: "വിദഗ്ധ അവലോകന ഡാഷ്ബോർഡ്", welcomeSub: "AI മൂല്യനിർണ്ണയങ്ങൾ പരിശോധിച്ച് മികച്ച പരിഹാരങ്ങൾ തിരഞ്ഞെടുക്കുക", refresh: "റിഫ്രെഷ്", statPending: "അവലോകനം", statReviewed: "അവലോകനം ചെയ്തത്", statSelected: "തിരഞ്ഞെടുത്തത്", statAvgScore: "ശരാശരി AI", pendingTitle: "അവലോകനത്തിന് കാത്തിരിക്കുന്നു", filterPending: "കാത്തിരിക്കുന്നു", filterReviewed: "അവലോകനം", filterAll: "എല്ലാം", loadingReviews: "ലോഡ്...", noReviews: "ഇപ്പോൾ ഒന്നുമില്ല.", noReviewsSub: "പുതിയ പരിഹാരങ്ങൾ ഇവിടെ കാണും.", noMatch: "പൊരുത്തപ്പെടുന്നില്ല.", challenge: "വെല്ലുവിളി", university: "സർവ്വകലാശാല", submitted: "സമർപ്പിച്ചു", aiScore: "AI", aiExplanation: "AI വിശകലനം", proposal: "നിർദ്ദേശം", expertScore: "വിദഗ്ധ സ്കോർ (0-100)", selectBtn: "✓ മികച്ചതായി തിരഞ്ഞെടുക്കുക", alreadySelected: "✓ തിരഞ്ഞെടുത്തു", reviewed: "അവലോകനം", selectSuccess: "✓ തിരഞ്ഞെടുത്തു!", selectFail: "✗ പരാജയം", scoreRequired: "ആദ്യം സ്കോർ നൽകുക.", priorityHigh: "ഉയർന്ന", priorityMed: "ഇടത്തരം", priorityLow: "സാധാരണ", govInit: "ഇന്ത്യാ ഗവൺമെന്റ്" },
+    pa: { govBar: "ਭਾਰਤ · ਸਿੱਖਿਆ", skipContent: "ਸਮੱਗਰੀ", screenReader: "ਰੀਡਰ", tagline: "ਡਿਜੀਟਲ", navHome: "ਘਰ", navChallenges: "ਚੁਣੌਤੀਆਂ", navDashboard: "ਮਾਹਰ ਸਮੀਖਿਆ", welcome: "ਮਾਹਰ ਸਮੀਖਿਆ ਡੈਸ਼ਬੋਰਡ", welcomeSub: "AI ਮੁਲਾਂਕਣ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ ਅਤੇ ਸਭ ਤੋਂ ਵਧੀਆ ਹੱਲ ਚੁਣੋ", refresh: "ਰਿਫ੍ਰੈਸ਼", statPending: "ਸਮੀਖਿਆ", statReviewed: "ਸਮੀਖਿਆ ਕੀਤੀ", statSelected: "ਚੁਣੇ", statAvgScore: "ਔਸਤ AI", pendingTitle: "ਸਮੀਖਿਆ ਲਈ ਬਕਾਇਆ", filterPending: "ਬਕਾਇਆ", filterReviewed: "ਸਮੀਖਿਆ", filterAll: "ਸਾਰੇ", loadingReviews: "ਲੋਡ...", noReviews: "ਹੁਣ ਕੁਝ ਨਹੀਂ।", noReviewsSub: "ਨਵੇਂ ਹੱਲ ਦਿਖਣਗੇ।", noMatch: "ਮੇਲ ਨਹੀਂ।", challenge: "ਚੁਣੌਤੀ", university: "ਯੂਨੀਵਰਸਿਟੀ", submitted: "ਜਮ੍ਹਾਂ", aiScore: "AI", aiExplanation: "AI ਵਿਸ਼ਲੇਸ਼ਣ", proposal: "ਪ੍ਰਸਤਾਵ", expertScore: "ਮਾਹਰ ਸਕੋਰ (0-100)", selectBtn: "✓ ਵਧੀਆ ਚੁਣੋ", alreadySelected: "✓ ਚੁਣੇ", reviewed: "ਸਮੀਖਿਆ", selectSuccess: "✓ ਚੁਣੇ!", selectFail: "✗ ਅਸਫਲ", scoreRequired: "ਪਹਿਲਾਂ ਸਕੋਰ ਭਰੋ।", priorityHigh: "ਉੱਚ", priorityMed: "ਮੱਧਮ", priorityLow: "ਮਿਆਰੀ", govInit: "ਭਾਰਤ ਸਰਕਾਰ" },
+    or: { govBar: "ଭାରତ · ଶିକ୍ଷା", skipContent: "ବିଷୟ", screenReader: "ରିଡର", tagline: "ଡିଜିଟାଲ", navHome: "ହୋମ", navChallenges: "ଆହ୍ୱାନ", navDashboard: "ବିଶେଷଜ୍ଞ ସମୀକ୍ଷା", welcome: "ବିଶେଷଜ୍ଞ ସମୀକ୍ଷା ଡ୍ୟାସବୋର୍ଡ", welcomeSub: "AI ମୂଲ୍ୟାଙ୍କନ ଯାଞ୍ଚ କରନ୍ତୁ ଏବଂ ସର୍ବୋତ୍ତମ ସମାଧାନ ଚୟନ କରନ୍ତୁ", refresh: "ରିଫ୍ରେସ", statPending: "ସମୀକ୍ଷା", statReviewed: "ସମୀକ୍ଷିତ", statSelected: "ଚୟନିତ", statAvgScore: "ହାରାହାରି AI", pendingTitle: "ସମୀକ୍ଷା ପାଇଁ ଅପେକ୍ଷିତ", filterPending: "ଅପେକ୍ଷିତ", filterReviewed: "ସମୀକ୍ଷିତ", filterAll: "ସମସ୍ତ", loadingReviews: "ଲୋଡ୍...", noReviews: "ଏବେ କିଛି ନାହିଁ।", noReviewsSub: "ନୂଆ ସମାଧାନ ଦେଖାଯିବ।", noMatch: "ମେଳ ନାହିଁ।", challenge: "ଆହ୍ୱାନ", university: "ବିଶ୍ୱବିଦ୍ୟାଳୟ", submitted: "ଦାଖଲ", aiScore: "AI", aiExplanation: "AI ବିଶ୍ଳେଷଣ", proposal: "ପ୍ରସ୍ତାବ", expertScore: "ବିଶେଷଜ୍ଞ ସ୍କୋର (0-100)", selectBtn: "✓ ସର୍ବୋତ୍ତମ ଚୟନ", alreadySelected: "✓ ଚୟନିତ", reviewed: "ସମୀକ୍ଷିତ", selectSuccess: "✓ ଚୟନ!", selectFail: "✗ ବିଫଳ", scoreRequired: "ପ୍ରଥମେ ସ୍କୋର ଦିଅନ୍ତୁ।", priorityHigh: "ଉଚ୍ଚ", priorityMed: "ମଧ୍ୟମ", priorityLow: "ମାନକ", govInit: "ଭାରତ ସରକାର" },
+    as: { govBar: "ভাৰত · শিক্ষা", skipContent: "সমল", screenReader: "ৰিডাৰ", tagline: "ডিজিটেল", navHome: "হোম", navChallenges: "প্ৰত্যাহ্বান", navDashboard: "বিশেষজ্ঞ পৰ্যালোচনা", welcome: "বিশেষজ্ঞ পৰ্যালোচনা", welcomeSub: "AI মূল্যায়ন পৰীক্ষা কৰক", refresh: "ৰিফ্ৰেশ", statPending: "পৰ্যালোচনা", statReviewed: "পৰ্যালোচিত", statSelected: "বাছনি", statAvgScore: "গড় AI", pendingTitle: "পৰ্যালোচনা অপেক্ষমাণ", filterPending: "অপেক্ষমাণ", filterReviewed: "পৰ্যালোচিত", filterAll: "সকলো", loadingReviews: "লোড...", noReviews: "এতিয়া নাই।", noReviewsSub: "নতুন সমাধান দেখুওৱা হ'ব।", noMatch: "মিল নাই।", challenge: "প্ৰত্যাহ্বান", university: "বিশ্ববিদ্যালয়", submitted: "দাখিল", aiScore: "AI", aiExplanation: "AI বিশ্লেষণ", proposal: "প্ৰস্তাৱ", expertScore: "বিশেষজ্ঞ স্ক'ৰ (0-100)", selectBtn: "✓ শ্ৰেষ্ঠ বাছনি", alreadySelected: "✓ বাছনি", reviewed: "পৰ্যালোচিত", selectSuccess: "✓ বাছনি!", selectFail: "✗ বিফল", scoreRequired: "প্ৰথমে স্ক'ৰ দিয়ক।", priorityHigh: "উচ্চ", priorityMed: "মধ্যম", priorityLow: "মানক", govInit: "ভাৰত চৰকাৰ" },
+    ur: { govBar: "حکومت ہند · تعلیم", skipContent: "مواد", screenReader: "ریڈر", tagline: "ڈیجیٹل", navHome: "ہوم", navChallenges: "چیلنجز", navDashboard: "ماہر جائزہ", welcome: "ماہر جائزہ ڈیش بورڈ", welcomeSub: "AI جائزے کی تصدیق کریں اور بہترین حل منتخب کریں", refresh: "ریفریش", statPending: "جائزہ", statReviewed: "جائزہ شدہ", statSelected: "منتخب", statAvgScore: "اوسط AI", pendingTitle: "جائزے کے منتظر", filterPending: "منتظر", filterReviewed: "جائزہ شدہ", filterAll: "سب", loadingReviews: "لوڈ...", noReviews: "ابھی کچھ نہیں۔", noReviewsSub: "نئے حل یہاں دکھائی دیں گے۔", noMatch: "مطابقت نہیں۔", challenge: "چیلنج", university: "یونیورسٹی", submitted: "جمع", aiScore: "AI", aiExplanation: "AI تجزیہ", proposal: "تجویز", expertScore: "ماہر سکور (0-100)", selectBtn: "✓ بہترین منتخب", alreadySelected: "✓ منتخب", reviewed: "جائزہ شدہ", selectSuccess: "✓ منتخب!", selectFail: "✗ ناکام", scoreRequired: "پہلے سکور درج کریں۔", priorityHigh: "اعلی", priorityMed: "درمیانہ", priorityLow: "معیاری", govInit: "حکومت ہند" }
+  };
+
+  function applyTranslations(lang) {
+    const t = I18N[lang] || I18N.en;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (t[key]) el.textContent = t[key];
+    });
+    document.body.setAttribute("data-lang", lang);
+    document.documentElement.lang = lang;
+  }
+  function changeGlobalLang(lang) {
+    localStorage.setItem(LANG_KEY, lang);
+    applyTranslations(lang);
+    if (allSolutions.length) renderReviews();
+  }
+
+  function escapeHtml(str) { const d = document.createElement("div"); d.textContent = str || ""; return d.innerHTML; }
+  function getT(key) { return (I18N[localStorage.getItem(LANG_KEY) || "en"] || I18N.en)[key] || I18N.en[key]; }
+  function roleRoute(role) { return { citizen:"citizen.html", university:"university.html", industry:"industry.html", govt:"admin.html", admin:"admin.html", expert:"expert.html" }[role] || "index.html"; }
+  function logout() { localStorage.removeItem("token"); localStorage.removeItem("user"); window.location.href = "index.html"; }
+
+  function showToast(msg, type = "success") {
+    const t = document.createElement("div");
+    t.className = "toast" + (type === "error" ? " error" : "");
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+  }
+
+  // STATE
+  let currentUser = null;
+  let allSolutions = [];
+  let allChallenges = [];
+  let currentFilter = "pending";
+  let solutionToChallengeMap = {};
+  let reviewSearch = "";
+  let reviewPage = 1;
+  const REVIEWS_PER_PAGE = 6;
+
+  // INIT
+  const savedLang = localStorage.getItem(LANG_KEY) || "en";
+  document.getElementById("globalLang").value = savedLang;
+  applyTranslations(savedLang);
+
+  // AUTH — NO NAME
+  (function initAuth() {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+
+    if (!token || !user) { alert("Please login to access the expert panel."); window.location.href = "login.html"; return; }
+    if (user.role !== "expert") { window.location.href = roleRoute(user.role); return; }
+
+    currentUser = user;
+
+    // Show only role — no name
+    document.getElementById("auth-nav").innerHTML = `
+      <a href="expert.html" class="active">⭐ Expert</a>
+      <a href="profile.html">Profile</a>
+      <button onclick="logout()" style="background:transparent; border:none; color:#fff; padding:11px 16px; cursor:pointer; font-size:13px; font-weight:500;">Logout</button>
+    `;
+  })();
+
+  // FILTER TABS
+  document.querySelectorAll(".filter-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      currentFilter = tab.dataset.filter;
+      reviewPage = 1;
+      renderReviews();
+    });
+  });
+
+  document.getElementById("review-search").addEventListener("input", event => {
+    reviewSearch = event.target.value.trim().toLowerCase();
+    reviewPage = 1;
+    renderReviews();
+  });
+
+  // LOAD DATA
+  async function loadAll() {
+    loadNotifications();
+    document.getElementById("reviews-container").innerHTML = `<div class="loading"><div class="spinner"></div><div>${getT("loadingReviews")}</div></div>`;
+
+    try {
+      // Fetch all challenges to build the mapping
+      const chRes = await fetch(`${API_BASE}/challenges/`);
+      const challenges = chRes.ok ? await chRes.json() : [];
+      allChallenges = challenges;
+      solutionToChallengeMap = {};
+      challenges.forEach(ch => { solutionToChallengeMap[ch.id] = ch; });
+
+      // Fetch all solutions from all challenges
+      allSolutions = [];
+      for (const ch of challenges) {
+        try {
+          const sRes = await fetch(`${API_BASE}/solutions/challenge/${ch.id}`);
+          const sols = sRes.ok ? await sRes.json() : [];
+          sols.forEach(s => allSolutions.push(s));
+        } catch(e) {}
+      }
+
+      updateStats();
+      renderReviews();
+    } catch (err) {
+      document.getElementById("reviews-container").innerHTML = `<div class="empty-state">
+        <div class="icon">⚠</div>
+        <h3>Could not connect to backend</h3>
+        <p>Please ensure the backend server is running on port 8000.</p>
+      </div>`;
+    }
+  }
+
+  async function loadNotifications() {
+    const panel = document.getElementById("notifications-panel");
+    try {
+      const response = await fetch(`${API_BASE}/notifications/mine`, { headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } });
+      if (!response.ok) return;
+      const items = await response.json();
+      document.getElementById("notifications-count").textContent = items.filter(item => !item.is_read).length;
+      document.getElementById("notifications-list").innerHTML = items.length ? items.slice(0, 8).map(item => `<a href="detail.html?id=${item.challenge_id || ""}" onclick="markNotificationRead(${item.id})" style="padding:9px 10px;background:${item.is_read ? "#F8FAFC" : "#FFF8ED"};border-radius:3px;color:#1a1a1a;text-decoration:none;"><strong>${escapeHtml(item.title)}</strong><span style="display:block;font-size:12px;color:#666;margin-top:2px;">${escapeHtml(item.message)}</span></a>`).join("") : `<div style="font-size:12px;color:#7A8B99;padding:8px 0;">No new notifications.</div>`;
+    } catch (error) { document.getElementById("notifications-list").innerHTML = `<div style="font-size:12px;color:#C0392B;padding:8px 0;">Notifications unavailable.</div>`; }
+  }
+
+  function markNotificationRead(id) { fetch(`${API_BASE}/notifications/${id}/read`, { method: "PATCH", headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } }); }
+  function toggleNotificationPanel() { const list = document.getElementById("notifications-list"); list.style.display = list.style.display === "none" ? "grid" : "none"; }
+
+  function updateStats() {
+    const pending = allSolutions.filter(s => s.status === "AI_SCREENED" || s.status === "PENDING").length;
+    const reviewed = allSolutions.filter(s => s.status === "REVIEWED" || s.status === "SELECTED" || s.status === "EXPERT_SELECTED").length;
+    const selected = allSolutions.filter(s => s.status === "SELECTED" || s.status === "EXPERT_SELECTED").length;
+    document.getElementById("stat-pending").textContent = pending;
+    document.getElementById("stat-reviewed").textContent = reviewed;
+    document.getElementById("stat-selected").textContent = selected;
+  }
+
+  function renderReviews() {
+    const container = document.getElementById("reviews-container");
+    let filtered = allSolutions;
+
+    if (currentFilter === "pending") {
+      filtered = allSolutions.filter(s => s.status === "AI_SCREENED" || s.status === "PENDING");
+    } else if (currentFilter === "reviewed") {
+      filtered = allSolutions.filter(s => s.status === "REVIEWED" || s.status === "SELECTED" || s.status === "EXPERT_SELECTED");
+    }
+    if (reviewSearch) {
+      filtered = filtered.filter(s => {
+        const ch = solutionToChallengeMap[s.challenge_id] || {};
+        return `${s.title} ${s.proposal} ${ch.title || ""} ${ch.description || ""}`.toLowerCase().includes(reviewSearch);
+      });
+    }
+
+    const grouped = {};
+    filtered.forEach(solution => {
+      const challengeId = solution.challenge_id;
+      if (!grouped[challengeId]) grouped[challengeId] = [];
+      grouped[challengeId].push(solution);
+    });
+
+    if (currentFilter === "all") {
+      allChallenges.forEach(challenge => {
+        if (!grouped[challenge.id]) grouped[challenge.id] = [];
+      });
+    }
+
+    const problemIds = Object.keys(grouped);
+    document.getElementById("pending-count").textContent = problemIds.length;
+
+    if (problemIds.length === 0) {
+      container.innerHTML = `<div class="empty-state">
+        <div class="icon">🔍</div>
+        <h3>${getT("noReviews")}</h3>
+        <p>${getT("noReviewsSub")}</p>
+      </div>`;
+      return;
+    }
+
+    const totalPages = Math.max(1, Math.ceil(problemIds.length / REVIEWS_PER_PAGE));
+    reviewPage = Math.min(reviewPage, totalPages);
+    const pageProblemIds = problemIds.slice((reviewPage - 1) * REVIEWS_PER_PAGE, reviewPage * REVIEWS_PER_PAGE);
+
+    container.innerHTML = pageProblemIds.map(challengeId => {
+      const ch = solutionToChallengeMap[challengeId] || {};
+      const solutions = grouped[challengeId];
+      const solutionMarkup = solutions.length === 0
+        ? `<div class="problem-empty">0 Solutions Submitted</div>`
+        : solutions.map((s, index) => renderGroupedSolution(s, index)).join("");
+
+      return `
+        <details class="problem-card">
+          <summary class="problem-header">
+            <div class="problem-header-top">
+              <div class="problem-title">Problem #${escapeHtml(String(challengeId))}: ${escapeHtml(ch.title || "Untitled Problem")}</div>
+              <a class="problem-view-btn" href="detail.html?id=${encodeURIComponent(challengeId)}" onclick="event.stopPropagation()">View Problem →</a>
+            </div>
+            <div class="problem-meta">
+              <span>🏷️ ${escapeHtml(ch.category || "General")}</span>
+              <span>🆔 Problem ID: #${escapeHtml(String(challengeId))}</span>
+            </div>
+            ${renderChallengeMedia(ch)}
+            <div class="problem-summary">Solutions Submitted: ${solutions.length}</div>
+          </summary>
+          <div class="problem-body">
+            <div class="solutions-heading">University Solutions</div>
+            ${solutionMarkup}
+          </div>
+        </details>
+      `;
+    }).join("") + `
+      <div class="pagination">
+        <button type="button" onclick="changeReviewPage(-1)" ${reviewPage === 1 ? "disabled" : ""}>Previous</button>
+        <span>Page ${reviewPage} of ${totalPages}</span>
+        <button type="button" onclick="changeReviewPage(1)" ${reviewPage === totalPages ? "disabled" : ""}>Next</button>
+      </div>`;
+  }
+
+  function renderGroupedSolution(solution, index) {
+    const isSelected = solution.status === "SELECTED" || solution.status === "EXPERT_SELECTED" || solution.expert_best_selected;
+    const isReviewed = solution.status === "REVIEWED";
+    const universityLabel = `University #${solution.university_id}`;
+    const statusLabel = isSelected ? "EXPERT SELECTED" : solution.status;
+
+    return `
+      <article class="solution-item ${isSelected ? "selected" : ""}">
+        <div class="solution-item-top">
+          <div class="solution-item-title">
+            Solution #${index + 1} · ${escapeHtml(universityLabel)}
+            <div class="solution-university">${escapeHtml(solution.title)}</div>
+          </div>
+          <span class="solution-status ${isSelected ? "selected" : ""}">${escapeHtml(statusLabel)}</span>
+        </div>
+        <div class="solution-item-actions">
+          <details class="solution-detail">
+            <summary>View Proposal and AI Analysis</summary>
+            <div class="review-proposal">${escapeHtml(solution.proposal)}</div>
+            ${solution.ai_explanation ? `<div class="review-ai"><strong>🤖 ${getT("aiExplanation")}:</strong> ${escapeHtml(solution.ai_explanation)}</div>` : ""}
+          </details>
+        </div>
+        <div class="review-meta">
+          <span>🆔 Solution #${solution.id}</span>
+          ${solution.ai_score != null ? `<span>🎯 ${getT("aiScore")}: ${Number(solution.ai_score).toFixed(1)}</span>` : ""}
+          ${solution.expert_score != null ? `<span>⭐ Expert Score: ${solution.expert_score}</span>` : ""}
+          <span>📅 ${new Date(solution.created_at).toLocaleDateString('en-IN')}</span>
+        </div>
+        <div class="review-actions">
+          ${isSelected
+            ? `<span class="already-selected">EXPERT SELECTED</span>`
+            : `
+              <div class="score-input-group">
+                <label>${getT("expertScore")}:</label>
+                <input type="number" class="score-input" id="score-${solution.id}" min="0" max="100" placeholder="0-100" value="${isReviewed && solution.expert_score != null ? solution.expert_score : ''}">
+              </div>
+              <button class="select-btn" style="background:#6d28d9;" onclick="saveExpertScore(${solution.id})">${getT("saveScoreBtn")}</button>
+              <button class="select-btn" onclick="selectBestSolution(${solution.id})">${getT("selectBtn")}</button>
+            `}
+        </div>
+      </article>
+    `;
+  }
+
+  function renderChallengeMedia(ch) {
+    if (!ch.image_url) return "";
+    return `<div class="challenge-media">${String(ch.image_url).split(",").map(path => path.trim()).filter(Boolean).map(path => {
+      const normalized = path.replace(/\\/g, "/");
+      const url = /^https?:\/\//i.test(normalized) ? normalized : `${API_BASE}/${normalized.replace(/^\/+/, "")}`;
+      const name = normalized.split("/").pop() || "Uploaded media";
+      return /\.(mp4|webm|ogg|mov|avi|m4v)$/i.test(name)
+        ? `<video controls preload="metadata" src="${escapeHtml(url)}" aria-label="Citizen uploaded video"></video>`
+        : `<img src="${escapeHtml(url)}" alt="Citizen uploaded problem media">`;
+    }).join("")}</div>`;
+  }
+
+  function changeReviewPage(delta) {
+    reviewPage += delta;
+    renderReviews();
+  }
+
+  async function saveExpertScore(solutionId) {
+    const input = document.getElementById(`score-${solutionId}`);
+    const score = parseFloat(input.value);
+
+    if (isNaN(score) || score < 0 || score > 100) {
+      showToast(getT("scoreRequired"), "error");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE}/solutions/${solutionId}/expert-score?score=${score}`, {
+        method: "PATCH",
+        headers: { "Authorization": `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Failed");
+
+      showToast(getT("scoreSaved"));
+      loadAll();
+    } catch (err) {
+      showToast(getT("selectFail"), "error");
+    }
+  }
+
+  async function selectBestSolution(solutionId) {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE}/solutions/${solutionId}/expert-select`, {
+        method: "PATCH",
+        headers: { "Authorization": `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error("Failed");
+      showToast(getT("selectSuccess"));
+      loadAll();
+    } catch (err) {
+      showToast(getT("selectFail"), "error");
+    }
+  }
+
+  function refreshAll() { loadAll(); }
+
+  // LOAD
+  loadAll();
+</script>
+<script src="i18n.js"></script>
+</body>
+</html>

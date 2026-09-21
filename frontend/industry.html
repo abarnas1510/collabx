@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#0B3C5D">
+<title>Industry Dashboard — CollabX | Government of India</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Gurmukhi:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans', 'Segoe UI', sans-serif;
+    background: #F4F6F9; color: #1a1a1a; font-size: 14.5px; line-height: 1.55;
+    min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden;
+  }
+  a { color: #0B3C5D; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  img { max-width: 100%; height: auto; display: block; }
+
+  body[data-lang="hi"] { font-family: 'Noto Sans Devanagari', 'Noto Sans', sans-serif; }
+  body[data-lang="ta"] { font-family: 'Noto Sans Tamil', 'Noto Sans', sans-serif; }
+  body[data-lang="te"] { font-family: 'Noto Sans Telugu', 'Noto Sans', sans-serif; }
+  body[data-lang="bn"] { font-family: 'Noto Sans Bengali', 'Noto Sans', sans-serif; }
+  body[data-lang="gu"] { font-family: 'Noto Sans Gujarati', 'Noto Sans', sans-serif; }
+  body[data-lang="pa"] { font-family: 'Noto Sans Gurmukhi', 'Noto Sans', sans-serif; }
+  body[data-lang="kn"] { font-family: 'Noto Sans Kannada', 'Noto Sans', sans-serif; }
+  body[data-lang="ml"] { font-family: 'Noto Sans Malayalam', 'Noto Sans', sans-serif; }
+  body[data-lang="or"] { font-family: 'Noto Sans Oriya', 'Noto Sans', sans-serif; }
+
+  .tricolor-strip { height: 4px; background: linear-gradient(to right, #FF9933 0%, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%, #138808 100%); }
+
+  .utility-bar { background: #0B3C5D; color: #fff; font-size: 11.5px; padding: 6px 0; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 16px; width: 100%; }
+  .utility-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .utility-inner a { color: #fff; opacity: 0.88; font-size: 11.5px; }
+  .utility-inner a:hover { opacity: 1; text-decoration: underline; }
+  .gov-tag { font-weight: 600; display: flex; align-items: center; gap: 5px; }
+  .gov-tag .dot { width: 5px; height: 5px; background: #FF9933; border-radius: 50%; flex-shrink: 0; }
+  .utility-inner .right { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+  .lang-switcher { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 4px 8px; border-radius: 3px; font-size: 11.5px; font-family: inherit; cursor: pointer; outline: none; max-width: 140px; }
+  .lang-switcher option { color: #1a1a1a; background: #fff; }
+
+  .main-header { background: #fff; border-bottom: 3px solid #0B3C5D; padding: 10px 0; }
+  .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .emblem-block { display: flex; align-items: center; gap: 12px; text-decoration: none; min-width: 0; flex: 1; }
+  .emblem-img { width: 44px; height: 52px; object-fit: contain; flex-shrink: 0; }
+  .brand-text { min-width: 0; }
+  .brand-text h1 { font-family: 'Noto Serif', serif; font-size: 20px; color: #0B3C5D; letter-spacing: 0.6px; line-height: 1; margin-bottom: 3px; }
+  .brand-text h1 span { color: #FF9933; }
+  .brand-text .subtitle { font-size: 10.5px; color: #555; letter-spacing: 0.4px; text-transform: uppercase; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .brand-text .subtitle-hindi { font-size: 10.5px; color: #777; margin-top: 1px; }
+
+  .main-nav { background: #0B3C5D; color: #fff; position: relative; }
+  .main-nav-inner { display: flex; align-items: center; flex-wrap: wrap; }
+  .main-nav a { color: #fff; padding: 11px 16px; font-size: 13px; font-weight: 500; border-right: 1px solid rgba(255,255,255,0.12); transition: background 0.2s; white-space: nowrap; }
+  .main-nav a:first-child { border-left: 1px solid rgba(255,255,255,0.12); }
+  .main-nav a:hover, .main-nav a.active { background: #FF9933; color: #0B3C5D; text-decoration: none; }
+  .nav-toggle { display: none; background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 18px; padding: 6px 12px; border-radius: 3px; cursor: pointer; margin: 8px 16px; font-family: inherit; }
+
+  /* WELCOME BAR */
+  .welcome-bar { background: linear-gradient(135deg, #B36A1B 0%, #8a5a1a 100%); color: #fff; padding: 22px 0; }
+  .welcome-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .welcome-left h1 { font-family: 'Noto Serif', serif; font-size: 26px; line-height: 1.2; margin-bottom: 4px; }
+  .welcome-left p { font-size: 13.5px; opacity: 0.9; }
+  .welcome-left .industry-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .welcome-left .org-display { display: inline-block; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 4px; border-left: 3px solid rgba(255,255,255,0.6); }
+  .welcome-right { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .btn { padding: 11px 20px; border-radius: 3px; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit; border: none; transition: all 0.15s; -webkit-tap-highlight-color: transparent; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: #0B3C5D; color: #fff; }
+  .btn-primary:hover { background: #082B44; }
+  .btn-accent { background: #FF9933; color: #0B3C5D; }
+  .btn-accent:hover { background: #E68A2E; }
+  .btn-white { background: #fff; color: #B36A1B; }
+  .btn-outline-white { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.6); }
+  .btn-outline-white:hover { background: rgba(255,255,255,0.15); }
+  .btn-sm { padding: 7px 14px; font-size: 12px; }
+
+  .dash-wrapper { flex: 1; padding: 24px 16px; }
+  .dash-container { max-width: 1280px; margin: 0 auto; }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px; }
+  .stat-card { background: #fff; border: 1px solid #D5DDE5; border-radius: 4px; padding: 18px; border-top: 4px solid #0B3C5D; transition: all 0.15s; }
+  .stat-card:hover { box-shadow: 0 4px 14px rgba(11,60,93,0.08); transform: translateY(-2px); }
+  .stat-card.orange { border-top-color: #E68A2E; }
+  .stat-card.green { border-top-color: #138808; }
+  .stat-card.red { border-top-color: #C0392B; }
+  .stat-num { font-family: 'Noto Serif', serif; font-size: 34px; font-weight: 700; color: #0B3C5D; line-height: 1; margin-bottom: 6px; }
+  .stat-card.orange .stat-num { color: #E68A2E; }
+  .stat-card.green .stat-num { color: #138808; }
+  .stat-card.red .stat-num { color: #C0392B; }
+  .stat-label { font-size: 11.5px; color: #666; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+  .section-card { background: #fff; border: 1px solid #D5DDE5; border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
+  .section-header { padding: 14px 20px; background: #082B44; color: #fff; border-bottom: 3px solid #FF9933; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .section-header h2 { font-family: 'Noto Serif', serif; font-size: 16px; letter-spacing: 0.4px; display: flex; align-items: center; gap: 8px; }
+  .section-header .count-badge { background: rgba(255,255,255,0.15); color: #fff; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 700; }
+  .section-body { padding: 20px; }
+
+  .solution-list { display: grid; gap: 14px; }
+  .solution-card { background: #fff; border: 1px solid #E5E9EF; border-left: 4px solid #B36A1B; padding: 18px; border-radius: 4px; transition: all 0.15s; }
+  .solution-card:hover { box-shadow: 0 4px 14px rgba(11,60,93,0.08); border-left-color: #FF9933; }
+  .solution-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .solution-title { font-size: 15.5px; color: #0B3C5D; font-weight: 700; line-height: 1.35; flex: 1; min-width: 200px; }
+  .solution-score { background: #E6F5E4; color: #138808; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+  .solution-selected { background: #FFF4E0; color: #B36A1B; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+  .solution-challenge { font-size: 12.5px; color: #666; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #E5E9EF; }
+  .solution-challenge strong { color: #0B3C5D; }
+  .solution-proposal { font-size: 13px; color: #555; line-height: 1.65; margin-bottom: 12px; }
+  .solution-title, .solution-challenge, .solution-proposal, .project-title, .project-meta { min-width: 0; overflow-wrap: anywhere; }
+  .list-tools { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 14px; }
+  .list-search { min-width: 220px; flex: 1; max-width: 420px; padding: 9px 11px; border: 1px solid #C5CEDA; border-radius: 3px; font: inherit; color: #1a1a1a; }
+  .list-search:focus { outline: none; border-color: #0B3C5D; box-shadow: 0 0 0 2px rgba(11,60,93,0.1); }
+  .pagination { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; }
+  .pagination button { padding: 7px 12px; border: 1px solid #C5CEDA; border-radius: 3px; background: #fff; color: #0B3C5D; cursor: pointer; font: inherit; }
+  .pagination button:disabled { color: #9aa6b2; background: #F4F6F9; cursor: not-allowed; }
+  .pagination span { font-size: 12px; color: #666; }
+  .compact-details { margin-bottom: 10px; font-size: 12px; color: #0B3C5D; }
+  .compact-details summary { cursor: pointer; font-weight: 600; }
+  .compact-details .solution-proposal, .compact-details .project-meta { margin-top: 8px; }
+  .solution-explanation { background: #F0F7FF; border-left: 3px solid #0B3C5D; padding: 10px 14px; border-radius: 3px; font-size: 12.5px; color: #0B3C5D; line-height: 1.5; margin-bottom: 12px; }
+  .solution-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .project-list { display: grid; gap: 12px; }
+  .project-card { background: #F0FAF0; border: 1px solid #C5DAC5; border-left: 4px solid #138808; padding: 16px; border-radius: 4px; }
+  .project-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+  .project-title { font-size: 15px; color: #0B3C5D; font-weight: 700; flex: 1; min-width: 200px; line-height: 1.35; }
+  .project-status { padding: 4px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+  .status-funded { background: #E6F5E4; color: #138808; }
+  .status-pilot { background: #FDF0DF; color: #B36A1B; }
+  .status-deployed { background: #0B3C5D; color: #fff; }
+  .project-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 11.5px; color: #666; padding-top: 10px; border-top: 1px dashed #C5DAC5; }
+  .project-meta span strong { color: #0B3C5D; }
+
+  .filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .filter-tab { padding: 8px 16px; background: #F4F6F9; border: 1px solid #E5E9EF; border-radius: 3px; font-size: 12.5px; font-weight: 600; color: #555; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+  .filter-tab:hover { background: #E6F0F7; color: #0B3C5D; }
+  .filter-tab.active { background: #0B3C5D; color: #fff; border-color: #0B3C5D; }
+
+  .empty-state { text-align: center; padding: 50px 20px; color: #94a3b8; }
+  .empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+  .empty-state h3 { font-size: 16px; color: #555; margin-bottom: 6px; font-family: 'Noto Serif', serif; }
+  .empty-state p { font-size: 13.5px; }
+
+  .loading { text-align: center; padding: 50px; color: #94a3b8; }
+  .spinner { width: 32px; height: 32px; border: 3px solid #E5E9EF; border-top-color: #B36A1B; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
+  .modal-backdrop.show { display: flex; }
+  .modal { background: #fff; border-radius: 6px; max-width: 540px; width: 100%; max-height: 90vh; overflow-y: auto; }
+  .modal-header { padding: 18px 22px; border-bottom: 1px solid #E5E9EF; display: flex; justify-content: space-between; align-items: center; }
+  .modal-header h3 { font-family: 'Noto Serif', serif; color: #0B3C5D; font-size: 17px; }
+  .modal-header button { background: none; border: none; font-size: 24px; cursor: pointer; color: #94a3b8; }
+  .modal-body { padding: 22px; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 12.5px; font-weight: 600; color: #2c3e50; margin-bottom: 5px; }
+  .form-input, .form-textarea { width: 100%; padding: 10px 12px; border: 1px solid #C5CEDA; border-radius: 3px; font-size: 13.5px; font-family: inherit; color: #1a1a1a; background: #fff; transition: all 0.15s; }
+  .form-textarea { min-height: 80px; resize: vertical; }
+  .form-input:focus, .form-textarea:focus { outline: none; border-color: #0B3C5D; box-shadow: 0 0 0 2px rgba(11,60,93,0.12); }
+  .modal-footer { padding: 14px 22px; border-top: 1px solid #E5E9EF; display: flex; gap: 10px; justify-content: flex-end; }
+  .btn-modal { padding: 10px 20px; border-radius: 3px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; border: none; }
+  .btn-modal.primary { background: #0B3C5D; color: #fff; }
+  .btn-modal.primary:hover { background: #082B44; }
+  .btn-modal.secondary { background: #fff; color: #0B3C5D; border: 1px solid #C5CEDA; }
+  .btn-modal.secondary:hover { background: #F4F6F9; }
+
+  .mini-footer { background: #082B44; color: #7A8B99; padding: 14px 0; text-align: center; font-size: 11.5px; margin-top: auto; }
+  .mini-footer span { margin: 0 6px; display: inline-block; }
+
+  .toast { position: fixed; bottom: 24px; right: 24px; left: 24px; max-width: 400px; margin-left: auto; background: #138808; color: #fff; padding: 12px 20px; border-radius: 4px; font-size: 13.5px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 99999; text-align: center; }
+  .toast.error { background: #C0392B; }
+
+  @media (max-width: 768px) {
+    body { font-size: 14px; }
+    .utility-inner .right a { display: none; }
+    .lang-switcher { max-width: 120px; font-size: 11px; padding: 3px 6px; }
+    .nav-toggle { display: block; }
+    .main-nav-inner { display: none; flex-direction: column; width: 100%; padding: 4px 0 8px; }
+    .main-nav-inner.open { display: flex; }
+    .main-nav a { width: 100%; padding: 11px 20px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .main-nav a:first-child { border-left: none; }
+    .brand-text h1 { font-size: 18px; }
+    .emblem-img { width: 40px; height: 48px; }
+    .brand-text .subtitle { font-size: 9.5px; }
+    .welcome-left h1 { font-size: 20px; }
+    .welcome-right { width: 100%; }
+    .welcome-right .btn { flex: 1; }
+    .section-body { padding: 16px; }
+    .stat-num { font-size: 28px; }
+    .solution-actions { flex-direction: column; }
+    .solution-actions .btn { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body data-lang="en">
+
+<div class="tricolor-strip"></div>
+
+<div class="utility-bar">
+  <div class="container utility-inner">
+    <div class="left"><span class="gov-tag"><span class="dot"></span> <span data-i18n="govBar">Government of India · Ministry of Education</span></span></div>
+    <div class="right">
+      <select class="lang-switcher" id="globalLang" onchange="changeGlobalLang(this.value)" title="App Language">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="ta">தமிழ்</option>
+        <option value="te">తెలుగు</option>
+        <option value="bn">বাংলা</option>
+        <option value="mr">मराठी</option>
+        <option value="gu">ગુજરાતી</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="ml">മലയാളം</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="or">ଓଡ଼ିଆ</option>
+        <option value="as">অসমীয়া</option>
+        <option value="ur">اردو</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<header class="main-header">
+  <div class="container header-inner">
+    <a href="index.html" class="emblem-block">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/240px-Emblem_of_India.svg.png" alt="State Emblem of India" class="emblem-img"
+        onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/120px-Emblem_of_India.svg.png';">
+      <div class="brand-text">
+        <h1>COLLA<span>B</span>X</h1>
+        <div class="subtitle" data-i18n="tagline">Digital Platform for Societal Innovation</div>
+        <div class="subtitle-hindi">नागरिक समस्याओं का समाधान मंच</div>
+      </div>
+    </a>
+  </div>
+</header>
+
+<nav class="main-nav">
+  <div class="container">
+    <button class="nav-toggle" onclick="document.querySelector('.main-nav-inner').classList.toggle('open')">☰ Menu</button>
+    <div class="main-nav-inner">
+      <a href="index.html" data-i18n="navHome">Home</a>
+      <a href="industry.html" class="active" data-i18n="navDashboard">Industry Dashboard</a>
+      <span id="notifications-panel" style="position:relative;margin-left:auto;"><button type="button" onclick="toggleNotificationPanel()" aria-label="Notifications" title="Notifications" style="position:relative;background:transparent;border:1px solid rgba(255,255,255,0.35);color:#fff;border-radius:3px;padding:7px 10px;cursor:pointer;font:inherit;">🔔<span id="notifications-count" style="position:absolute;top:-7px;right:-7px;min-width:17px;height:17px;padding:1px 4px;border-radius:10px;background:#FF9933;color:#0B3C5D;font-size:10px;font-weight:700;line-height:15px;">0</span></button><span id="notifications-list" style="display:none;position:absolute;right:0;top:42px;width:320px;max-width:calc(100vw - 32px);background:#fff;border:1px solid #D5DDE5;border-top:3px solid #FF9933;border-radius:4px;padding:8px;box-shadow:0 5px 16px rgba(0,0,0,0.18);z-index:1000;"></span></span>
+      <span id="auth-nav"></span>
+    </div>
+  </div>
+</nav>
+
+<!-- WELCOME BAR — NO PERSONAL NAME, SHOW ORG -->
+<div class="welcome-bar">
+  <div class="container welcome-inner">
+    <div class="welcome-left">
+      <div class="industry-badge">🏭 INDUSTRY PARTNER</div>
+      <h1 id="welcome-title" data-i18n="welcome">Industry Dashboard</h1>
+      <p id="welcome-subtitle" data-i18n="welcomeSub">Discover top university solutions and fund pilots that matter</p>
+      <div class="org-display" id="org-display" style="display:none;">
+        🏢 <strong id="org-name">—</strong>
+      </div>
+    </div>
+    <div class="welcome-right">
+      <button onclick="refreshAll()" class="btn btn-outline-white">🔄 <span data-i18n="refresh">Refresh</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="dash-wrapper">
+  <div class="dash-container">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card orange">
+        <div class="stat-num" id="stat-selected">—</div>
+        <div class="stat-label" data-i18n="statSelected">Matched Projects</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-num" id="stat-funded">—</div>
+        <div class="stat-label" data-i18n="statFunded">Partnership Requests</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-active">—</div>
+        <div class="stat-label" data-i18n="statActive">Active Collaborations</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-num" id="stat-pilots">—</div>
+        <div class="stat-label" data-i18n="statImpact">Pilots</div>
+      </div>
+    </div>
+
+    <!-- EXPERT-SELECTED SOLUTIONS -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2>🏆 <span data-i18n="selectedTitle">Expert-Selected Solutions Matched to Your Industry</span></h2>
+        <span class="count-badge" id="selected-count">0</span>
+      </div>
+      <div class="section-body">
+        <div class="list-tools">
+          <input id="selected-search" class="list-search" type="search" placeholder="Search matched solutions..." aria-label="Search matched solutions">
+        </div>
+        <div id="selected-container">
+          <div class="loading">
+            <div class="spinner"></div>
+            <div data-i18n="loadingSelected">Loading expert-selected solutions...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MY COLLABORATION WORKSPACES -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2>🤝 My Collaboration Workspaces</h2>
+        <span class="count-badge" id="projects-count">0</span>
+      </div>
+      <div class="section-body">
+        <div class="list-tools">
+          <input id="project-search" class="list-search" type="search" placeholder="Search funded projects..." aria-label="Search funded projects">
+        </div>
+        <div id="projects-container">
+          <div class="loading">
+            <div class="spinner"></div>
+            <div data-i18n="loadingProjects">Loading your funded projects...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FUNDING MODAL -->
+<div class="modal-backdrop" id="fund-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 data-i18n="fundTitle">Support This Solution</h3>
+      <button onclick="closeFundModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="background:#F0F7FF; padding:14px; border-radius:4px; margin-bottom:16px; font-size:13px; color:#0B3C5D;">
+        <strong id="fund-solution-title">—</strong>
+        <div style="margin-top:6px; font-size:12px; color:#666;" id="fund-solution-info">—</div>
+      </div>
+      <div class="form-group">
+        <label data-i18n="fundAmount">Funding Amount (₹ Lakhs) *</label>
+        <input id="fund-amount" type="number" class="form-input" min="1" placeholder="e.g., 10">
+      </div>
+      <div class="form-group">
+        <label data-i18n="fundTimeline">Support Timeline *</label>
+        <input id="fund-timeline" type="text" class="form-input" placeholder="e.g., 6 months pilot">
+      </div>
+      <div class="form-group">
+        <label data-i18n="fundNotes">Additional Notes (CSR Support Details)</label>
+        <textarea id="fund-notes" class="form-textarea" placeholder="e.g., CSR budget approved, equipment donation, lab access..."></textarea>
+      </div>
+      <div style="background:#FFF4E0; padding:12px 14px; border-radius:4px; font-size:12px; color:#B36A1B; border-left:3px solid #E68A2E;">
+        <strong>ℹ Note:</strong> <span data-i18n="fundNote">This is a demo. In production, this would trigger a formal MoU workflow with the university and government oversight.</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-modal secondary" onclick="closeFundModal()" data-i18n="cancel">Cancel</button>
+      <button class="btn-modal primary" onclick="submitFunding()" data-i18n="confirmFund">Confirm Support</button>
+    </div>
+  </div>
+</div>
+
+<footer class="mini-footer">
+  <span>© 2026 CollabX</span><span>·</span><span data-i18n="govInit">Government of India Initiative</span>
+</footer>
+
+<script>
+  const API_BASE = "http://127.0.0.1:8000";
+  const LANG_KEY = "collabx_lang";
+
+  const I18N = {
+    en: {
+      govBar: "Government of India · Ministry of Education", skipContent: "Skip to Main Content", screenReader: "Screen Reader",
+      tagline: "Digital Platform for Societal Innovation",
+      navHome: "Home", navChallenges: "Public Challenges", navDashboard: "Industry Dashboard",
+      welcome: "Industry Dashboard", welcomeSub: "Discover top university solutions and fund pilots that matter",
+      refresh: "Refresh",
+      statSelected: "Matched Projects", statFunded: "Partnership Requests", statActive: "Active Collaborations", statPilots: "Pilots", statImpact: "Pilots",
+      selectedTitle: "Expert-Selected Solutions Matched to Your Industry", myProjects: "Projects You're Supporting",
+      loadingSelected: "Loading expert-selected solutions...", loadingProjects: "Loading your funded projects...",
+      noSelected: "No expert-selected solutions yet.", noSelectedSub: "New solutions are selected regularly. Check back soon.",
+      noProjects: "You haven't funded any projects yet.", noProjectsSub: "Browse selected solutions and offer your support.",
+      viewDetails: "View Full Details", fundThis: "💼 Fund This Solution", alreadyFunded: "✓ Already Funded",
+      priorityHigh: "High Priority", priorityMed: "Medium Priority", priorityLow: "Standard",
+      selectedBadge: "🏆 Expert Selected", aiScore: "AI Score",
+      statusFunded: "Funded", statusPilot: "Pilot Running", statusDeployed: "Deployed",
+      challenge: "Challenge", university: "University", submitted: "Submitted", funded: "Funded",
+      budget: "Budget", timeline: "Timeline",
+      fundTitle: "Support This Solution", fundAmount: "Funding Amount (₹ Lakhs) *", fundTimeline: "Support Timeline *",
+      fundNotes: "Additional Notes (CSR Support Details)",
+      fundNote: "This is a demo. In production, this would trigger a formal MoU workflow with the university and government oversight.",
+      cancel: "Cancel", confirmFund: "Confirm Support",
+      fundSuccess: "✓ Support confirmed! Our team will contact you soon.",
+      fillFields: "Please fill all required fields.",
+      govInit: "Government of India Initiative"
+    },
+    hi: { govBar: "भारत सरकार · शिक्षा मंत्रालय", skipContent: "मुख्य सामग्री", screenReader: "स्क्रीन रीडर", tagline: "सामाजिक नवाचार मंच", navHome: "होम", navChallenges: "चुनौतियाँ", navDashboard: "उद्योग डैशबोर्ड", welcome: "उद्योग डैशबोर्ड", welcomeSub: "शीर्ष विश्वविद्यालय समाधान खोजें और पायलटों को वित्तपोषित करें", refresh: "रिफ्रेश", statSelected: "विशेषज्ञ-चयनित", statFunded: "आपके द्वारा वित्तपोषित", statPilots: "चल रहे पायलट", statImpact: "प्रभावित नागरिक", selectedTitle: "उद्योग समर्थन के लिए तैयार", myProjects: "आपके द्वारा समर्थित परियोजनाएं", loadingSelected: "लोड हो रहे हैं...", loadingProjects: "लोड हो रही हैं...", noSelected: "अभी कोई नहीं।", noSelectedSub: "नए समाधान नियमित रूप से चुने जाते हैं।", noProjects: "आपने अभी तक कोई परियोजना वित्तपोषित नहीं की है।", noProjectsSub: "चयनित समाधान ब्राउज़ करें।", viewDetails: "पूर्ण विवरण", fundThis: "💼 वित्तपोषित करें", alreadyFunded: "✓ पहले से वित्तपोषित", priorityHigh: "उच्च", priorityMed: "मध्यम", priorityLow: "मानक", selectedBadge: "🏆 विशेषज्ञ चयनित", aiScore: "AI स्कोर", statusFunded: "वित्तपोषित", statusPilot: "पायलट चल रहा", statusDeployed: "तैनात", challenge: "चुनौती", university: "विश्वविद्यालय", submitted: "जमा", funded: "वित्तपोषित", budget: "बजट", timeline: "समयरेखा", fundTitle: "इस समाधान का समर्थन करें", fundAmount: "वित्तपोषण राशि (₹ लाख) *", fundTimeline: "समर्थन समयरेखा *", fundNotes: "अतिरिक्त नोट्स", fundNote: "यह एक डेमो है। उत्पादन में, यह विश्वविद्यालय के साथ MoU प्रक्रिया को ट्रिगर करेगा।", cancel: "रद्द करें", confirmFund: "पुष्टि करें", fundSuccess: "✓ समर्थन की पुष्टि!", fillFields: "कृपया सभी आवश्यक फ़ील्ड भरें।", govInit: "भारत सरकार" },
+    ta: { govBar: "இந்திய அரசு · கல்வி", skipContent: "உள்ளடக்கம்", screenReader: "வாசிப்பான்", tagline: "சமூக புதுமை", navHome: "முகப்பு", navChallenges: "சவால்கள்", navDashboard: "தொழில் டாஷ்போர்டு", welcome: "தொழில் டாஷ்போர்டு", welcomeSub: "சிறந்த தீர்வுகளைக் கண்டறிந்து பைலட்டுகளுக்கு நிதியளிக்கவும்", refresh: "புதுப்பி", statSelected: "நிபுணர்-தேர்ந்தெடுத்த", statFunded: "நீங்கள் நிதியளித்தவை", statPilots: "இயங்கும் பைலட்டுகள்", statImpact: "பாதிக்கப்பட்ட குடிமக்கள்", selectedTitle: "தொழில் ஆதரவுக்குத் தயார்", myProjects: "நீங்கள் ஆதரிக்கும் திட்டங்கள்", loadingSelected: "ஏற்றப்படுகின்றன...", loadingProjects: "ஏற்றப்படுகின்றன...", noSelected: "இன்னும் இல்லை.", noSelectedSub: "தீர்வுகள் வழக்கமாகத் தேர்ந்தெடுக்கப்படுகின்றன.", noProjects: "நீங்கள் இன்னும் நிதியளிக்கவில்லை.", noProjectsSub: "தீர்வுகளை உலாவவும்.", viewDetails: "முழு விவரங்கள்", fundThis: "💼 நிதியளிக்கவும்", alreadyFunded: "✓ ஏற்கனவே நிதியளிக்கப்பட்டது", priorityHigh: "உயர்", priorityMed: "நடுத்தரம்", priorityLow: "தரநிலை", selectedBadge: "🏆 நிபுணர் தேர்ந்தெடுத்தது", aiScore: "AI", statusFunded: "நிதியளிக்கப்பட்டது", statusPilot: "பைலட் இயங்குகிறது", statusDeployed: "அமர்த்தப்பட்டது", challenge: "சவால்", university: "பல்கலைக்கழகம்", submitted: "சமர்ப்பிக்கப்பட்டது", funded: "நிதியளிக்கப்பட்டது", budget: "பட்ஜெட்", timeline: "காலவரிசை", fundTitle: "ஆதரிக்கவும்", fundAmount: "நிதி தொகை (₹ லட்சம்) *", fundTimeline: "காலவரிசை *", fundNotes: "கூடுதல் குறிப்புகள்", fundNote: "இது ஒரு டெமோ.", cancel: "ரத்து", confirmFund: "உறுதிப்படுத்து", fundSuccess: "✓ உறுதிப்படுத்தப்பட்டது!", fillFields: "தேவையான புலங்களை நிரப்பவும்.", govInit: "இந்திய அரசு" },
+    te: { govBar: "భారత · విద్యా", skipContent: "కంటెంట్", screenReader: "రీడర్", tagline: "సామాజిక ఆవిష్కరణ", navHome: "హోమ్", navChallenges: "ఛాలెంజ్లు", navDashboard: "పరిశ్రమ డాష్బోర్డ్", welcome: "పరిశ్రమ డాష్బోర్డ్", welcomeSub: "ఉత్తమ పరిష్కారాలను కనుగొని పైలట్లకు నిధులు సమకూర్చండి", refresh: "రిఫ్రెష్", statSelected: "నిపుణుల ఎంపిక", statFunded: "మీరు నిధులు", statPilots: "పైలట్లు", statImpact: "ప్రభావిత పౌరులు", selectedTitle: "మద్దతుకు సిద్ధమైన పరిష్కారాలు", myProjects: "మీ ప్రాజెక్టులు", loadingSelected: "లోడ్...", loadingProjects: "లోడ్...", noSelected: "ఇంకా లేదు.", noSelectedSub: "కొత్తవి ఎంపిక చేయబడతాయి.", noProjects: "మీరు ఇంకా నిధులు ఇవ్వలేదు.", noProjectsSub: "పరిష్కారాలను బ్రౌజ్ చేయండి.", viewDetails: "పూర్తి వివరాలు", fundThis: "💼 నిధులు", alreadyFunded: "✓ ఇప్పటికే నిధులు", priorityHigh: "అధిక", priorityMed: "మధ్యస్థం", priorityLow: "ప్రామాణికం", selectedBadge: "🏆 నిపుణుల ఎంపిక", aiScore: "AI", statusFunded: "నిధులు", statusPilot: "పైలట్", statusDeployed: "అమలు", challenge: "ఛాలెంజ్", university: "విశ్వవిద్యాలయం", submitted: "సమర్పించబడింది", funded: "నిధులు", budget: "బడ్జెట్", timeline: "టైమ్లైన్", fundTitle: "మద్దతు", fundAmount: "నిధుల మొత్తం (₹ లక్షలు) *", fundTimeline: "టైమ్లైన్ *", fundNotes: "అదనపు నోట్స్", fundNote: "ఇది డెమో.", cancel: "రద్దు", confirmFund: "నిర్ధారించండి", fundSuccess: "✓ నిర్ధారించబడింది!", fillFields: "అన్ని అవసరమైన ఫీల్డ్లను నింపండి.", govInit: "భారత ప్రభుత్వం" },
+    bn: { govBar: "ভারত · শিক্ষা", skipContent: "বিষয়বস্তু", screenReader: "রিডার", tagline: "ডিজিটাল", navHome: "হোম", navChallenges: "চ্যালেঞ্জ", navDashboard: "শিল্প ড্যাশবোর্ড", welcome: "শিল্প ড্যাশবোর্ড", welcomeSub: "সেরা সমাধান খুঁজুন এবং পাইলটে অর্থায়ন করুন", refresh: "রিফ্রেশ", statSelected: "নির্বাচিত সমাধান", statFunded: "আপনার অর্থায়ন", statPilots: "চলমান পাইলট", statImpact: "প্রভাবিত নাগরিক", selectedTitle: "শিল্প সহায়তার জন্য প্রস্তুত", myProjects: "আপনার প্রকল্প", loadingSelected: "লোড...", loadingProjects: "লোড...", noSelected: "এখনো নেই।", noSelectedSub: "নিয়মিত নির্বাচন করা হয়।", noProjects: "এখনো অর্থায়ন করেননি।", noProjectsSub: "সমাধান ব্রাউজ করুন।", viewDetails: "সম্পূর্ণ বিবরণ", fundThis: "💼 অর্থায়ন", alreadyFunded: "✓ অর্থায়িত", priorityHigh: "উচ্চ", priorityMed: "মাঝারি", priorityLow: "স্ট্যান্ডার্ড", selectedBadge: "🏆 নির্বাচিত", aiScore: "AI", statusFunded: "অর্থায়িত", statusPilot: "পাইলট", statusDeployed: "স্থাপিত", challenge: "চ্যালেঞ্জ", university: "বিশ্ববিদ্যালয়", submitted: "জমা", funded: "অর্থায়িত", budget: "বাজেট", timeline: "সময়রেখা", fundTitle: "সমর্থন করুন", fundAmount: "পরিমাণ (₹ লক্ষ) *", fundTimeline: "সময়সীমা *", fundNotes: "নোট", fundNote: "ডেমো।", cancel: "বাতিল", confirmFund: "নিশ্চিত", fundSuccess: "✓ নিশ্চিত!", fillFields: "সমস্ত ক্ষেত্র পূরণ করুন।", govInit: "ভারত সরকার" },
+    mr: { govBar: "भारत · शिक्षण", skipContent: "सामग्री", screenReader: "रीडर", tagline: "डिजिटल", navHome: "मुख्यपृष्ठ", navChallenges: "आव्हाने", navDashboard: "उद्योग डॅशबोर्ड", welcome: "उद्योग डॅशबोर्ड", welcomeSub: "सर्वोत्तम समाधान शोधा आणि पायलटला निधी द्या", refresh: "रिफ्रेश", statSelected: "निवडलेले उपाय", statFunded: "तुमचे निधी", statPilots: "चालू पायलट", statImpact: "प्रभावित नागरिक", selectedTitle: "समर्थनासाठी तयार", myProjects: "तुमचे प्रकल्प", loadingSelected: "लोड...", loadingProjects: "लोड...", noSelected: "अद्याप नाही.", noSelectedSub: "नियमितपणे निवडले जातात.", noProjects: "अद्याप निधी नाही.", noProjectsSub: "ब्राउझ करा.", viewDetails: "पूर्ण तपशील", fundThis: "💼 निधी", alreadyFunded: "✓ निधी दिला", priorityHigh: "उच्च", priorityMed: "मध्यम", priorityLow: "मानक", selectedBadge: "🏆 निवडलेले", aiScore: "AI", statusFunded: "निधी", statusPilot: "पायलट", statusDeployed: "स्थापित", challenge: "आव्हान", university: "विद्यापीठ", submitted: "सबमिट", funded: "निधी", budget: "बजेट", timeline: "वेळापत्रक", fundTitle: "समर्थन", fundAmount: "रक्कम (₹ लाख) *", fundTimeline: "कालावधी *", fundNotes: "नोट्स", fundNote: "डेमो.", cancel: "रद्द", confirmFund: "पुष्टी", fundSuccess: "✓ पुष्टी!", fillFields: "सर्व फील्ड भरा.", govInit: "भारत सरकार" },
+    gu: { govBar: "ભારત · શિક્ષણ", skipContent: "સામગ્રી", screenReader: "રીડર", tagline: "ડિજિટલ", navHome: "હોમ", navChallenges: "પડકારો", navDashboard: "ઉદ્યોગ ડેશબોર્ડ", welcome: "ઉદ્યોગ ડેશબોર્ડ", welcomeSub: "શ્રેષ્ઠ ઉકેલો શોધો અને ફંડ આપો", refresh: "રિફ્રેશ", statSelected: "પસંદ કરેલા ઉકેલો", statFunded: "તમારું ફંડિંગ", statPilots: "ચાલુ પાઇલોટ", statImpact: "અસર", selectedTitle: "સમર્થન માટે તૈયાર", myProjects: "તમારા પ્રોજેક્ટ્સ", loadingSelected: "લોડ...", loadingProjects: "લોડ...", noSelected: "હજી નથી.", noSelectedSub: "નિયમિત પસંદ થાય છે.", noProjects: "હજી ફંડ નથી.", noProjectsSub: "બ્રાઉઝ કરો.", viewDetails: "વિગતો", fundThis: "💼 ફંડ", alreadyFunded: "✓ ફંડ", priorityHigh: "ઉચ્ચ", priorityMed: "મધ્યમ", priorityLow: "પ્રમાણભૂત", selectedBadge: "🏆 પસંદ", aiScore: "AI", statusFunded: "ફંડ", statusPilot: "પાયલોટ", statusDeployed: "તૈનાત", challenge: "પડકાર", university: "યુનિવર્સિટી", submitted: "સબમિટ", funded: "ફંડ", budget: "બજેટ", timeline: "ટાઇમલાઇન", fundTitle: "સમર્થન", fundAmount: "રકમ (₹ લાખ) *", fundTimeline: "સમય *", fundNotes: "નોંધ", fundNote: "ડેમો.", cancel: "રદ", confirmFund: "પુષ્ટિ", fundSuccess: "✓ પુષ્ટિ!", fillFields: "બધા ફીલ્ડ ભરો.", govInit: "ભારત સરકાર" },
+    kn: { govBar: "ಭಾರತ · ಶಿಕ್ಷಣ", skipContent: "ವಿಷಯ", screenReader: "ರೀಡರ್", tagline: "ಡಿಜಿಟಲ್", navHome: "ಮುಖಪುಟ", navChallenges: "ಸವಾಲುಗಳು", navDashboard: "ಉದ್ಯಮ ಡ್ಯಾಶ್ಬೋರ್ಡ್", welcome: "ಉದ್ಯಮ ಡ್ಯಾಶ್ಬೋರ್ಡ್", welcomeSub: "ಪರಿಹಾರಗಳನ್ನು ಹುಡುಕಿ ಮತ್ತು ಬೆಂಬಲಿಸಿ", refresh: "ರಿಫ್ರೆಶ್", statSelected: "ಆಯ್ದ ಪರಿಹಾರಗಳು", statFunded: "ನಿಮ್ಮ ನಿಧಿ", statPilots: "ಪೈಲಟ್", statImpact: "ನಾಗರಿಕರು", selectedTitle: "ಬೆಂಬಲಕ್ಕೆ ಸಿದ್ಧ", myProjects: "ನಿಮ್ಮ ಯೋಜನೆಗಳು", loadingSelected: "ಲೋಡ್...", loadingProjects: "ಲೋಡ್...", noSelected: "ಇನ್ನೂ ಇಲ್ಲ.", noSelectedSub: "ನಿಯಮಿತವಾಗಿ ಆಯ್ಕೆಯಾಗುತ್ತವೆ.", noProjects: "ಇನ್ನೂ ನಿಧಿ ನೀಡಿಲ್ಲ.", noProjectsSub: "ಬ್ರೌಸ್ ಮಾಡಿ.", viewDetails: "ವಿವರಗಳು", fundThis: "💼 ಬೆಂಬಲಿಸಿ", alreadyFunded: "✓ ಬೆಂಬಲಿಸಲಾಗಿದೆ", priorityHigh: "ಹೆಚ್ಚು", priorityMed: "ಮಧ್ಯಮ", priorityLow: "ಪ್ರಮಾಣಿತ", selectedBadge: "🏆 ಆಯ್ಕೆ", aiScore: "AI", statusFunded: "ನಿಧಿ", statusPilot: "ಪೈಲಟ್", statusDeployed: "ನಿಯೋಜಿತ", challenge: "ಸವಾಲು", university: "ವಿಶ್ವವಿದ್ಯಾಲಯ", submitted: "ಸಲ್ಲಿಸಲಾಗಿದೆ", funded: "ನಿಧಿ", budget: "ಬಜೆಟ್", timeline: "ಟೈಮ್ಲೈನ್", fundTitle: "ಬೆಂಬಲಿಸಿ", fundAmount: "ಮೊತ್ತ (₹ ಲಕ್ಷ) *", fundTimeline: "ಸಮಯ *", fundNotes: "ಟಿಪ್ಪಣಿ", fundNote: "ಡೆಮೊ.", cancel: "ರದ್ದು", confirmFund: "ದೃಢಪಡಿಸಿ", fundSuccess: "✓ ದೃಢಪಡಿಸಲಾಗಿದೆ!", fillFields: "ಎಲ್ಲಾ ಫೀಲ್ಡ್ ತುಂಬಿಸಿ.", govInit: "ಭಾರತ ಸರ್ಕಾರ" },
+    ml: { govBar: "ഇന്ത്യ · വിദ്യാഭ്യാസം", skipContent: "ഉള്ളടക്കം", screenReader: "റീഡർ", tagline: "ഡിജിറ്റൽ", navHome: "ഹോം", navChallenges: "വെല്ലുവിളികൾ", navDashboard: "വ്യവസായ ഡാഷ്ബോർഡ്", welcome: "വ്യവസായ ഡാഷ്ബോർഡ്", welcomeSub: "മികച്ച പരിഹാരങ്ങൾ കണ്ടെത്തി പിന്തുണയ്ക്കുക", refresh: "റിഫ്രെഷ്", statSelected: "തിരഞ്ഞെടുത്ത പരിഹാരങ്ങൾ", statFunded: "നിങ്ങളുടെ ധനസഹായം", statPilots: "പൈലറ്റുകൾ", statImpact: "പൗരന്മാർ", selectedTitle: "പിന്തുണയ്ക്ക് തയ്യാർ", myProjects: "നിങ്ങളുടെ പ്രോജക്ടുകൾ", loadingSelected: "ലോഡ്...", loadingProjects: "ലോഡ്...", noSelected: "ഇതുവരെ ഇല്ല.", noSelectedSub: "പതിവായി തിരഞ്ഞെടുക്കുന്നു.", noProjects: "ഇതുവരെ ധനസഹായം ഇല്ല.", noProjectsSub: "ബ്രൗസ് ചെയ്യുക.", viewDetails: "വിശദാംശങ്ങൾ", fundThis: "💼 പിന്തുണയ്ക്കുക", alreadyFunded: "✓ പിന്തുണച്ചു", priorityHigh: "ഉയർന്ന", priorityMed: "ഇടത്തരം", priorityLow: "സാധാരണ", selectedBadge: "🏆 തിരഞ്ഞെടുത്തു", aiScore: "AI", statusFunded: "ധനസഹായം", statusPilot: "പൈലറ്റ്", statusDeployed: "വിന്യസിച്ചു", challenge: "വെല്ലുവിളി", university: "സർവ്വകലാശാല", submitted: "സമർപ്പിച്ചു", funded: "ധനസഹായം", budget: "ബജറ്റ്", timeline: "ടൈംലൈൻ", fundTitle: "പിന്തുണയ്ക്കുക", fundAmount: "തുക (₹ ലക്ഷം) *", fundTimeline: "സമയം *", fundNotes: "കുറിപ്പുകൾ", fundNote: "ഡെമോ.", cancel: "റദ്ദാക്കുക", confirmFund: "സ്ഥിരീകരിക്കുക", fundSuccess: "✓ സ്ഥിരീകരിച്ചു!", fillFields: "എല്ലാ ഫീൽഡുകളും പൂരിപ്പിക്കുക.", govInit: "ഇന്ത്യാ ഗവൺമെന്റ്" },
+    pa: { govBar: "ਭਾਰਤ · ਸਿੱਖਿਆ", skipContent: "ਸਮੱਗਰੀ", screenReader: "ਰੀਡਰ", tagline: "ਡਿਜੀਟਲ", navHome: "ਘਰ", navChallenges: "ਚੁਣੌਤੀਆਂ", navDashboard: "ਉਦਯੋਗ ਡੈਸ਼ਬੋਰਡ", welcome: "ਉਦਯੋਗ ਡੈਸ਼ਬੋਰਡ", welcomeSub: "ਵਧੀਆ ਹੱਲ ਲੱਭੋ ਅਤੇ ਫੰਡ ਕਰੋ", refresh: "ਰਿਫ੍ਰੈਸ਼", statSelected: "ਚੁਣੇ ਹੱਲ", statFunded: "ਤੁਹਾਡਾ ਫੰਡ", statPilots: "ਪਾਇਲਟ", statImpact: "ਨਾਗਰਿਕ", selectedTitle: "ਸਮਰਥਨ ਲਈ ਤਿਆਰ", myProjects: "ਤੁਹਾਡੇ ਪ੍ਰੋਜੈਕਟ", loadingSelected: "ਲੋਡ...", loadingProjects: "ਲੋਡ...", noSelected: "ਹਾਲੇ ਨਹੀਂ।", noSelectedSub: "ਨਿਯਮਿਤ ਚੁਣੇ ਜਾਂਦੇ ਹਨ।", noProjects: "ਹਾਲੇ ਫੰਡ ਨਹੀਂ ਕੀਤਾ।", noProjectsSub: "ਬ੍ਰਾਊਜ਼ ਕਰੋ।", viewDetails: "ਵੇਰਵੇ", fundThis: "💼 ਫੰਡ ਕਰੋ", alreadyFunded: "✓ ਫੰਡ", priorityHigh: "ਉੱਚ", priorityMed: "ਮੱਧਮ", priorityLow: "ਮਿਆਰੀ", selectedBadge: "🏆 ਚੁਣੇ", aiScore: "AI", statusFunded: "ਫੰਡ", statusPilot: "ਪਾਇਲਟ", statusDeployed: "ਤੈਨਾਤ", challenge: "ਚੁਣੌਤੀ", university: "ਯੂਨੀਵਰਸਿਟੀ", submitted: "ਜਮ੍ਹਾਂ", funded: "ਫੰਡ", budget: "ਬਜਟ", timeline: "ਟਾਈਮਲਾਈਨ", fundTitle: "ਸਮਰਥਨ", fundAmount: "ਰਕਮ (₹ ਲੱਖ) *", fundTimeline: "ਸਮਾਂ *", fundNotes: "ਨੋਟ", fundNote: "ਡੈਮੋ।", cancel: "ਰੱਦ", confirmFund: "ਪੁਸ਼ਟੀ", fundSuccess: "✓ ਪੁਸ਼ਟੀ!", fillFields: "ਸਾਰੇ ਖੇਤਰ ਭਰੋ।", govInit: "ਭਾਰਤ ਸਰਕਾਰ" },
+    or: { govBar: "ଭାରତ · ଶିକ୍ଷା", skipContent: "ବିଷୟ", screenReader: "ରିଡର", tagline: "ଡିଜିଟାଲ", navHome: "ହୋମ", navChallenges: "ଆହ୍ୱାନ", navDashboard: "ଶିଳ୍ପ ଡ୍ୟାସବୋର୍ଡ", welcome: "ଶିଳ୍ପ ଡ୍ୟାସବୋର୍ଡ", welcomeSub: "ସର୍ବୋତ୍ତମ ସମାଧାନ ଖୋଜନ୍ତୁ", refresh: "ରିଫ୍ରେସ", statSelected: "ଚୟନିତ", statFunded: "ଆପଣଙ୍କ ପାଣ୍ଠି", statPilots: "ପାଇଲଟ", statImpact: "ନାଗରିକ", selectedTitle: "ସମର୍ଥନ ପାଇଁ ପ୍ରସ୍ତୁତ", myProjects: "ଆପଣଙ୍କ ପ୍ରକଳ୍ପ", loadingSelected: "ଲୋଡ୍...", loadingProjects: "ଲୋଡ୍...", noSelected: "ଏପର୍ଯ୍ୟନ୍ତ ନାହିଁ।", noSelectedSub: "ନିୟମିତ ଚୟନ ହୁଏ।", noProjects: "ଏପର୍ଯ୍ୟନ୍ତ ପାଣ୍ଠି ନାହିଁ।", noProjectsSub: "ବ୍ରାଉଜ୍।", viewDetails: "ବିବରଣୀ", fundThis: "💼 ପାଣ୍ଠି", alreadyFunded: "✓ ପାଣ୍ଠି", priorityHigh: "ଉଚ୍ଚ", priorityMed: "ମଧ୍ୟମ", priorityLow: "ମାନକ", selectedBadge: "🏆 ଚୟନିତ", aiScore: "AI", statusFunded: "ପାଣ୍ଠି", statusPilot: "ପାଇଲଟ", statusDeployed: "ମୁତୟନ", challenge: "ଆହ୍ୱାନ", university: "ବିଶ୍ୱବିଦ୍ୟାଳୟ", submitted: "ଦାଖଲ", funded: "ପାଣ୍ଠି", budget: "ବଜେଟ", timeline: "ସମୟ", fundTitle: "ସମର୍ଥନ", fundAmount: "ରାଶି (₹ ଲକ୍ଷ) *", fundTimeline: "ସମୟ *", fundNotes: "ଟିପ୍ପଣୀ", fundNote: "ଡେମୋ।", cancel: "ବାତିଲ", confirmFund: "ନିଶ୍ଚିତ", fundSuccess: "✓ ନିଶ୍ଚିତ!", fillFields: "ସମସ୍ତ କ୍ଷେତ୍ର ପୂରଣ କରନ୍ତୁ।", govInit: "ଭାରତ ସରକାର" },
+    as: { govBar: "ভাৰত · শিক্ষা", skipContent: "সমল", screenReader: "ৰিডাৰ", tagline: "ডিজিটেল", navHome: "হোম", navChallenges: "প্ৰত্যাহ্বান", navDashboard: "উদ্যোগ ডেশবৰ্ড", welcome: "উদ্যোগ ডেশবৰ্ড", welcomeSub: "শ্ৰেষ্ঠ সমাধান বিচাৰক", refresh: "ৰিফ্ৰেশ", statSelected: "বাছনি", statFunded: "আপোনাৰ পুঁজি", statPilots: "পাইলট", statImpact: "নাগৰিক", selectedTitle: "সমৰ্থনৰ বাবে প্ৰস্তুত", myProjects: "আপোনাৰ প্ৰকল্প", loadingSelected: "লোড...", loadingProjects: "লোড...", noSelected: "এতিয়ালৈকে নাই।", noSelectedSub: "নিয়মীয়াকৈ বাছনি কৰা হয়।", noProjects: "এতিয়ালৈকে পুঁজি নাই।", noProjectsSub: "ব্ৰাউজ কৰক।", viewDetails: "বিৱৰণ", fundThis: "💼 পুঁজি", alreadyFunded: "✓ পুঁজি", priorityHigh: "উচ্চ", priorityMed: "মধ্যম", priorityLow: "মানক", selectedBadge: "🏆 বাছনি", aiScore: "AI", statusFunded: "পুঁজি", statusPilot: "পাইলট", statusDeployed: "নিয়োজিত", challenge: "প্ৰত্যাহ্বান", university: "বিশ্ববিদ্যালয়", submitted: "দাখিল", funded: "পুঁজি", budget: "বাজেট", timeline: "সময়", fundTitle: "সমৰ্থন", fundAmount: "পৰিমাণ (₹ লাখ) *", fundTimeline: "সময় *", fundNotes: "টোকা", fundNote: "ডেমো।", cancel: "বাতিল", confirmFund: "নিশ্চিত", fundSuccess: "✓ নিশ্চিত!", fillFields: "সকলো ক্ষেত্ৰ পূৰণ কৰক।", govInit: "ভাৰত চৰকাৰ" },
+    ur: { govBar: "حکومت ہند · تعلیم", skipContent: "مواد", screenReader: "ریڈر", tagline: "ڈیجیٹل", navHome: "ہوم", navChallenges: "چیلنجز", navDashboard: "صنعت ڈیش بورڈ", welcome: "صنعت ڈیش بورڈ", welcomeSub: "بہترین حل تلاش کریں", refresh: "ریفریش", statSelected: "منتخب", statFunded: "آپ کی فنڈنگ", statPilots: "پائلٹ", statImpact: "شہری", selectedTitle: "معاونت کے لیے تیار", myProjects: "آپ کے منصوبے", loadingSelected: "لوڈ...", loadingProjects: "لوڈ...", noSelected: "ابھی نہیں۔", noSelectedSub: "باقاعدگی سے منتخب۔", noProjects: "ابھی تک فنڈ نہیں۔", noProjectsSub: "براؤز کریں۔", viewDetails: "تفصیلات", fundThis: "💼 فنڈ", alreadyFunded: "✓ فنڈ", priorityHigh: "اعلی", priorityMed: "درمیانہ", priorityLow: "معیاری", selectedBadge: "🏆 منتخب", aiScore: "AI", statusFunded: "فنڈ", statusPilot: "پائلٹ", statusDeployed: "تعینات", challenge: "چیلنج", university: "یونیورسٹی", submitted: "جمع", funded: "فنڈ", budget: "بجٹ", timeline: "ٹائم لائن", fundTitle: "معاونت", fundAmount: "رقم (₹ لاکھ) *", fundTimeline: "وقت *", fundNotes: "نوٹس", fundNote: "ڈیمو۔", cancel: "منسوخ", confirmFund: "تصدیق", fundSuccess: "✓ تصدیق!", fillFields: "تمام خانے پُر کریں۔", govInit: "حکومت ہند" }
+  };
+
+  function applyTranslations(lang) {
+    const t = I18N[lang] || I18N.en;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (t[key]) el.textContent = t[key];
+    });
+    document.body.setAttribute("data-lang", lang);
+    document.documentElement.lang = lang;
+  }
+  function changeGlobalLang(lang) {
+    localStorage.setItem(LANG_KEY, lang);
+    applyTranslations(lang);
+    if (allSelected.length || allFunded.length) { renderSelected(); renderFunded(); }
+  }
+
+  function escapeHtml(str) { const d = document.createElement("div"); d.textContent = str || ""; return d.innerHTML; }
+  function getT(key) { return (I18N[localStorage.getItem(LANG_KEY) || "en"] || I18N.en)[key] || I18N.en[key]; }
+  function roleRoute(role) { return { citizen:"citizen.html", university:"university.html", industry:"industry.html", govt:"admin.html", admin:"admin.html", expert:"expert.html" }[role] || "index.html"; }
+  function logout() { localStorage.removeItem("token"); localStorage.removeItem("user"); window.location.href = "index.html"; }
+
+  function showToast(msg, type = "success") {
+    const t = document.createElement("div");
+    t.className = "toast" + (type === "error" ? " error" : "");
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+  }
+
+  let currentUser = null;
+  let allSelected = [];
+  let allFunded = [];
+  let fundingTarget = null;
+  let selectedSearch = "";
+  let projectSearch = "";
+  let selectedPage = 1;
+  let projectPage = 1;
+  const INDUSTRY_PAGE_SIZE = 6;
+
+  document.getElementById("selected-search").addEventListener("input", event => {
+    selectedSearch = event.target.value.trim().toLowerCase();
+    selectedPage = 1;
+    renderSelected();
+  });
+  document.getElementById("project-search").addEventListener("input", event => {
+    projectSearch = event.target.value.trim().toLowerCase();
+    projectPage = 1;
+    renderFunded();
+  });
+
+  const savedLang = localStorage.getItem(LANG_KEY) || "en";
+  document.getElementById("globalLang").value = savedLang;
+  applyTranslations(savedLang);
+
+  // AUTH — NO PERSONAL NAME, SHOW ORG
+  (function initAuth() {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+
+    if (!token || !user) { alert("Please login to access your dashboard."); window.location.href = "login.html"; return; }
+    if (user.role !== "industry") { window.location.href = roleRoute(user.role); return; }
+
+    currentUser = user;
+
+    // Show organization (public info)
+    if (user.organization) {
+      document.getElementById("org-display").style.display = "inline-block";
+      document.getElementById("org-name").textContent = user.organization;
+    }
+
+    // Navbar — role badge only
+    document.getElementById("auth-nav").innerHTML = `
+      <a href="industry.html" class="active">🏭 Industry</a>
+      <a href="profile.html">Profile</a>
+      <button onclick="logout()" style="background:transparent; border:none; color:#fff; padding:11px 16px; cursor:pointer; font-size:13px; font-weight:500;">Logout</button>
+    `;
+  })();
+
+  async function loadAll() {
+    loadNotifications();
+    document.getElementById("selected-container").innerHTML = `<div class="loading"><div class="spinner"></div><div>${getT("loadingSelected")}</div></div>`;
+    document.getElementById("projects-container").innerHTML = `<div class="loading"><div class="spinner"></div><div>${getT("loadingProjects")}</div></div>`;
+
+    allSelected = [];
+    allFunded = [];
+
+    try {
+      const matchRes = await fetch(`${API_BASE}/industry/matches`, { headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } });
+      allSelected = matchRes.ok ? await matchRes.json() : [];
+    } catch(e) { allSelected = []; }
+
+    try {
+      const workspaceRes = await fetch(`${API_BASE}/workspaces/mine`, { headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } });
+      allFunded = workspaceRes.ok ? await workspaceRes.json() : [];
+    } catch(e) { allFunded = []; }
+
+    updateStats();
+    renderSelected();
+    renderFunded();
+  }
+
+  async function loadNotifications() {
+    const panel = document.getElementById("notifications-panel");
+    try {
+      const response = await fetch(`${API_BASE}/notifications/mine`, { headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } });
+      if (!response.ok) return;
+      const items = await response.json();
+      document.getElementById("notifications-count").textContent = items.filter(item => !item.is_read).length;
+      document.getElementById("notifications-list").innerHTML = items.length ? items.slice(0, 8).map(item => `<a href="detail.html?id=${item.challenge_id || ""}${item.workspace_id ? `&workspace=${item.workspace_id}` : ""}" onclick="markNotificationRead(${item.id})" style="padding:9px 10px;background:${item.is_read ? "#F8FAFC" : "#FFF8ED"};border-radius:3px;color:#1a1a1a;text-decoration:none;"><strong>${escapeHtml(item.title)}</strong><span style="display:block;font-size:12px;color:#666;margin-top:2px;">${escapeHtml(item.message)}</span></a>`).join("") : `<div style="font-size:12px;color:#7A8B99;padding:8px 0;">No new notifications.</div>`;
+    } catch (error) { document.getElementById("notifications-list").innerHTML = `<div style="font-size:12px;color:#C0392B;padding:8px 0;">Notifications unavailable.</div>`; }
+  }
+
+  function markNotificationRead(id) { fetch(`${API_BASE}/notifications/${id}/read`, { method: "PATCH", headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } }); }
+  function toggleNotificationPanel() { const list = document.getElementById("notifications-list"); list.style.display = list.style.display === "none" ? "grid" : "none"; }
+
+  function updateStats() {
+    document.getElementById("stat-selected").textContent = allSelected.length;
+    document.getElementById("stat-funded").textContent = allSelected.filter(p => p.partnership_status === "PARTNER_SELECTED").length;
+    document.getElementById("stat-active").textContent = allFunded.length;
+    document.getElementById("stat-pilots").textContent = allFunded.filter(f => f.stage === "Pilot").length;
+  }
+
+  function renderSelected() {
+    const container = document.getElementById("selected-container");
+    document.getElementById("selected-count").textContent = allSelected.length;
+
+    if (allSelected.length === 0) {
+      container.innerHTML = `<div class="empty-state"><div class="icon">🏆</div><h3>${getT("noSelected")}</h3><p>${getT("noSelectedSub")}</p></div>`;
+      return;
+    }
+
+    let filtered = allSelected;
+    if (selectedSearch) filtered = filtered.filter(s => `${s.project_title} ${s.solution_summary} ${s.university} ${s.category || ""}`.toLowerCase().includes(selectedSearch));
+    const totalPages = Math.max(1, Math.ceil(filtered.length / INDUSTRY_PAGE_SIZE));
+    selectedPage = Math.min(selectedPage, totalPages);
+    const pageItems = filtered.slice((selectedPage - 1) * INDUSTRY_PAGE_SIZE, selectedPage * INDUSTRY_PAGE_SIZE);
+
+    container.innerHTML = `<div class="solution-list">${pageItems.map(s => {
+      const partnerSelected = s.partnership_status === "PARTNER_SELECTED";
+
+      return `
+        <div class="solution-card">
+          <div class="solution-top">
+            <div class="solution-title">${escapeHtml(s.project_title)}</div>
+            <span class="solution-selected">${getT("selectedBadge")}</span>
+            <span class="solution-score">🎯 ${s.match_score}% Match</span>
+          </div>
+          <div class="solution-challenge">
+            <strong>${getT("university")}:</strong> ${escapeHtml(s.university)} · <strong>${escapeHtml(s.category || "")}</strong>
+          </div>
+          <details class="compact-details">
+            <summary>View solution and project details</summary>
+            <div class="solution-proposal">${escapeHtml(s.solution_summary)}</div>
+            <div class="project-meta"><span><strong>Sector:</strong> ${escapeHtml(s.required_industry_sector)}</span><span><strong>Expertise:</strong> ${escapeHtml(s.required_expertise)}</span><span><strong>Technology:</strong> ${escapeHtml(s.required_technology)}</span><span><strong>Support:</strong> ${escapeHtml(s.required_support)}</span><span><strong>Stage:</strong> ${escapeHtml(s.project_stage)}</span></div>
+          </details>
+          <div class="solution-actions">
+            <a href="detail.html?id=${s.challenge_id}" class="btn" style="background:#fff; color:#0B3C5D; border:1.5px solid #0B3C5D; padding:9px 16px; text-decoration:none;">${getT("viewDetails")} →</a>
+            ${partnerSelected
+              ? `<button class="btn" style="background:#138808; color:#fff;" onclick="createWorkspace(${s.solution_id})">Create Workspace</button>`
+              : `<button class="btn btn-accent" onclick="partnerWithProject(${s.solution_id})">Partner with Project</button>`}
+          </div>
+        </div>
+      `;
+    }).join("")}</div><div class="pagination">
+      <button type="button" onclick="changeSelectedPage(-1)" ${selectedPage === 1 ? "disabled" : ""}>Previous</button>
+      <span>Page ${selectedPage} of ${totalPages}</span>
+      <button type="button" onclick="changeSelectedPage(1)" ${selectedPage === totalPages ? "disabled" : ""}>Next</button>
+    </div>`;
+  }
+
+  function changeSelectedPage(delta) {
+    selectedPage += delta;
+    renderSelected();
+  }
+
+  async function partnerWithProject(solutionId) {
+    const response = await fetch(`${API_BASE}/industry/solutions/${solutionId}/partner`, { method: "POST", headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } });
+    if (!response.ok) { showToast("Unable to select this project", "error"); return; }
+    showToast("Partner Selected");
+    loadAll();
+  }
+
+  async function createWorkspace(solutionId) {
+    const response = await fetch(`${API_BASE}/industry/solutions/${solutionId}/workspace`, { method: "POST", headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } });
+    const data = await response.json();
+    if (!response.ok) { showToast(data.detail || "Select Partner with Project first", "error"); return; }
+    window.location.href = `workspace.html?id=${data.workspace_id}`;
+  }
+
+  function renderFunded() {
+    const container = document.getElementById("projects-container");
+    document.getElementById("projects-count").textContent = allFunded.length;
+
+    if (allFunded.length === 0) {
+      container.innerHTML = `<div class="empty-state"><div class="icon">🚀</div><h3>${getT("noProjects")}</h3><p>${getT("noProjectsSub")}</p></div>`;
+      return;
+    }
+
+    let filtered = allFunded;
+    if (projectSearch) filtered = filtered.filter(f => `${f.project_name} ${f.university} ${f.stage}`.toLowerCase().includes(projectSearch));
+    const totalPages = Math.max(1, Math.ceil(filtered.length / INDUSTRY_PAGE_SIZE));
+    projectPage = Math.min(projectPage, totalPages);
+    const pageItems = filtered.slice((projectPage - 1) * INDUSTRY_PAGE_SIZE, projectPage * INDUSTRY_PAGE_SIZE);
+
+    container.innerHTML = `<div class="project-list">${pageItems.map(f => `
+      <div class="project-card">
+        <div class="project-top">
+          <div class="project-title">${escapeHtml(f.project_name)}</div>
+          <span class="project-status status-funded">${escapeHtml(f.stage)}</span>
+        </div>
+        <div style="font-size:12.5px; color:#555; margin-bottom:10px;">
+          <strong>${getT("university")}:</strong> ${escapeHtml(f.university)}
+        </div>
+        <div class="project-meta">
+          <span>📈 <strong>Progress:</strong> ${f.progress}%</span>
+          <a class="btn btn-sm btn-primary" href="workspace.html?id=${f.workspace_id}">Open Workspace →</a>
+        </div>
+      </div>
+    `).join("")}</div><div class="pagination">
+      <button type="button" onclick="changeProjectPage(-1)" ${projectPage === 1 ? "disabled" : ""}>Previous</button>
+      <span>Page ${projectPage} of ${totalPages}</span>
+      <button type="button" onclick="changeProjectPage(1)" ${projectPage === totalPages ? "disabled" : ""}>Next</button>
+    </div>`;
+  }
+
+  function changeProjectPage(delta) {
+    projectPage += delta;
+    renderFunded();
+  }
+
+  function openFundModal(solutionId) {
+    const sol = allSelected.find(s => s.id === solutionId);
+    if (!sol) return;
+    fundingTarget = sol;
+
+    document.getElementById("fund-solution-title").textContent = sol.title;
+    document.getElementById("fund-solution-info").textContent = `${getT("challenge")}: ${sol.challenge_title} · AI Score: ${sol.ai_score != null ? sol.ai_score.toFixed(1) : "N/A"}`;
+    document.getElementById("fund-amount").value = "";
+    document.getElementById("fund-timeline").value = "";
+    document.getElementById("fund-notes").value = "";
+    document.getElementById("fund-modal").classList.add("show");
+  }
+
+  function closeFundModal() {
+    document.getElementById("fund-modal").classList.remove("show");
+    fundingTarget = null;
+  }
+
+  function submitFunding() {
+    if (!fundingTarget) return;
+    const amount = document.getElementById("fund-amount").value;
+    const timeline = document.getElementById("fund-timeline").value.trim();
+
+    if (!amount || !timeline) {
+      showToast(getT("fillFields"), "error");
+      return;
+    }
+
+    const record = {
+      solution_id: fundingTarget.id,
+      solution_title: fundingTarget.title,
+      challenge_id: fundingTarget.challenge_id,
+      challenge_title: fundingTarget.challenge_title,
+      amount: parseFloat(amount),
+      timeline: timeline,
+      notes: document.getElementById("fund-notes").value.trim(),
+      status: "FUNDED",
+      funded_at: new Date().toISOString(),
+      funded_by: currentUser.id,
+    };
+
+    const key = `collabx_funded_${currentUser.id}`;
+    const list = JSON.parse(localStorage.getItem(key) || "[]");
+    list.push(record);
+    localStorage.setItem(key, JSON.stringify(list));
+
+    closeFundModal();
+    showToast(getT("fundSuccess"));
+
+    allFunded = list;
+    updateStats();
+    renderSelected();
+    renderFunded();
+  }
+
+  function refreshAll() { loadAll(); }
+  loadAll();
+</script>
+<script src="i18n.js"></script>
+</body>
+</html>

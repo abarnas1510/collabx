@@ -1,0 +1,847 @@
+  .challenge-media { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .challenge-media img, .challenge-media video { width: 160px; max-height: 110px; object-fit: contain; background: #0B3C5D; border: 1px solid #D5DDE5; border-radius: 3px; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#0B3C5D">
+<title>Government Dashboard — CollabX | Government of India</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Gurmukhi:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans', 'Segoe UI', sans-serif;
+    background: #F4F6F9; color: #1a1a1a; font-size: 14.5px; line-height: 1.55;
+    min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden;
+  }
+  a { color: #0B3C5D; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  img { max-width: 100%; height: auto; display: block; }
+
+  body[data-lang="hi"] { font-family: 'Noto Sans Devanagari', 'Noto Sans', sans-serif; }
+  body[data-lang="ta"] { font-family: 'Noto Sans Tamil', 'Noto Sans', sans-serif; }
+  body[data-lang="te"] { font-family: 'Noto Sans Telugu', 'Noto Sans', sans-serif; }
+  body[data-lang="bn"] { font-family: 'Noto Sans Bengali', 'Noto Sans', sans-serif; }
+  body[data-lang="gu"] { font-family: 'Noto Sans Gujarati', 'Noto Sans', sans-serif; }
+  body[data-lang="pa"] { font-family: 'Noto Sans Gurmukhi', 'Noto Sans', sans-serif; }
+  body[data-lang="kn"] { font-family: 'Noto Sans Kannada', 'Noto Sans', sans-serif; }
+  body[data-lang="ml"] { font-family: 'Noto Sans Malayalam', 'Noto Sans', sans-serif; }
+  body[data-lang="or"] { font-family: 'Noto Sans Oriya', 'Noto Sans', sans-serif; }
+
+  .tricolor-strip { height: 4px; background: linear-gradient(to right, #FF9933 0%, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%, #138808 100%); }
+
+  .utility-bar { background: #0B3C5D; color: #fff; font-size: 11.5px; padding: 6px 0; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 16px; width: 100%; }
+  .utility-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .utility-inner a { color: #fff; opacity: 0.88; font-size: 11.5px; }
+  .utility-inner a:hover { opacity: 1; text-decoration: underline; }
+  .gov-tag { font-weight: 600; display: flex; align-items: center; gap: 5px; }
+  .gov-tag .dot { width: 5px; height: 5px; background: #FF9933; border-radius: 50%; flex-shrink: 0; }
+  .utility-inner .right { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+  .lang-switcher { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 4px 8px; border-radius: 3px; font-size: 11.5px; font-family: inherit; cursor: pointer; outline: none; max-width: 140px; }
+  .lang-switcher option { color: #1a1a1a; background: #fff; }
+
+  .main-header { background: #fff; border-bottom: 3px solid #0B3C5D; padding: 10px 0; }
+  .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .emblem-block { display: flex; align-items: center; gap: 12px; text-decoration: none; min-width: 0; flex: 1; }
+  .emblem-img { width: 44px; height: 52px; object-fit: contain; flex-shrink: 0; }
+  .brand-text { min-width: 0; }
+  .brand-text h1 { font-family: 'Noto Serif', serif; font-size: 20px; color: #0B3C5D; letter-spacing: 0.6px; line-height: 1; margin-bottom: 3px; }
+  .brand-text h1 span { color: #FF9933; }
+  .brand-text .subtitle { font-size: 10.5px; color: #555; letter-spacing: 0.4px; text-transform: uppercase; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .brand-text .subtitle-hindi { font-size: 10.5px; color: #777; margin-top: 1px; }
+
+  .main-nav { background: #0B3C5D; color: #fff; position: relative; }
+  .main-nav-inner { display: flex; align-items: center; flex-wrap: wrap; }
+  .main-nav a { color: #fff; padding: 11px 16px; font-size: 13px; font-weight: 500; border-right: 1px solid rgba(255,255,255,0.12); transition: background 0.2s; white-space: nowrap; }
+  .main-nav a:first-child { border-left: 1px solid rgba(255,255,255,0.12); }
+  .main-nav a:hover, .main-nav a.active { background: #FF9933; color: #0B3C5D; text-decoration: none; }
+  .nav-toggle { display: none; background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 18px; padding: 6px 12px; border-radius: 3px; cursor: pointer; margin: 8px 16px; font-family: inherit; }
+
+  /* WELCOME BAR */
+  .welcome-bar { background: linear-gradient(135deg, #0B3C5D 0%, #082B44 100%); color: #fff; padding: 22px 0; border-bottom: 3px solid #FF9933; }
+  .welcome-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .welcome-left h1 { font-family: 'Noto Serif', serif; font-size: 26px; line-height: 1.2; margin-bottom: 4px; }
+  .welcome-left p { font-size: 13.5px; opacity: 0.9; }
+  .welcome-left .gov-badge { display: inline-block; background: rgba(255,153,51,0.25); color: #FFB866; padding: 4px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px; border-left: 3px solid #FF9933; }
+  .welcome-right { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .btn { padding: 11px 20px; border-radius: 3px; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit; border: none; transition: all 0.15s; -webkit-tap-highlight-color: transparent; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: #0B3C5D; color: #fff; }
+  .btn-primary:hover { background: #082B44; }
+  .btn-accent { background: #FF9933; color: #0B3C5D; }
+  .btn-accent:hover { background: #E68A2E; }
+  .btn-green { background: #138808; color: #fff; }
+  .btn-green:hover { background: #0e6606; }
+  .btn-outline-white { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.6); }
+  .btn-outline-white:hover { background: rgba(255,255,255,0.15); }
+  .btn-sm { padding: 7px 14px; font-size: 12px; }
+
+  /* MAIN */
+  .dash-wrapper { flex: 1; padding: 24px 16px; }
+  .dash-container { max-width: 1280px; margin: 0 auto; }
+
+  /* STATS */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 24px; }
+  .stat-card { background: #fff; border: 1px solid #D5DDE5; border-radius: 4px; padding: 18px; border-top: 4px solid #0B3C5D; transition: all 0.15s; }
+  .stat-card:hover { box-shadow: 0 4px 14px rgba(11,60,93,0.08); transform: translateY(-2px); }
+  .stat-card.orange { border-top-color: #E68A2E; }
+  .stat-card.green { border-top-color: #138808; }
+  .stat-card.red { border-top-color: #C0392B; }
+  .stat-card.purple { border-top-color: #6d28d9; }
+  .stat-num { font-family: 'Noto Serif', serif; font-size: 34px; font-weight: 700; color: #0B3C5D; line-height: 1; margin-bottom: 6px; }
+  .stat-card.orange .stat-num { color: #E68A2E; }
+  .stat-card.green .stat-num { color: #138808; }
+  .stat-card.red .stat-num { color: #C0392B; }
+  .stat-card.purple .stat-num { color: #6d28d9; }
+  .stat-label { font-size: 11.5px; color: #666; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+  /* SECTION */
+  .section-card { background: #fff; border: 1px solid #D5DDE5; border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
+  .section-header { padding: 14px 20px; background: #082B44; color: #fff; border-bottom: 3px solid #FF9933; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .section-header h2 { font-family: 'Noto Serif', serif; font-size: 16px; letter-spacing: 0.4px; display: flex; align-items: center; gap: 8px; }
+  .section-header .count-badge { background: rgba(255,255,255,0.15); color: #fff; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 700; }
+  .section-body { padding: 20px; }
+
+  /* TABLES */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th { text-align: left; padding: 10px 12px; background: #F4F6F9; color: #0B3C5D; font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; border-bottom: 2px solid #D5DDE5; }
+  .data-table td { padding: 12px; border-bottom: 1px solid #E5E9EF; vertical-align: middle; }
+  .data-table tr:hover td { background: #F9FBFC; }
+  .data-table tr:last-child td { border-bottom: none; }
+
+  .chip { display: inline-block; padding: 3px 10px; border-radius: 3px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+  .chip-category { background: #E6F0F7; color: #0B3C5D; }
+  .chip-priority-high { background: #FBE7E5; color: #C0392B; }
+  .chip-priority-med { background: #FDF0DF; color: #B36A1B; }
+  .chip-priority-low { background: #E6F5E4; color: #138808; }
+  .chip-status-submitted { background: #F4F6F9; color: #555; }
+  .chip-status-processed { background: #FDF0DF; color: #B36A1B; }
+  .chip-status-published { background: #E6F5E4; color: #138808; }
+  .chip-status-progress { background: #E6F0F7; color: #0B3C5D; }
+  .chip-status-pilot { background: #EDE9FE; color: #6d28d9; }
+  .chip-status-deployed { background: #0B3C5D; color: #fff; }
+
+  /* ACTIONS */
+  .actions-cell { display: flex; gap: 6px; flex-wrap: wrap; }
+  .action-btn { padding: 6px 12px; border-radius: 3px; font-size: 11.5px; font-weight: 600; cursor: pointer; border: none; font-family: inherit; transition: all 0.15s; white-space: nowrap; }
+  .action-btn.publish { background: #138808; color: #fff; }
+  .action-btn.publish:hover { background: #0e6606; }
+  .action-btn.view { background: #0B3C5D; color: #fff; }
+  .action-btn.view:hover { background: #082B44; }
+  .action-btn.remove { background: #C0392B; color: #fff; }
+  .action-btn.remove:hover { background: #962D22; }
+  .action-btn.disable { background: #F4F6F9; color: #7A8B99; cursor: not-allowed; }
+
+  /* FILTER TABS */
+  .filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .filter-tab { padding: 8px 16px; background: #F4F6F9; border: 1px solid #E5E9EF; border-radius: 3px; font-size: 12.5px; font-weight: 600; color: #555; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+  .filter-tab:hover { background: #E6F0F7; color: #0B3C5D; }
+  .filter-tab.active { background: #0B3C5D; color: #fff; border-color: #0B3C5D; }
+  .list-tools { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 14px; }
+  .list-search { min-width: 220px; flex: 1; max-width: 420px; padding: 9px 11px; border: 1px solid #C5CEDA; border-radius: 3px; font: inherit; color: #1a1a1a; }
+  .list-search:focus { outline: none; border-color: #0B3C5D; box-shadow: 0 0 0 2px rgba(11,60,93,0.1); }
+  .pagination { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; }
+  .pagination button { padding: 7px 12px; border: 1px solid #C5CEDA; border-radius: 3px; background: #fff; color: #0B3C5D; cursor: pointer; font: inherit; }
+  .pagination button:disabled { color: #9aa6b2; background: #F4F6F9; cursor: not-allowed; }
+  .pagination span { font-size: 12px; color: #666; }
+
+  /* CHART */
+  .chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 20px; }
+  .chart-card { background: #fff; border: 1px solid #D5DDE5; border-radius: 4px; padding: 18px; }
+  .chart-title { font-size: 13px; color: #0B3C5D; font-weight: 700; margin-bottom: 14px; letter-spacing: 0.3px; }
+  .pie-layout { display: flex; align-items: center; justify-content: center; gap: 24px; min-height: 190px; flex-wrap: wrap; }
+  .pie-chart { width: 170px; height: 170px; border-radius: 50%; background: #EAF0F4; position: relative; flex: 0 0 auto; }
+  .pie-chart::after { content: ''; position: absolute; inset: 34%; border-radius: 50%; background: #fff; }
+  .chart-legend { display: grid; gap: 8px; min-width: 150px; }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 11px; color: #555; }
+  .legend-swatch { width: 11px; height: 11px; border-radius: 2px; flex: 0 0 11px; }
+  .legend-value { margin-left: auto; color: #0B3C5D; font-weight: 700; }
+  .vertical-chart { height: 190px; display: flex; align-items: flex-end; justify-content: space-around; gap: 10px; padding: 8px 4px 0; border-bottom: 1px solid #D5DDE5; }
+  .vertical-item { height: 100%; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 6px; min-width: 42px; }
+  .vertical-value { font-size: 11px; font-weight: 700; color: #0B3C5D; }
+  .vertical-bar { width: min(42px, 80%); min-height: 3px; background: #0B3C5D; border-radius: 3px 3px 0 0; transition: height 0.35s ease; }
+  .vertical-label { font-size: 10px; color: #666; text-align: center; white-space: nowrap; }
+  .vertical-bar.green { background: #138808; }
+  .vertical-bar.orange { background: #E68A2E; }
+  .vertical-bar.purple { background: #6d28d9; }
+  .vertical-bar.red { background: #C0392B; }
+  @media (max-width: 500px) { .pie-chart { width: 140px; height: 140px; } .vertical-label { font-size: 8px; } }
+
+  /* EMPTY / LOADING */
+  .empty-state { text-align: center; padding: 40px 20px; color: #94a3b8; }
+  .empty-state .icon { font-size: 42px; margin-bottom: 10px; opacity: 0.5; }
+  .empty-state h3 { font-size: 15px; color: #555; margin-bottom: 4px; font-family: 'Noto Serif', serif; }
+  .empty-state p { font-size: 13px; }
+
+  .loading { text-align: center; padding: 40px; color: #94a3b8; }
+  .spinner { width: 32px; height: 32px; border: 3px solid #E5E9EF; border-top-color: #0B3C5D; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* FOOTER */
+  .mini-footer { background: #082B44; color: #7A8B99; padding: 14px 0; text-align: center; font-size: 11.5px; margin-top: auto; }
+  .mini-footer span { margin: 0 6px; display: inline-block; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 24px; right: 24px; left: 24px; max-width: 400px; margin-left: auto; background: #138808; color: #fff; padding: 12px 20px; border-radius: 4px; font-size: 13.5px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 99999; text-align: center; }
+  .toast.error { background: #C0392B; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    body { font-size: 14px; }
+    .utility-inner .right a { display: none; }
+    .lang-switcher { max-width: 120px; font-size: 11px; padding: 3px 6px; }
+    .nav-toggle { display: block; }
+    .main-nav-inner { display: none; flex-direction: column; width: 100%; padding: 4px 0 8px; }
+    .main-nav-inner.open { display: flex; }
+    .main-nav a { width: 100%; padding: 11px 20px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .main-nav a:first-child { border-left: none; }
+    .brand-text h1 { font-size: 18px; }
+    .emblem-img { width: 40px; height: 48px; }
+    .brand-text .subtitle { font-size: 9.5px; }
+    .welcome-left h1 { font-size: 20px; }
+    .welcome-right { width: 100%; }
+    .welcome-right .btn { flex: 1; }
+    .section-body { padding: 14px; }
+    .stat-num { font-size: 26px; }
+    .data-table { font-size: 12px; }
+    .data-table th, .data-table td { padding: 8px 6px; }
+    .data-table thead { display: none; }
+    .data-table tr { display: block; padding: 12px 0; border-bottom: 1px solid #E5E9EF; }
+    .data-table td { display: block; padding: 4px 0; border: none; }
+    .data-table td::before { content: attr(data-label) ": "; font-weight: 700; color: #0B3C5D; font-size: 11px; text-transform: uppercase; margin-right: 6px; }
+  }
+</style>
+</head>
+<body data-lang="en">
+
+<div class="tricolor-strip"></div>
+
+<div class="utility-bar">
+  <div class="container utility-inner">
+    <div class="left"><span class="gov-tag"><span class="dot"></span> <span data-i18n="govBar">Government of India · Ministry of Education</span></span></div>
+    <div class="right">
+      <select class="lang-switcher" id="globalLang" onchange="changeGlobalLang(this.value)" title="App Language">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="ta">தமிழ்</option>
+        <option value="te">తెలుగు</option>
+        <option value="bn">বাংলা</option>
+        <option value="mr">मराठी</option>
+        <option value="gu">ગુજરાતી</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="ml">മലയാളം</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="or">ଓଡ଼ିଆ</option>
+        <option value="as">অসমীয়া</option>
+        <option value="ur">اردو</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<header class="main-header">
+  <div class="container header-inner">
+    <a href="index.html" class="emblem-block">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/240px-Emblem_of_India.svg.png" alt="State Emblem of India" class="emblem-img"
+        onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/120px-Emblem_of_India.svg.png';">
+      <div class="brand-text">
+        <h1>COLLA<span>B</span>X</h1>
+        <div class="subtitle" data-i18n="tagline">Digital Platform for Societal Innovation</div>
+        <div class="subtitle-hindi">नागरिक समस्याओं का समाधान मंच</div>
+      </div>
+    </a>
+  </div>
+</header>
+
+<nav class="main-nav">
+  <div class="container">
+    <button class="nav-toggle" onclick="document.querySelector('.main-nav-inner').classList.toggle('open')">☰ Menu</button>
+    <div class="main-nav-inner">
+      <a href="index.html" data-i18n="navHome">Home</a>
+      <a href="admin.html" class="active" data-i18n="navDashboard">Government Dashboard</a>
+      <span id="notifications-panel" style="position:relative;margin-left:auto;"><button type="button" onclick="toggleNotificationPanel()" aria-label="Notifications" title="Notifications" style="position:relative;background:transparent;border:1px solid rgba(255,255,255,0.35);color:#fff;border-radius:3px;padding:7px 10px;cursor:pointer;font:inherit;">🔔<span id="notifications-count" style="position:absolute;top:-7px;right:-7px;min-width:17px;height:17px;padding:1px 4px;border-radius:10px;background:#FF9933;color:#0B3C5D;font-size:10px;font-weight:700;line-height:15px;">0</span></button><span id="notifications-list" style="display:none;position:absolute;right:0;top:42px;width:320px;max-width:calc(100vw - 32px);background:#fff;border:1px solid #D5DDE5;border-top:3px solid #FF9933;border-radius:4px;padding:8px;box-shadow:0 5px 16px rgba(0,0,0,0.18);z-index:1000;"></span></span>
+      <span id="auth-nav"></span>
+    </div>
+  </div>
+</nav>
+
+<!-- WELCOME BAR — NO NAME -->
+<div class="welcome-bar">
+  <div class="container welcome-inner">
+    <div class="welcome-left">
+      <div class="gov-badge" data-i18n="govOfficial">🏛️ GOVERNMENT OFFICIAL</div>
+      <h1 data-i18n="welcome">Government Administration Dashboard</h1>
+      <p data-i18n="welcomeSub">Review and monitor societal challenges across the platform</p>
+    </div>
+    <div class="welcome-right">
+      <button onclick="refreshAll()" class="btn btn-outline-white">🔄 <span data-i18n="refresh">Refresh</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="dash-wrapper">
+  <div class="dash-container">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="stat-challenges">—</div>
+        <div class="stat-label" data-i18n="statChallenges">Total Challenges</div>
+      </div>
+      <div class="stat-card orange">
+        <div class="stat-num" id="stat-pending">—</div>
+        <div class="stat-label" data-i18n="statPending">Submitted</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-num" id="stat-solutions">—</div>
+        <div class="stat-label" data-i18n="statSolutions">Total Solutions</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-num" id="stat-users">—</div>
+        <div class="stat-label" data-i18n="statUsers">Platform Users</div>
+      </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-title">📊 <span data-i18n="chartChallenges">Challenges by Status</span></div>
+        <div id="chart-challenges"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">👥 <span data-i18n="chartUsers">Users by Role</span></div>
+        <div class="vertical-chart" id="chart-users"></div>
+      </div>
+    </div>
+
+    <!-- CHALLENGES TABLE -->
+    <div class="section-card">
+      <div class="section-header">
+        <h2>📋 <span data-i18n="allChallenges">All Challenges</span></h2>
+        <span class="count-badge" id="challenges-count">0</span>
+      </div>
+      <div class="section-body">
+        <div class="filter-tabs" id="filter-tabs">
+          <button class="filter-tab active" data-filter="all" data-i18n="filterAll">All</button>
+          <button class="filter-tab" data-filter="SUBMITTED" data-i18n="filterSubmitted">Submitted</button>
+          <button class="filter-tab" data-filter="AI_PROCESSED" data-i18n="filterProcessed">AI Processed</button>
+        </div>
+        <div class="list-tools">
+          <input id="challenge-search" class="list-search" type="search" placeholder="Search challenges..." aria-label="Search challenges">
+        </div>
+
+        <div id="challenges-container">
+          <div class="loading">
+            <div class="spinner"></div>
+            <div data-i18n="loadingChallenges">Loading challenges...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header">
+        <h2>🏛️ Government Prototype Review</h2>
+        <span class="count-badge" id="reviews-count">0</span>
+      </div>
+      <div class="section-body"><div id="reviews-container"><div class="loading">Loading prototypes for review...</div></div></div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="mini-footer">
+  <span>© 2026 CollabX</span><span>·</span><span data-i18n="govInit">Government of India Initiative</span>
+</footer>
+
+<script>
+  const API_BASE = "http://127.0.0.1:8000";
+  const LANG_KEY = "collabx_lang";
+
+  // ============ TRANSLATIONS ============
+  const I18N = {
+    en: {
+      govBar: "Government of India · Ministry of Education", skipContent: "Skip to Main Content", screenReader: "Screen Reader",
+      tagline: "Digital Platform for Societal Innovation",
+      navHome: "Home", navChallenges: "Public Challenges", navDashboard: "Government Dashboard",
+      govOfficial: "🏛️ GOVERNMENT OFFICIAL",
+      welcome: "Government Administration Dashboard",
+      welcomeSub: "Review and monitor societal challenges across the platform",
+      refresh: "Refresh",
+      statChallenges: "Total Challenges", statPending: "Submitted", statPublished: "Submitted Challenges",
+      statSolutions: "Total Solutions", statUsers: "Platform Users",
+      chartChallenges: "Challenges by Status", chartUsers: "Users by Role",
+      allChallenges: "All Challenges",
+      filterAll: "All", filterSubmitted: "Submitted", filterProcessed: "AI Processed",
+      loadingChallenges: "Loading challenges...",
+      noChallenges: "No challenges found.",
+      thTitle: "Challenge", thCategory: "Category", thPriority: "Priority", thStatus: "Status", thActions: "Actions",
+      publish: "Submit", published: "Submitted", view: "View",
+      removePublished: "Remove Challenge", removeConfirm: "Remove this challenge and its solutions from the platform?", removeSuccess: "Challenge removed from the platform.", removeFail: "Failed to remove challenge.",
+      priorityHigh: "High", priorityMed: "Medium", priorityLow: "Standard",
+      statusSubmitted: "Submitted", statusProcessed: "AI Processed", statusPublished: "Submitted",
+      statusInProgress: "In Progress", statusPilot: "Pilot", statusDeployed: "Deployed",
+      publishSuccess: "✓ Challenge is now active!",
+      publishFail: "✗ Failed to make challenge active",
+      govInit: "Government of India Initiative"
+    },
+    hi: {
+      govBar: "भारत सरकार · शिक्षा मंत्रालय", skipContent: "मुख्य सामग्री", screenReader: "स्क्रीन रीडर",
+      tagline: "सामाजिक नवाचार के लिए डिजिटल मंच",
+      navHome: "होम", navChallenges: "सार्वजनिक चुनौतियाँ", navDashboard: "सरकारी डैशबोर्ड",
+      govOfficial: "🏛️ सरकारी अधिकारी",
+      welcome: "सरकारी प्रशासन डैशबोर्ड",
+      welcomeSub: "प्लेटफॉर्म पर सामाजिक चुनौतियों की समीक्षा, प्रकाशन और निगरानी करें",
+      refresh: "रिफ्रेश",
+      statChallenges: "कुल चुनौतियाँ", statPending: "समीक्षा लंबित", statPublished: "प्रकाशित",
+      statSolutions: "कुल समाधान", statUsers: "प्लेटफॉर्म उपयोगकर्ता",
+      chartChallenges: "स्थिति के अनुसार चुनौतियाँ", chartUsers: "भूमिका के अनुसार उपयोगकर्ता",
+      allChallenges: "सभी चुनौतियाँ",
+      filterAll: "सभी", filterSubmitted: "जमा किए", filterProcessed: "AI संसाधित", filterPublished: "प्रकाशित",
+      loadingChallenges: "चुनौतियाँ लोड हो रही हैं...",
+      noChallenges: "कोई चुनौती नहीं मिली।",
+      thTitle: "चुनौती", thCategory: "श्रेणी", thPriority: "प्राथमिकता", thStatus: "स्थिति", thActions: "कार्रवाई",
+      publish: "प्रकाशित करें", published: "प्रकाशित", view: "देखें",
+      priorityHigh: "उच्च", priorityMed: "मध्यम", priorityLow: "मानक",
+      statusSubmitted: "जमा किया", statusProcessed: "AI संसाधित", statusPublished: "प्रकाशित",
+      statusInProgress: "प्रगति में", statusPilot: "पायलट", statusDeployed: "तैनात",
+      publishSuccess: "✓ चुनौती सफलतापूर्वक प्रकाशित!",
+      publishFail: "✗ चुनौती प्रकाशित करने में विफल",
+      govInit: "भारत सरकार की पहल"
+    },
+    ta: {
+      govBar: "இந்திய அரசு · கல்வி அமைச்சகம்", skipContent: "உள்ளடக்கம்", screenReader: "வாசிப்பான்",
+      tagline: "சமூக புதுமை தளம்",
+      navHome: "முகப்பு", navChallenges: "பொது சவால்கள்", navDashboard: "அரசு டாஷ்போர்டு",
+      govOfficial: "🏛️ அரசு அதிகாரி",
+      welcome: "அரசு நிர்வாக டாஷ்போர்டு",
+      welcomeSub: "தளத்தில் சமூக சவால்களை மதிப்பாய்வு, வெளியீடு மற்றும் கண்காணிக்கவும்",
+      refresh: "புதுப்பி",
+      statChallenges: "மொத்த சவால்கள்", statPending: "மதிப்பாய்வு நிலுவை", statPublished: "வெளியிடப்பட்டது",
+      statSolutions: "மொத்த தீர்வுகள்", statUsers: "தள பயனர்கள்",
+      chartChallenges: "நிலையின்படி சவால்கள்", chartUsers: "பங்கின்படி பயனர்கள்",
+      allChallenges: "அனைத்து சவால்கள்",
+      filterAll: "அனைத்தும்", filterSubmitted: "சமர்ப்பிக்கப்பட்டது", filterProcessed: "AI செயலாக்கப்பட்டது", filterPublished: "வெளியிடப்பட்டது",
+      loadingChallenges: "சவால்கள் ஏற்றப்படுகின்றன...",
+      noChallenges: "சவால்கள் இல்லை.",
+      thTitle: "சவால்", thCategory: "வகை", thPriority: "முன்னுரிமை", thStatus: "நிலை", thActions: "செயல்கள்",
+      publish: "வெளியிடு", published: "வெளியிடப்பட்டது", view: "பார்",
+      priorityHigh: "உயர்", priorityMed: "நடுத்தரம்", priorityLow: "தரநிலை",
+      statusSubmitted: "சமர்ப்பிக்கப்பட்டது", statusProcessed: "AI செயலாக்கப்பட்டது", statusPublished: "வெளியிடப்பட்டது",
+      statusInProgress: "நடைபெறுகிறது", statusPilot: "பைலட்", statusDeployed: "அமர்த்தப்பட்டது",
+      publishSuccess: "✓ சவால் வெற்றிகரமாக வெளியிடப்பட்டது!",
+      publishFail: "✗ வெளியிட தோல்வி",
+      govInit: "இந்திய அரசு முயற்சி"
+    },
+    te: {
+      govBar: "భారత ప్రభుత్వం · విద్యా మంత్రిత్వ శాఖ", skipContent: "కంటెంట్", screenReader: "రీడర్",
+      tagline: "సామాజిక ఆవిష్కరణ వేదిక",
+      navHome: "హోమ్", navChallenges: "ఛాలెంజ్లు", navDashboard: "ప్రభుత్వ డాష్బోర్డ్",
+      govOfficial: "🏛️ ప్రభుత్వ అధికారి",
+      welcome: "ప్రభుత్వ పరిపాలన డాష్బోర్డ్",
+      welcomeSub: "వేదికపై సామాజిక సవాళ్లను సమీక్షించండి, ప్రచురించండి మరియు పర్యవేక్షించండి",
+      refresh: "రిఫ్రెష్",
+      statChallenges: "మొత్తం ఛాలెంజ్లు", statPending: "సమీక్ష పెండింగ్", statPublished: "ప్రచురించబడింది",
+      statSolutions: "మొత్తం పరిష్కారాలు", statUsers: "వేదిక వినియోగదారులు",
+      chartChallenges: "స్థితి ప్రకారం ఛాలెంజ్లు", chartUsers: "పాత్ర ప్రకారం వినియోగదారులు",
+      allChallenges: "అన్ని ఛాలెంజ్లు",
+      filterAll: "అన్నీ", filterSubmitted: "సమర్పించబడింది", filterProcessed: "AI ప్రాసెస్", filterPublished: "ప్రచురించబడింది",
+      loadingChallenges: "ఛాలెంజ్లు లోడ్...",
+      noChallenges: "ఛాలెంజ్లు కనుగొనబడలేదు.",
+      thTitle: "ఛాలెంజ్", thCategory: "వర్గం", thPriority: "ప్రాధాన్యత", thStatus: "స్థితి", thActions: "చర్యలు",
+      publish: "ప్రచురించండి", published: "ప్రచురించబడింది", view: "చూడండి",
+      priorityHigh: "అధిక", priorityMed: "మధ్యస్థం", priorityLow: "ప్రామాణికం",
+      statusSubmitted: "సమర్పించబడింది", statusProcessed: "AI ప్రాసెస్", statusPublished: "ప్రచురించబడింది",
+      statusInProgress: "పురోగతిలో", statusPilot: "పైలట్", statusDeployed: "అమలు",
+      publishSuccess: "✓ ఛాలెంజ్ విజయవంతంగా ప్రచురించబడింది!",
+      publishFail: "✗ ప్రచురించడం విఫలమైంది",
+      govInit: "భారత ప్రభుత్వ చొరవ"
+    },
+    bn: { govBar: "ভারত · শিক্ষা", skipContent: "বিষয়বস্তু", screenReader: "রিডার", tagline: "ডিজিটাল প্ল্যাটফর্ম", navHome: "হোম", navChallenges: "চ্যালেঞ্জ", navDashboard: "সরকারি ড্যাশবোর্ড", govOfficial: "🏛️ সরকারি কর্মকর্তা", welcome: "সরকারি প্রশাসন ড্যাশবোর্ড", welcomeSub: "চ্যালেঞ্জ পর্যালোচনা, প্রকাশ এবং নিরীক্ষণ", refresh: "রিফ্রেশ", statChallenges: "মোট চ্যালেঞ্জ", statPending: "পর্যালোচনায়", statPublished: "প্রকাশিত", statSolutions: "সমাধান", statUsers: "ব্যবহারকারী", chartChallenges: "স্থিতি অনুসারে", chartUsers: "ভূমিকা অনুসারে", allChallenges: "সমস্ত চ্যালেঞ্জ", filterAll: "সব", filterSubmitted: "জমা", filterProcessed: "AI", filterPublished: "প্রকাশিত", loadingChallenges: "লোড...", noChallenges: "কোন চ্যালেঞ্জ নেই।", thTitle: "চ্যালেঞ্জ", thCategory: "শ্রেণী", thPriority: "অগ্রাধিকার", thStatus: "অবস্থা", thActions: "কার্যক্রম", publish: "প্রকাশ", published: "প্রকাশিত", view: "দেখুন", priorityHigh: "উচ্চ", priorityMed: "মাঝারি", priorityLow: "স্ট্যান্ডার্ড", statusSubmitted: "জমা", statusProcessed: "AI", statusPublished: "প্রকাশিত", statusInProgress: "চলমান", statusPilot: "পাইলট", statusDeployed: "স্থাপিত", publishSuccess: "✓ সফলভাবে প্রকাশিত!", publishFail: "✗ প্রকাশ ব্যর্থ", govInit: "ভারত সরকার" },
+    mr: { govBar: "भारत · शिक्षण", skipContent: "सामग्री", screenReader: "रीडर", tagline: "डिजिटल", navHome: "मुख्यपृष्ठ", navChallenges: "आव्हाने", navDashboard: "सरकारी डॅशबोर्ड", govOfficial: "🏛️ सरकारी अधिकारी", welcome: "सरकारी प्रशासन डॅशबोर्ड", welcomeSub: "आव्हानांचे पुनरावलोकन, प्रकाशन, आणि देखरेख", refresh: "रिफ्रेश", statChallenges: "एकूण आव्हाने", statPending: "पुनरावलोकन", statPublished: "प्रकाशित", statSolutions: "उपाय", statUsers: "वापरकर्ते", chartChallenges: "स्थितीनुसार", chartUsers: "भूमिकेनुसार", allChallenges: "सर्व आव्हाने", filterAll: "सर्व", filterSubmitted: "सबमिट", filterProcessed: "AI", filterPublished: "प्रकाशित", loadingChallenges: "लोड...", noChallenges: "आव्हाने नाहीत.", thTitle: "आव्हान", thCategory: "श्रेणी", thPriority: "प्राधान्य", thStatus: "स्थिती", thActions: "क्रिया", publish: "प्रकाशित", published: "प्रकाशित", view: "पहा", priorityHigh: "उच्च", priorityMed: "मध्यम", priorityLow: "मानक", statusSubmitted: "सबमिट", statusProcessed: "AI", statusPublished: "प्रकाशित", statusInProgress: "प्रगतीत", statusPilot: "पायलट", statusDeployed: "स्थापित", publishSuccess: "✓ यशस्वी!", publishFail: "✗ अयशस्वी", govInit: "भारत सरकार" },
+    gu: { govBar: "ભારત · શિક્ષણ", skipContent: "સામગ્રી", screenReader: "રીડર", tagline: "ડિજિટલ", navHome: "હોમ", navChallenges: "પડકારો", navDashboard: "સરકારી ડેશબોર્ડ", govOfficial: "🏛️ સરકારી અધિકારી", welcome: "સરકારી વહીવટ ડેશબોર્ડ", welcomeSub: "પડકારોની સમીક્ષા, પ્રકાશન, દેખરેખ", refresh: "રિફ્રેશ", statChallenges: "કુલ પડકારો", statPending: "સમીક્ષા", statPublished: "પ્રકાશિત", statSolutions: "ઉકેલો", statUsers: "વપરાશકર્તા", chartChallenges: "સ્થિતિ", chartUsers: "ભૂમિકા", allChallenges: "બધા પડકારો", filterAll: "બધા", filterSubmitted: "સબમિટ", filterProcessed: "AI", filterPublished: "પ્રકાશિત", loadingChallenges: "લોડ...", noChallenges: "કોઈ નથી.", thTitle: "પડકાર", thCategory: "શ્રેણી", thPriority: "પ્રાથમિકતા", thStatus: "સ્થિતિ", thActions: "ક્રિયાઓ", publish: "પ્રકાશિત", published: "પ્રકાશિત", view: "જુઓ", priorityHigh: "ઉચ્ચ", priorityMed: "મધ્યમ", priorityLow: "પ્રમાણભૂત", statusSubmitted: "સબમિટ", statusProcessed: "AI", statusPublished: "પ્રકાશિત", statusInProgress: "ચાલુ", statusPilot: "પાયલોટ", statusDeployed: "તૈનાત", publishSuccess: "✓ સફળ!", publishFail: "✗ નિષ્ફળ", govInit: "ભારત સરકાર" },
+    kn: { govBar: "ಭಾರತ · ಶಿಕ್ಷಣ", skipContent: "ವಿಷಯ", screenReader: "ರೀಡರ್", tagline: "ಡಿಜಿಟಲ್", navHome: "ಮುಖಪುಟ", navChallenges: "ಸವಾಲುಗಳು", navDashboard: "ಸರ್ಕಾರಿ ಡ್ಯಾಶ್ಬೋರ್ಡ್", govOfficial: "🏛️ ಸರ್ಕಾರಿ ಅಧಿಕಾರಿ", welcome: "ಸರ್ಕಾರಿ ಆಡಳಿತ ಡ್ಯಾಶ್ಬೋರ್ಡ್", welcomeSub: "ಸವಾಲುಗಳ ಪರಿಶೀಲನೆ, ಪ್ರಕಟಣೆ, ಮೇಲ್ವಿಚಾರಣೆ", refresh: "ರಿಫ್ರೆಶ್", statChallenges: "ಒಟ್ಟು ಸವಾಲುಗಳು", statPending: "ಪರಿಶೀಲನೆ", statPublished: "ಪ್ರಕಟಿತ", statSolutions: "ಪರಿಹಾರಗಳು", statUsers: "ಬಳಕೆದಾರರು", chartChallenges: "ಸ್ಥಿತಿ", chartUsers: "ಪಾತ್ರ", allChallenges: "ಎಲ್ಲಾ ಸವಾಲುಗಳು", filterAll: "ಎಲ್ಲಾ", filterSubmitted: "ಸಲ್ಲಿಸಲಾಗಿದೆ", filterProcessed: "AI", filterPublished: "ಪ್ರಕಟಿತ", loadingChallenges: "ಲೋಡ್...", noChallenges: "ಯಾವುದೂ ಇಲ್ಲ.", thTitle: "ಸವಾಲು", thCategory: "ವರ್ಗ", thPriority: "ಆದ್ಯತೆ", thStatus: "ಸ್ಥಿತಿ", thActions: "ಕ್ರಮಗಳು", publish: "ಪ್ರಕಟಿಸಿ", published: "ಪ್ರಕಟಿತ", view: "ನೋಡಿ", priorityHigh: "ಹೆಚ್ಚು", priorityMed: "ಮಧ್ಯಮ", priorityLow: "ಪ್ರಮಾಣಿತ", statusSubmitted: "ಸಲ್ಲಿಸಲಾಗಿದೆ", statusProcessed: "AI", statusPublished: "ಪ್ರಕಟಿತ", statusInProgress: "ಪ್ರಗತಿ", statusPilot: "ಪೈಲಟ್", statusDeployed: "ನಿಯೋಜಿತ", publishSuccess: "✓ ಯಶಸ್ವಿ!", publishFail: "✗ ವಿಫಲ", govInit: "ಭಾರತ ಸರ್ಕಾರ" },
+    ml: { govBar: "ഇന്ത്യ · വിദ്യാഭ്യാസം", skipContent: "ഉള്ളടക്കം", screenReader: "റീഡർ", tagline: "ഡിജിറ്റൽ", navHome: "ഹോം", navChallenges: "വെല്ലുവിളികൾ", navDashboard: "സർക്കാർ ഡാഷ്ബോർഡ്", govOfficial: "🏛️ സർക്കാർ ഉദ്യോഗസ്ഥൻ", welcome: "സർക്കാർ ഭരണ ഡാഷ്ബോർഡ്", welcomeSub: "വെല്ലുവിളികൾ അവലോകനം ചെയ്യുക, പ്രസിദ്ധീകരിക്കുക", refresh: "റിഫ്രെഷ്", statChallenges: "ആകെ വെല്ലുവിളികൾ", statPending: "അവലോകനം", statPublished: "പ്രസിദ്ധീകരിച്ചു", statSolutions: "പരിഹാരങ്ങൾ", statUsers: "ഉപയോക്താക്കൾ", chartChallenges: "നില", chartUsers: "റോൾ", allChallenges: "എല്ലാ വെല്ലുവിളികളും", filterAll: "എല്ലാം", filterSubmitted: "സമർപ്പിച്ചു", filterProcessed: "AI", filterPublished: "പ്രസിദ്ധീകരിച്ചു", loadingChallenges: "ലോഡ്...", noChallenges: "ഒന്നുമില്ല.", thTitle: "വെല്ലുവിളി", thCategory: "വിഭാഗം", thPriority: "മുൻഗണന", thStatus: "നില", thActions: "പ്രവർത്തനങ്ങൾ", publish: "പ്രസിദ്ധീകരിക്കുക", published: "പ്രസിദ്ധീകരിച്ചു", view: "കാണുക", priorityHigh: "ഉയർന്ന", priorityMed: "ഇടത്തരം", priorityLow: "സാധാരണ", statusSubmitted: "സമർപ്പിച്ചു", statusProcessed: "AI", statusPublished: "പ്രസിദ്ധീകരിച്ചു", statusInProgress: "നടന്നുകൊണ്ടിരിക്കുന്നു", statusPilot: "പൈലറ്റ്", statusDeployed: "വിന്യസിച്ചു", publishSuccess: "✓ വിജയകരം!", publishFail: "✗ പരാജയം", govInit: "ഇന്ത്യാ ഗവൺമെന്റ്" },
+    pa: { govBar: "ਭਾਰਤ · ਸਿੱਖਿਆ", skipContent: "ਸਮੱਗਰੀ", screenReader: "ਰੀਡਰ", tagline: "ਡਿਜੀਟਲ", navHome: "ਘਰ", navChallenges: "ਚੁਣੌਤੀਆਂ", navDashboard: "ਸਰਕਾਰੀ ਡੈਸ਼ਬੋਰਡ", govOfficial: "🏛️ ਸਰਕਾਰੀ ਅਧਿਕਾਰੀ", welcome: "ਸਰਕਾਰੀ ਪ੍ਰਸ਼ਾਸਨ ਡੈਸ਼ਬੋਰਡ", welcomeSub: "ਚੁਣੌਤੀਆਂ ਦੀ ਸਮੀਖਿਆ, ਪ੍ਰਕਾਸ਼ਨ, ਨਿਗਰਾਨੀ", refresh: "ਰਿਫ੍ਰੈਸ਼", statChallenges: "ਕੁੱਲ ਚੁਣੌਤੀਆਂ", statPending: "ਸਮੀਖਿਆ", statPublished: "ਪ੍ਰਕਾਸ਼ਿਤ", statSolutions: "ਹੱਲ", statUsers: "ਵਰਤੋਂਕਾਰ", chartChallenges: "ਸਥਿਤੀ", chartUsers: "ਭੂਮਿਕਾ", allChallenges: "ਸਾਰੀਆਂ ਚੁਣੌਤੀਆਂ", filterAll: "ਸਾਰੇ", filterSubmitted: "ਜਮ੍ਹਾਂ", filterProcessed: "AI", filterPublished: "ਪ੍ਰਕਾਸ਼ਿਤ", loadingChallenges: "ਲੋਡ...", noChallenges: "ਕੋਈ ਨਹੀਂ।", thTitle: "ਚੁਣੌਤੀ", thCategory: "ਸ਼੍ਰੇਣੀ", thPriority: "ਤਰਜੀਹ", thStatus: "ਸਥਿਤੀ", thActions: "ਕਾਰਵਾਈਆਂ", publish: "ਪ੍ਰਕਾਸ਼ਿਤ", published: "ਪ੍ਰਕਾਸ਼ਿਤ", view: "ਵੇਖੋ", priorityHigh: "ਉੱਚ", priorityMed: "ਮੱਧਮ", priorityLow: "ਮਿਆਰੀ", statusSubmitted: "ਜਮ੍ਹਾਂ", statusProcessed: "AI", statusPublished: "ਪ੍ਰਕਾਸ਼ਿਤ", statusInProgress: "ਚੱਲ ਰਿਹਾ", statusPilot: "ਪਾਇਲਟ", statusDeployed: "ਤੈਨਾਤ", publishSuccess: "✓ ਸਫਲ!", publishFail: "✗ ਅਸਫਲ", govInit: "ਭਾਰਤ ਸਰਕਾਰ" },
+    or: { govBar: "ଭାରତ · ଶିକ୍ଷା", skipContent: "ବିଷୟ", screenReader: "ରିଡର", tagline: "ଡିଜିଟାଲ", navHome: "ହୋମ", navChallenges: "ଆହ୍ୱାନ", navDashboard: "ସରକାରୀ ଡ୍ୟାସବୋର୍ଡ", govOfficial: "🏛️ ସରକାରୀ ଅଧିକାରୀ", welcome: "ସରକାରୀ ପ୍ରଶାସନ", welcomeSub: "ଆହ୍ୱାନ ସମୀକ୍ଷା, ପ୍ରକାଶନ", refresh: "ରିଫ୍ରେସ", statChallenges: "ମୋଟ ଆହ୍ୱାନ", statPending: "ସମୀକ୍ଷା", statPublished: "ପ୍ରକାଶିତ", statSolutions: "ସମାଧାନ", statUsers: "ବ୍ୟବହାରକାରୀ", chartChallenges: "ସ୍ଥିତି", chartUsers: "ଭୂମିକା", allChallenges: "ସମସ୍ତ ଆହ୍ୱାନ", filterAll: "ସମସ୍ତ", filterSubmitted: "ଦାଖଲ", filterProcessed: "AI", filterPublished: "ପ୍ରକାଶିତ", loadingChallenges: "ଲୋଡ୍...", noChallenges: "କିଛି ନାହିଁ।", thTitle: "ଆହ୍ୱାନ", thCategory: "ବର୍ଗ", thPriority: "ପ୍ରାଥମିକତା", thStatus: "ସ୍ଥିତି", thActions: "କାର୍ଯ୍ୟ", publish: "ପ୍ରକାଶ", published: "ପ୍ରକାଶିତ", view: "ଦେଖନ୍ତୁ", priorityHigh: "ଉଚ୍ଚ", priorityMed: "ମଧ୍ୟମ", priorityLow: "ମାନକ", statusSubmitted: "ଦାଖଲ", statusProcessed: "AI", statusPublished: "ପ୍ରକାଶିତ", statusInProgress: "ଚାଲୁ", statusPilot: "ପାଇଲଟ", statusDeployed: "ମୁତୟନ", publishSuccess: "✓ ସଫଳ!", publishFail: "✗ ବିଫଳ", govInit: "ଭାରତ ସରକାର" },
+    as: { govBar: "ভাৰত · শিক্ষা", skipContent: "সমল", screenReader: "ৰিডাৰ", tagline: "ডিজিটেল", navHome: "হোম", navChallenges: "প্ৰত্যাহ্বান", navDashboard: "চৰকাৰী ডেশবৰ্ড", govOfficial: "🏛️ চৰকাৰী বিষয়া", welcome: "চৰকাৰী প্ৰশাসন", welcomeSub: "প্ৰত্যাহ্বান পৰ্যালোচনা, প্ৰকাশ", refresh: "ৰিফ্ৰেশ", statChallenges: "মুঠ", statPending: "পৰ্যালোচনা", statPublished: "প্ৰকাশিত", statSolutions: "সমাধান", statUsers: "ব্যৱহাৰকাৰী", chartChallenges: "স্থিতি", chartUsers: "ভূমিকা", allChallenges: "সকলো প্ৰত্যাহ্বান", filterAll: "সকলো", filterSubmitted: "দাখিল", filterProcessed: "AI", filterPublished: "প্ৰকাশিত", loadingChallenges: "লোড...", noChallenges: "নাই।", thTitle: "প্ৰত্যাহ্বান", thCategory: "শ্ৰেণী", thPriority: "প্ৰাথমিকতা", thStatus: "স্থিতি", thActions: "কাৰ্য", publish: "প্ৰকাশ", published: "প্ৰকাশিত", view: "চাওক", priorityHigh: "উচ্চ", priorityMed: "মধ্যম", priorityLow: "মানক", statusSubmitted: "দাখিল", statusProcessed: "AI", statusPublished: "প্ৰকাশিত", statusInProgress: "চলি আছে", statusPilot: "পাইলট", statusDeployed: "নিয়োজিত", publishSuccess: "✓ সফল!", publishFail: "✗ বিফল", govInit: "ভাৰত চৰকাৰ" },
+    ur: { govBar: "حکومت ہند · تعلیم", skipContent: "مواد", screenReader: "ریڈر", tagline: "ڈیجیٹل", navHome: "ہوم", navChallenges: "چیلنجز", navDashboard: "حکومتی ڈیش بورڈ", govOfficial: "🏛️ سرکاری افسر", welcome: "سرکاری انتظامیہ ڈیش بورڈ", welcomeSub: "چیلنجز کا جائزہ، اشاعت، نگرانی", refresh: "ریفریش", statChallenges: "کل چیلنجز", statPending: "جائزہ", statPublished: "شائع", statSolutions: "حل", statUsers: "صارفین", chartChallenges: "حالت", chartUsers: "کردار", allChallenges: "تمام چیلنجز", filterAll: "سب", filterSubmitted: "جمع", filterProcessed: "AI", filterPublished: "شائع", loadingChallenges: "لوڈ...", noChallenges: "کوئی نہیں۔", thTitle: "چیلنج", thCategory: "زمرہ", thPriority: "ترجیح", thStatus: "حالت", thActions: "اقدامات", publish: "شائع کریں", published: "شائع", view: "دیکھیں", priorityHigh: "اعلی", priorityMed: "درمیانہ", priorityLow: "معیاری", statusSubmitted: "جمع", statusProcessed: "AI", statusPublished: "شائع", statusInProgress: "جاری", statusPilot: "پائلٹ", statusDeployed: "تعینات", publishSuccess: "✓ کامیاب!", publishFail: "✗ ناکام", govInit: "حکومت ہند" }
+  };
+
+  function applyTranslations(lang) {
+    const t = I18N[lang] || I18N.en;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (t[key]) el.textContent = t[key];
+    });
+    document.body.setAttribute("data-lang", lang);
+    document.documentElement.lang = lang;
+  }
+  function changeGlobalLang(lang) {
+    localStorage.setItem(LANG_KEY, lang);
+    applyTranslations(lang);
+    if (allChallenges.length) { renderChallenges(); renderCharts(); }
+  }
+
+  function escapeHtml(str) { const d = document.createElement("div"); d.textContent = str || ""; return d.innerHTML; }
+  function getT(key) { return (I18N[localStorage.getItem(LANG_KEY) || "en"] || I18N.en)[key] || I18N.en[key]; }
+  function roleRoute(role) { return { citizen:"citizen.html", university:"university.html", industry:"industry.html", govt:"admin.html", admin:"admin.html", expert:"expert.html" }[role] || "index.html"; }
+  function logout() { localStorage.removeItem("token"); localStorage.removeItem("user"); window.location.href = "index.html"; }
+
+  function showToast(msg, type = "success") {
+    const t = document.createElement("div");
+    t.className = "toast" + (type === "error" ? " error" : "");
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+  }
+
+  // STATE
+  let allChallenges = [];
+  let platformStats = {};
+  let currentFilter = "all";
+  let challengeSearch = "";
+  let challengePage = 1;
+  let governmentReviews = [];
+  const CHALLENGES_PER_PAGE = 10;
+
+  // INIT
+  const savedLang = localStorage.getItem(LANG_KEY) || "en";
+  document.getElementById("globalLang").value = savedLang;
+  applyTranslations(savedLang);
+
+  // AUTH — NO NAME SHOWN
+  (function initAuth() {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+
+    if (!token || !user) { alert("Please login to access the government dashboard."); window.location.href = "login.html"; return; }
+    if (user.role !== "govt" && user.role !== "admin") { window.location.href = roleRoute(user.role); return; }
+
+    // Show only role — no name
+    document.getElementById("auth-nav").innerHTML = `
+      <a href="admin.html" class="active">🏛️ Government</a>
+      <a href="profile.html">Profile</a>
+      <button onclick="logout()" style="background:transparent; border:none; color:#fff; padding:11px 16px; cursor:pointer; font-size:13px; font-weight:500;">Logout</button>
+    `;
+  })();
+
+  // FILTER TABS
+  document.querySelectorAll(".filter-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      currentFilter = tab.dataset.filter;
+      challengePage = 1;
+      renderChallenges();
+    });
+  });
+
+  document.getElementById("challenge-search").addEventListener("input", event => {
+    challengeSearch = event.target.value.trim().toLowerCase();
+    challengePage = 1;
+    renderChallenges();
+  });
+
+  // LOAD DATA
+  async function loadAll() {
+    loadNotifications();
+    document.getElementById("challenges-container").innerHTML = `<div class="loading"><div class="spinner"></div><div>${getT("loadingChallenges")}</div></div>`;
+
+    try {
+      // Load platform stats
+      const statRes = await fetch(`${API_BASE}/matching/stats`);
+      platformStats = statRes.ok ? await statRes.json() : {};
+
+      // Load all challenges
+      const chRes = await fetch(`${API_BASE}/challenges/`);
+      allChallenges = chRes.ok ? await chRes.json() : [];
+
+      const reviewRes = await fetch(`${API_BASE}/government/reviews`, { headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } });
+      governmentReviews = reviewRes.ok ? await reviewRes.json() : [];
+
+      updateStats();
+      renderCharts();
+      renderChallenges();
+      renderGovernmentReviews();
+    } catch (err) {
+      document.getElementById("challenges-container").innerHTML = `<div class="empty-state">
+        <div class="icon">⚠</div>
+        <h3>Could not connect to backend</h3>
+        <p>Please ensure the backend server is running on port 8000.</p>
+      </div>`;
+    }
+  }
+
+  async function loadNotifications() {
+    const panel = document.getElementById("notifications-panel");
+    try {
+      const response = await fetch(`${API_BASE}/notifications/mine`, { headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } });
+      if (!response.ok) return;
+      const items = await response.json();
+      document.getElementById("notifications-count").textContent = items.filter(item => !item.is_read).length;
+      document.getElementById("notifications-list").innerHTML = items.length ? items.slice(0, 8).map(item => `<a href="detail.html?id=${item.challenge_id || ""}${item.workspace_id ? `&workspace=${item.workspace_id}` : ""}" onclick="markNotificationRead(${item.id})" style="padding:9px 10px;background:${item.is_read ? "#F8FAFC" : "#FFF8ED"};border-radius:3px;color:#1a1a1a;text-decoration:none;"><strong>${escapeHtml(item.title)}</strong><span style="display:block;font-size:12px;color:#666;margin-top:2px;">${escapeHtml(item.message)}</span></a>`).join("") : `<div style="font-size:12px;color:#7A8B99;padding:8px 0;">No new notifications.</div>`;
+    } catch (error) { document.getElementById("notifications-list").innerHTML = `<div style="font-size:12px;color:#C0392B;padding:8px 0;">Notifications unavailable.</div>`; }
+  }
+
+  function markNotificationRead(id) { fetch(`${API_BASE}/notifications/${id}/read`, { method: "PATCH", headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } }); }
+  function toggleNotificationPanel() { const list = document.getElementById("notifications-list"); list.style.display = list.style.display === "none" ? "grid" : "none"; }
+
+  function updateStats() {
+    const total = allChallenges.length;
+    const pending = allChallenges.filter(c => c.citizen_id != null || c.submitter_name).length;
+    const solutions = platformStats.total_solutions || 0;
+    const users = platformStats.total_users || 0;
+
+    document.getElementById("stat-challenges").textContent = total;
+    document.getElementById("stat-pending").textContent = pending;
+    document.getElementById("stat-solutions").textContent = solutions;
+    document.getElementById("stat-users").textContent = users;
+  }
+
+  function renderCharts() {
+    // Challenges by status
+    const statuses = ["SUBMITTED", "AI_PROCESSED", "IN_PROGRESS", "PILOT", "DEPLOYED"];
+    const statusLabels = {
+      SUBMITTED: getT("statusSubmitted"), AI_PROCESSED: getT("statusProcessed"),
+      IN_PROGRESS: getT("statusInProgress"),
+      PILOT: getT("statusPilot"), DEPLOYED: getT("statusDeployed")
+    };
+    const citizenReports = allChallenges.filter(c => c.citizen_id != null || c.submitter_name).length;
+    const counts = statuses.map(s => s === "SUBMITTED"
+      ? citizenReports
+      : allChallenges.filter(c => c.status === s).length);
+    const chartColors = ["#FF9933", "#C0392B", "#138808", "#6d28d9", "#0B3C5D"];
+    const totalChallenges = Math.max(counts.reduce((sum, count) => sum + count, 0), 1);
+    let offset = 0;
+    const segments = counts.map((count, index) => {
+      const start = offset;
+      offset += (count / totalChallenges) * 360;
+      return `${chartColors[index]} ${start}deg ${offset}deg`;
+    }).join(", ");
+    document.getElementById("chart-challenges").innerHTML = `
+      <div class="pie-layout">
+        <div class="pie-chart" style="background: conic-gradient(${segments});" aria-label="Challenges by status"></div>
+        <div class="chart-legend">${statuses.map((status, index) => `
+          <div class="legend-item"><span class="legend-swatch" style="background:${chartColors[index]};"></span><span>${statusLabels[status]}</span><span class="legend-value">${counts[index]}</span></div>
+        `).join("")}</div>
+      </div>`;
+
+    // Users by role
+    const roles = [
+      { key: "citizens", label: "Citizens", cls: "" },
+      { key: "universities", label: "Universities", cls: "green" },
+      { key: "industries", label: "Industries", cls: "orange" },
+      { key: "experts", label: "Experts", cls: "purple" },
+      { key: "government", label: "Government", cls: "red" },
+    ];
+    const roleCounts = roles.map(r => platformStats[r.key] || 0);
+    const maxRole = Math.max(...roleCounts, 1);
+
+    document.getElementById("chart-users").innerHTML = roles.map((r, i) => {
+      const height = Math.round((roleCounts[i] / maxRole) * 100);
+      return `
+        <div class="vertical-item">
+          <div class="vertical-value">${roleCounts[i]}</div>
+          <div class="vertical-bar ${r.cls}" style="height: ${roleCounts[i] ? Math.max(height, 4) : 0}%;"></div>
+          <div class="vertical-label">${r.label}</div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function renderChallenges() {
+    const container = document.getElementById("challenges-container");
+    let filtered = allChallenges;
+
+    if (currentFilter === "SUBMITTED") {
+      filtered = allChallenges.filter(c => c.citizen_id != null || c.submitter_name);
+    } else if (currentFilter !== "all") {
+      filtered = allChallenges.filter(c => c.status === currentFilter);
+    }
+    if (challengeSearch) {
+      filtered = filtered.filter(c => `${c.title} ${c.description} ${c.category || ""}`.toLowerCase().includes(challengeSearch));
+    }
+
+    document.getElementById("challenges-count").textContent = filtered.length;
+
+    if (filtered.length === 0) {
+      container.innerHTML = `<div class="empty-state"><div class="icon">📋</div><h3>${getT("noChallenges")}</h3></div>`;
+      return;
+    }
+
+    const statusLabels = {
+      SUBMITTED: getT("statusSubmitted"),
+      AI_PROCESSED: getT("statusProcessed"),
+      PUBLISHED: getT("statusSubmitted"),
+      IN_PROGRESS: getT("statusInProgress"),
+      PILOT: getT("statusPilot"),
+      DEPLOYED: getT("statusDeployed"),
+    };
+    const statusClasses = {
+      SUBMITTED: "chip-status-submitted",
+      AI_PROCESSED: "chip-status-processed",
+      PUBLISHED: "chip-status-published",
+      IN_PROGRESS: "chip-status-progress",
+      PILOT: "chip-status-pilot",
+      DEPLOYED: "chip-status-deployed",
+    };
+
+    const totalPages = Math.max(1, Math.ceil(filtered.length / CHALLENGES_PER_PAGE));
+    challengePage = Math.min(challengePage, totalPages);
+    const pageItems = filtered.slice((challengePage - 1) * CHALLENGES_PER_PAGE, challengePage * CHALLENGES_PER_PAGE);
+
+    container.innerHTML = `
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>${getT("thTitle")}</th>
+            <th>${getT("thCategory")}</th>
+            <th>${getT("thPriority")}</th>
+            <th>${getT("thStatus")}</th>
+            <th>${getT("thActions")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${pageItems.map(ch => {
+            const priority = ch.priority_score > 70 ? "high" : ch.priority_score > 50 ? "med" : "low";
+            const priorityLabel = priority === "high" ? getT("priorityHigh") : priority === "med" ? getT("priorityMed") : getT("priorityLow");
+            return `
+              <tr>
+                <td data-label="${getT("thTitle")}">
+                  <strong style="color:#0B3C5D;">${escapeHtml(ch.title)}</strong>
+                  <div style="font-size:11px; color:#888; margin-top:2px;">ID: #${ch.id}</div>
+                </td>
+                <td data-label="${getT("thCategory")}">
+                  <span class="chip chip-category">${escapeHtml(ch.category || "General")}</span>
+                </td>
+                <td data-label="${getT("thPriority")}">
+                  <span class="chip chip-priority-${priority}">${ch.priority_score}/100</span>
+                </td>
+                <td data-label="${getT("thStatus")}">
+                  <span class="chip ${statusClasses[ch.status] || 'chip-status-submitted'}">${statusLabels[ch.status] || ch.status}</span>
+                </td>
+                <td data-label="${getT("thActions")}">
+                  <div class="actions-cell">
+                    <a href="detail.html?id=${ch.id}" class="action-btn view">${getT("view")}</a>
+                    ${ch.status === "PUBLISHED" ? `<button type="button" class="action-btn remove" onclick="removePublishedChallenge(${ch.id})">${getT("removePublished")}</button>` : ""}
+                  </div>
+                </td>
+              </tr>
+            `;
+          }).join("")}
+        </tbody>
+      </table>
+      <div class="pagination">
+        <button type="button" onclick="changeChallengePage(-1)" ${challengePage === 1 ? "disabled" : ""}>Previous</button>
+        <span>Page ${challengePage} of ${totalPages}</span>
+        <button type="button" onclick="changeChallengePage(1)" ${challengePage === totalPages ? "disabled" : ""}>Next</button>
+      </div>
+    `;
+  }
+
+  function renderGovernmentReviews() {
+    const container = document.getElementById("reviews-container");
+    document.getElementById("reviews-count").textContent = governmentReviews.length;
+    if (!governmentReviews.length) {
+      container.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><h3>No prototypes submitted for government review.</h3></div>`;
+      return;
+    }
+    container.innerHTML = governmentReviews.map(item => {
+      const review = item.review || {};
+      const prototype = item.prototype || {};
+      const needsReview = !["APPROVED_FOR_PILOT", "REJECTED"].includes(review.status);
+      const fileUrl = prototype.file_url ? `${API_BASE}/${prototype.file_url.replace(/\\/g, "/").replace(/^.*uploads\//, "uploads/")}` : "";
+      return `<div style="border:1px solid #E5E9EF;border-left:4px solid #0B3C5D;padding:16px;margin-bottom:12px;border-radius:4px;">
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;"><strong style="color:#0B3C5D;">${escapeHtml(item.project_title)}</strong><span class="chip chip-status-progress">${escapeHtml(review.status || "PENDING")}</span></div>
+        <div style="font-size:12px;color:#666;margin:7px 0;">${escapeHtml(item.university)} + ${escapeHtml(item.industry)} · Challenge #${item.challenge_id}</div>
+        <div style="font-size:13px;line-height:1.6;">${escapeHtml(item.solution)}</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">${fileUrl ? `<a href="${escapeHtml(fileUrl)}" target="_blank" style="color:#0B3C5D;">View prototype: ${escapeHtml(prototype.file_name || "file")}</a>` : ""}<a href="detail.html?id=${item.challenge_id}&workspace=${item.workspace_id}" style="color:#0B3C5D;font-weight:700;">View Problem</a></div>
+        ${review.reason ? `<div style="margin-top:8px;padding:8px;background:#FFF4E0;border-left:3px solid #FF9933;font-size:12px;"><strong>Requested/rejection reason:</strong> ${escapeHtml(review.reason)}</div>` : ""}
+        ${review.comment ? `<div style="margin-top:8px;font-size:12px;color:#666;"><strong>Comment:</strong> ${escapeHtml(review.comment)}</div>` : ""}
+        ${needsReview ? `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;"><button class="action-btn view" onclick="governmentAction(${item.workspace_id}, 'approve')">Approve for Pilot</button><button class="action-btn" onclick="governmentReason(${item.workspace_id}, 'changes')">Request Changes</button><button class="action-btn remove" onclick="governmentReason(${item.workspace_id}, 'reject')">Reject</button><button class="action-btn" onclick="governmentComment(${item.workspace_id})">Add Comment</button></div>` : `<button class="action-btn" style="margin-top:12px;" onclick="governmentComment(${item.workspace_id})">Add Comment</button>`}
+      </div>`;
+    }).join("");
+  }
+
+  async function submitGovernmentReview(workspaceId, action, values = {}) {
+    const form = new FormData();
+    form.append("action", action);
+    if (values.reason) form.append("reason", values.reason);
+    if (values.comment) form.append("comment", values.comment);
+    const response = await fetch(`${API_BASE}/government/workspaces/${workspaceId}/review`, { method: "POST", headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }, body: form });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.detail || "Government review failed");
+  }
+
+  async function governmentAction(workspaceId, action) {
+    if (!confirm("Approve this prototype for pilot?")) return;
+    try { await submitGovernmentReview(workspaceId, action); showToast("Prototype approved for pilot"); await loadAll(); }
+    catch (error) { showToast(error.message, "error"); }
+  }
+
+  async function governmentReason(workspaceId, action) {
+    const reason = prompt(action === "changes" ? "What changes are required?" : "Why is this prototype rejected?");
+    if (!reason || !reason.trim()) return;
+    try { await submitGovernmentReview(workspaceId, action, { reason }); showToast(action === "changes" ? "Changes requested" : "Prototype rejected"); await loadAll(); }
+    catch (error) { showToast(error.message, "error"); }
+  }
+
+  async function governmentComment(workspaceId) {
+    const comment = prompt("Government comment:");
+    if (!comment || !comment.trim()) return;
+    try { await submitGovernmentReview(workspaceId, "comment", { comment }); showToast("Comment added"); await loadAll(); }
+    catch (error) { showToast(error.message, "error"); }
+  }
+
+  function renderChallengeMedia(ch) {
+    if (!ch.image_url) return "";
+    return `<div class="challenge-media">${String(ch.image_url).split(",").map(path => path.trim()).filter(Boolean).map(path => {
+      const normalized = path.replace(/\\/g, "/");
+      const url = /^https?:\/\//i.test(normalized) ? normalized : `${API_BASE}/${normalized.replace(/^\/+/, "")}`;
+      const name = normalized.split("/").pop() || "Uploaded media";
+      return /\.(mp4|webm|ogg|mov|avi|m4v)$/i.test(name)
+        ? `<video controls preload="metadata" src="${escapeHtml(url)}" aria-label="Citizen uploaded video"></video>`
+        : `<img src="${escapeHtml(url)}" alt="Citizen uploaded problem media">`;
+    }).join("")}</div>`;
+  }
+
+  function changeChallengePage(delta) {
+    challengePage += delta;
+    renderChallenges();
+  }
+
+  async function removePublishedChallenge(challengeId) {
+    const challenge = allChallenges.find(ch => ch.id === challengeId);
+    if (!challenge || challenge.status !== "PUBLISHED") return;
+    if (!confirm(getT("removeConfirm"))) return;
+
+    try {
+      const response = await fetch(`${API_BASE}/challenges/${challengeId}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.detail || getT("removeFail"));
+      showToast(getT("removeSuccess"));
+      await loadAll();
+    } catch (error) {
+      showToast(error.message || getT("removeFail"), "error");
+    }
+  }
+
+  function refreshAll() { loadAll(); }
+
+  // LOAD
+  loadAll();
+</script>
+<script src="i18n.js"></script>
+</body>
+</html>

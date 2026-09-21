@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#0B3C5D">
+<title>Report a Problem — CollabX | Government of India</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Gurmukhi:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans', 'Segoe UI', sans-serif;
+    background: #F4F6F9; color: #1a1a1a; font-size: 14.5px; line-height: 1.55;
+    min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden;
+  }
+  a { color: #0B3C5D; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  img { max-width: 100%; height: auto; display: block; }
+  body[data-lang="hi"] { font-family: 'Noto Sans Devanagari', 'Noto Sans', sans-serif; }
+  body[data-lang="ta"] { font-family: 'Noto Sans Tamil', 'Noto Sans', sans-serif; }
+  body[data-lang="te"] { font-family: 'Noto Sans Telugu', 'Noto Sans', sans-serif; }
+  body[data-lang="bn"] { font-family: 'Noto Sans Bengali', 'Noto Sans', sans-serif; }
+  body[data-lang="gu"] { font-family: 'Noto Sans Gujarati', 'Noto Sans', sans-serif; }
+  body[data-lang="pa"] { font-family: 'Noto Sans Gurmukhi', 'Noto Sans', sans-serif; }
+  body[data-lang="kn"] { font-family: 'Noto Sans Kannada', 'Noto Sans', sans-serif; }
+  body[data-lang="ml"] { font-family: 'Noto Sans Malayalam', 'Noto Sans', sans-serif; }
+  body[data-lang="or"] { font-family: 'Noto Sans Oriya', 'Noto Sans', sans-serif; }
+
+  .tricolor-strip { height: 4px; background: linear-gradient(to right, #FF9933 0%, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%, #138808 100%); flex-shrink: 0; }
+
+  .utility-bar { background: #0B3C5D; color: #fff; font-size: 11.5px; padding: 6px 0; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 16px; width: 100%; }
+  .utility-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .utility-inner a { color: #fff; opacity: 0.88; font-size: 11.5px; }
+  .utility-inner a:hover { opacity: 1; text-decoration: underline; }
+  .gov-tag { font-weight: 600; display: flex; align-items: center; gap: 5px; }
+  .gov-tag .dot { width: 5px; height: 5px; background: #FF9933; border-radius: 50%; flex-shrink: 0; }
+  .utility-inner .right { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+  .lang-switcher { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 4px 8px; border-radius: 3px; font-size: 11.5px; font-family: inherit; cursor: pointer; outline: none; max-width: 140px; }
+  .lang-switcher option { color: #1a1a1a; background: #fff; }
+
+  .main-header { background: #fff; border-bottom: 3px solid #0B3C5D; padding: 10px 0; }
+  .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .emblem-block { display: flex; align-items: center; gap: 12px; text-decoration: none; min-width: 0; flex: 1; }
+  .emblem-img { width: 44px; height: 52px; object-fit: contain; flex-shrink: 0; }
+  .brand-text { min-width: 0; }
+  .brand-text h1 { font-family: 'Noto Serif', serif; font-size: 20px; color: #0B3C5D; letter-spacing: 0.6px; line-height: 1; margin-bottom: 3px; }
+  .brand-text h1 span { color: #FF9933; }
+  .brand-text .subtitle { font-size: 10.5px; color: #555; letter-spacing: 0.4px; text-transform: uppercase; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .brand-text .subtitle-hindi { font-size: 10.5px; color: #777; margin-top: 1px; }
+
+  .main-nav { background: #0B3C5D; color: #fff; position: relative; }
+  .main-nav-inner { display: flex; align-items: center; flex-wrap: wrap; }
+  .main-nav a { color: #fff; padding: 11px 16px; font-size: 13px; font-weight: 500; border-right: 1px solid rgba(255,255,255,0.12); transition: background 0.2s; white-space: nowrap; }
+  .main-nav a:first-child { border-left: 1px solid rgba(255,255,255,0.12); }
+  .main-nav a:hover, .main-nav a.active { background: #FF9933; color: #0B3C5D; text-decoration: none; }
+  .nav-toggle { display: none; background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 18px; padding: 6px 12px; border-radius: 3px; cursor: pointer; margin: 8px 16px; font-family: inherit; }
+
+  .breadcrumb-bar { background: #fff; border-bottom: 1px solid #E5E9EF; padding: 8px 0; font-size: 12px; color: #666; }
+  .breadcrumb-bar a { color: #0B3C5D; }
+  .breadcrumb-bar span { color: #999; margin: 0 6px; }
+
+  .offline-banner { display: none; background: #FDF0DF; color: #B36A1B; border-bottom: 1px solid #F5D8A8; padding: 10px 16px; text-align: center; font-size: 13px; font-weight: 500; }
+  .offline-banner.show { display: block; }
+
+  /* GUEST MODE BANNER (NEW) */
+  .guest-banner {
+    background: linear-gradient(135deg, #138808 0%, #0B6A06 100%);
+    color: #fff;
+    padding: 12px 0;
+    text-align: center;
+    font-size: 13.5px;
+    font-weight: 600;
+    border-bottom: 3px solid #FF9933;
+    display: none;
+  }
+  .guest-banner.show { display: block; }
+  .guest-banner .guest-icon { font-size: 18px; margin-right: 6px; }
+  .guest-banner .guest-cta {
+    color: #FFD9A0;
+    text-decoration: underline;
+    margin-left: 10px;
+    font-weight: 700;
+  }
+  .guest-banner .guest-cta:hover { color: #fff; }
+
+  .report-wrapper { flex: 1; padding: 20px 16px; }
+  .report-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr 380px; gap: 20px; align-items: start; }
+
+  .form-card { background: #fff; border: 1px solid #D5DDE5; border-radius: 3px; box-shadow: 0 2px 8px rgba(11,60,93,0.05); overflow: hidden; }
+  .form-header { background: #0B3C5D; color: #fff; padding: 14px 20px; border-bottom: 3px solid #FF9933; }
+  .form-header h2 { font-family: 'Noto Serif', serif; font-size: 18px; font-weight: 700; letter-spacing: 0.4px; margin-bottom: 4px; }
+  .form-header p { font-size: 12px; opacity: 0.85; }
+  .form-header .mandatory-note { font-size: 11.5px; margin-top: 5px; opacity: 0.9; }
+  .form-header .mandatory-note .star { color: #FF9933; font-weight: 700; }
+
+  .form-body { padding: 22px 20px; }
+  .section-label { font-size: 11.5px; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; color: #0B3C5D; padding-bottom: 7px; border-bottom: 1px solid #E5E9EF; margin-bottom: 16px; margin-top: 4px; display: flex; align-items: center; gap: 8px; }
+  .section-label::before { content: ''; width: 3px; height: 14px; background: #FF9933; border-radius: 1px; flex-shrink: 0; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 12.5px; font-weight: 600; color: #2c3e50; margin-bottom: 5px; }
+  .form-group label .req { color: #C0392B; margin-left: 2px; }
+  .form-input, .form-select, .form-textarea {
+    width: 100%; padding: 10px 12px; border: 1px solid #C5CEDA; border-radius: 3px;
+    font-size: 13.5px; font-family: inherit; color: #1a1a1a; background: #fff;
+    transition: all 0.15s; -webkit-appearance: none; appearance: none;
+  }
+  .form-textarea { min-height: 110px; resize: vertical; }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: #0B3C5D; box-shadow: 0 0 0 2px rgba(11,60,93,0.12); }
+  .form-input.filled, .form-textarea.filled, .form-select.filled { background: #F0FAF0; border-color: #138808; font-weight: 500; }
+  .hint-text { font-size: 11px; color: #7A8B99; margin-top: 3px; }
+
+  .auto-badge { font-size: 10px; color: #138808; font-weight: 700; margin-left: 6px; background: #E6F5E4; padding: 2px 8px; border-radius: 10px; letter-spacing: 0.3px; }
+
+  .voice-card { background: linear-gradient(135deg, #F0F7FF 0%, #E6F0F7 100%); border: 2px solid #0B3C5D; border-radius: 6px; padding: 18px; margin-bottom: 20px; }
+  .voice-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+  .voice-card-title { font-size: 14px; font-weight: 700; color: #0B3C5D; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .voice-card-title .badge-new { background: #FF9933; color: #0B3C5D; font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 700; letter-spacing: 0.5px; }
+
+  .voice-lang-select { background: #fff; color: #0B3C5D; border: 1.5px solid #0B3C5D; padding: 6px 10px; border-radius: 4px; font-size: 12.5px; font-weight: 600; font-family: inherit; cursor: pointer; outline: none; max-width: 100%; flex: 1; min-width: 180px; }
+  .voice-lang-select:focus { box-shadow: 0 0 0 2px rgba(11,60,93,0.15); }
+
+  .voice-card-body { display: flex; gap: 14px; align-items: flex-start; flex-wrap: wrap; }
+  .voice-mic-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
+  .voice-mic {
+    width: 68px; height: 68px; border-radius: 50%; border: none;
+    background: #C0392B; color: #fff; font-size: 28px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; box-shadow: 0 4px 12px rgba(192,57,43,0.3);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .voice-mic:hover { background: #a02a20; transform: scale(1.05); }
+  .voice-mic.recording { background: #138808; animation: pulse 1.2s infinite; }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(19,136,8,0.6), 0 4px 12px rgba(19,136,8,0.4); }
+    50% { box-shadow: 0 0 0 14px rgba(19,136,8,0), 0 4px 12px rgba(19,136,8,0.4); }
+  }
+  .voice-mic-label { font-size: 11.5px; color: #0B3C5D; font-weight: 700; text-align: center; max-width: 80px; }
+  .voice-timer { font-family: 'Courier New', monospace; font-size: 16px; font-weight: 700; color: #C0392B; letter-spacing: 1px; }
+  .voice-timer.recording { color: #138808; }
+
+  .voice-output { flex: 1; min-width: 100%; background: #fff; border: 1px solid #C5CEDA; border-radius: 4px; padding: 12px 14px; min-height: 90px; max-height: 180px; overflow-y: auto; font-size: 13.5px; color: #1a1a1a; line-height: 1.6; }
+  .voice-output.empty { color: #94a3b8; font-style: italic; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .voice-output .interim { color: #94a3b8; }
+  .voice-output .final { color: #0B3C5D; }
+
+  .voice-status { font-size: 11.5px; color: #0B3C5D; margin-top: 8px; display: flex; align-items: center; gap: 6px; }
+  .voice-status .dot { width: 8px; height: 8px; background: #138808; border-radius: 50%; animation: blink 1s infinite; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .voice-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .voice-action-btn { padding: 8px 14px; border-radius: 3px; border: 1px solid #C5CEDA; background: #fff; color: #0B3C5D; font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .voice-action-btn:hover { background: #E6F0F7; }
+  .voice-action-btn.primary { background: #0B3C5D; color: #fff; border-color: #0B3C5D; }
+  .voice-action-btn.primary:hover { background: #082B44; }
+
+  .voice-note { font-size: 11.5px; color: #7A8B99; margin-top: 8px; line-height: 1.5; }
+  .voice-note strong { color: #0B3C5D; }
+
+  .voice-unsupported { background: #FDF0DF; border: 1px solid #F5D8A8; color: #B36A1B; padding: 10px 14px; border-radius: 3px; font-size: 12.5px; margin-top: 12px; }
+
+  /* MEDIA */
+  .media-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 14px; }
+  .media-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 12px; border: 1.5px solid #0B3C5D; border-radius: 4px;
+    background: #fff; color: #0B3C5D; font-size: 13px; font-weight: 600;
+    cursor: pointer; font-family: inherit; transition: all 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .media-btn:hover { background: #E6F0F7; transform: translateY(-1px); }
+  .media-btn.primary { background: #0B3C5D; color: #fff; border-color: #0B3C5D; }
+  .media-btn.primary:hover { background: #082B44; }
+
+  .media-previews { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .media-preview { position: relative; border-radius: 4px; overflow: hidden; border: 1px solid #E5E9EF; background: #F9FBFC; }
+  .media-preview.img-preview { width: 90px; height: 90px; }
+  .media-preview.img-preview img { width: 100%; height: 100%; object-fit: cover; }
+  .media-preview.video-preview { width: 100%; max-width: 320px; }
+  .media-preview.video-preview video { width: 100%; display: block; border-radius: 4px; }
+  .media-preview.doc-preview { width: 100%; max-width: 340px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; background: #F0F7FF; border: 1px solid #C5CEDA; }
+  .media-preview.doc-preview .doc-icon { font-size: 28px; flex-shrink: 0; }
+  .media-preview.doc-preview .doc-info { flex: 1; min-width: 0; }
+  .media-preview.doc-preview .doc-name { font-size: 12.5px; color: #0B3C5D; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .media-preview.doc-preview .doc-size { font-size: 11px; color: #7A8B99; margin-top: 2px; }
+  .media-preview .remove {
+    position: absolute; top: 4px; right: 4px;
+    background: rgba(192,57,43,0.95); color: #fff; border: none;
+    border-radius: 50%; width: 22px; height: 22px; cursor: pointer;
+    font-size: 13px; display: flex; align-items: center; justify-content: center; font-weight: bold;
+  }
+
+  /* CAMERA */
+  .camera-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; padding: 16px; }
+  .camera-modal.show { display: flex; }
+  .camera-inner { background: #000; border-radius: 8px; max-width: 640px; width: 100%; overflow: hidden; }
+  .camera-header { background: #0B3C5D; color: #fff; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 600; }
+  .camera-header button { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #fff; border-radius: 3px; padding: 4px 10px; cursor: pointer; font-size: 12px; font-family: inherit; }
+  .camera-body { position: relative; }
+  .camera-body video { width: 100%; display: block; max-height: 55vh; object-fit: contain; }
+  #video-rec-indicator { position: absolute; top: 14px; left: 14px; background: rgba(192,57,43,0.95); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; align-items: center; gap: 6px; }
+  .camera-actions { display: flex; gap: 10px; padding: 14px; background: #fff; justify-content: center; flex-wrap: wrap; }
+  .cam-btn { padding: 11px 22px; border-radius: 3px; border: none; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .cam-btn.snap { background: #0B3C5D; color: #fff; }
+  .cam-btn.switch { background: #E6F0F7; color: #0B3C5D; }
+  .cam-btn.cancel { background: #F4F6F9; color: #555; }
+
+  /* LOCATION */
+  .location-intro { background: #E6F0F7; border-left: 3px solid #0B3C5D; padding: 10px 14px; border-radius: 3px; font-size: 12.5px; color: #0B3C5D; line-height: 1.5; margin-bottom: 14px; }
+  .location-toolbar { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .location-btn {
+    flex: 1; min-width: 150px; background: #fff; color: #0B3C5D;
+    border: 1.5px solid #0B3C5D; padding: 11px 16px; border-radius: 4px;
+    font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
+    transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .location-btn:hover { background: #E6F0F7; transform: translateY(-1px); }
+  .location-btn.primary { background: #0B3C5D; color: #fff; }
+  .location-btn.primary:hover { background: #082B44; }
+
+  #map { height: 320px; width: 100%; border-radius: 6px; border: 2px solid #0B3C5D; margin-bottom: 12px; background: #E5E9EF; z-index: 1; }
+
+  .address-box { background: #F0FAF0; border: 1.5px solid #138808; border-left: 5px solid #138808; border-radius: 4px; padding: 14px 16px; margin-bottom: 14px; }
+  .address-label { font-size: 11px; font-weight: 700; color: #138808; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 6px; }
+  .address-text { font-size: 13.5px; color: #1a1a1a; line-height: 1.55; font-weight: 500; }
+  .address-text.empty { color: #94a3b8; font-style: italic; font-weight: 400; }
+  .address-coords { font-size: 11.5px; color: #666; margin-top: 8px; font-family: 'Courier New', monospace; padding-top: 8px; border-top: 1px dashed #C5CEDA; }
+  .address-coords::before { content: "🛰 "; }
+
+  /* AI PANEL */
+  .ai-panel { position: sticky; top: 20px; }
+  .ai-card { background: #fff; border: 1px solid #D5DDE5; border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+  .ai-header { background: #082B44; color: #fff; padding: 12px 16px; border-bottom: 3px solid #138808; display: flex; align-items: center; gap: 8px; }
+  .ai-header .dot-live { width: 8px; height: 8px; background: #138808; border-radius: 50%; animation: blink 1.5s infinite; flex-shrink: 0; }
+  .ai-header h3 { font-size: 13px; font-weight: 600; letter-spacing: 0.5px; }
+  .ai-body { padding: 16px; font-size: 13px; }
+  .ai-step { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px dashed #E5E9EF; }
+  .ai-step:last-child { border-bottom: none; }
+  .ai-step .step-icon { width: 26px; height: 26px; border-radius: 50%; background: #E5E9EF; color: #7A8B99; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; transition: all 0.3s; }
+  .ai-step.active .step-icon { background: #0B3C5D; color: #fff; }
+  .ai-step.done .step-icon { background: #138808; color: #fff; }
+  .ai-step .step-text { font-size: 12.5px; color: #666; }
+  .ai-step.active .step-text { color: #0B3C5D; font-weight: 600; }
+  .ai-step.done .step-text { color: #138808; }
+  .ai-step .step-result { font-size: 11px; color: #888; margin-top: 2px; font-family: 'Courier New', monospace; word-break: break-word; }
+
+  .queue-card { background: #FDF0DF; border: 1px solid #F5D8A8; border-radius: 3px; padding: 14px; }
+  .queue-card h4 { font-size: 12.5px; color: #B36A1B; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 8px; }
+  .queue-card p { font-size: 12px; color: #8a5a1a; line-height: 1.6; margin-bottom: 8px; }
+  .queue-btn { background: #B36A1B; color: #fff; border: none; padding: 8px 14px; border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; }
+
+  .form-actions { display: flex; gap: 10px; margin-top: 20px; padding-top: 18px; border-top: 1px solid #E5E9EF; flex-wrap: wrap; }
+  .btn { padding: 11px 22px; border-radius: 3px; font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: inherit; border: none; transition: all 0.15s; -webkit-tap-highlight-color: transparent; }
+  .btn-primary { background: #0B3C5D; color: #fff; flex: 1; min-width: 140px; }
+  .btn-primary:hover { background: #082B44; }
+  .btn-primary:disabled { background: #7A8B99; cursor: not-allowed; }
+  .btn-secondary { background: #fff; color: #0B3C5D; border: 1px solid #C5CEDA; }
+  .btn-secondary:hover { background: #F4F6F9; }
+
+  .status-msg { margin-top: 14px; padding: 10px 14px; border-radius: 3px; font-size: 12.5px; display: none; }
+  .status-msg.success { display: block; background: #E6F5E4; color: #138808; border-left: 3px solid #138808; font-weight: 500; }
+  .status-msg.error { display: block; background: #FBE7E5; color: #C0392B; border-left: 3px solid #C0392B; font-weight: 500; }
+  .status-msg.info { display: block; background: #E6F0F7; color: #0B3C5D; border-left: 3px solid #0B3C5D; font-weight: 500; }
+
+  .mini-footer { background: #082B44; color: #7A8B99; padding: 14px 0; text-align: center; font-size: 11.5px; margin-top: auto; }
+  .mini-footer span { margin: 0 6px; display: inline-block; }
+
+  @media (max-width: 900px) {
+    .report-grid { grid-template-columns: 1fr; }
+    .ai-panel { position: static; }
+    #map { height: 280px; }
+  }
+  @media (max-width: 768px) {
+    body { font-size: 14px; }
+    .utility-inner .right a { display: none; }
+    .utility-inner .right { gap: 6px; }
+    .lang-switcher { max-width: 120px; font-size: 11px; padding: 3px 6px; }
+    .nav-toggle { display: block; }
+    .main-nav-inner { display: none; flex-direction: column; width: 100%; padding: 4px 0 8px; }
+    .main-nav-inner.open { display: flex; }
+    .main-nav a { width: 100%; padding: 11px 20px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .main-nav a:first-child { border-left: none; }
+    .brand-text h1 { font-size: 18px; }
+    .emblem-img { width: 40px; height: 48px; }
+    .brand-text .subtitle { font-size: 9.5px; }
+    .form-body { padding: 18px 16px; }
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    .form-row .form-group:not(:last-child) { margin-bottom: 14px; }
+    .media-actions { grid-template-columns: 1fr; }
+    .form-actions { flex-direction: column-reverse; }
+    .btn { width: 100%; }
+    .form-header { padding: 12px 16px; }
+    .form-header h2 { font-size: 16px; }
+    .voice-card { padding: 14px; }
+    .voice-card-body { flex-direction: column; align-items: stretch; }
+    .voice-mic-wrap { flex-direction: row; justify-content: flex-start; gap: 14px; align-items: center; }
+    .voice-mic { width: 54px; height: 54px; font-size: 22px; }
+    .voice-mic-label { text-align: left; max-width: none; }
+    .voice-lang-select { min-width: 0; flex: 1; }
+    .voice-output { min-width: 0; }
+    .voice-action-btn { flex: 1; }
+    .location-toolbar { flex-direction: column; }
+    .location-btn { min-width: 0; width: 100%; }
+    #map { height: 260px; }
+    .camera-inner { border-radius: 0; max-width: 100%; }
+    .camera-modal { padding: 0; }
+    .camera-actions { padding: 12px; }
+    .cam-btn { padding: 10px 16px; font-size: 13px; flex: 1; }
+    .guest-banner { font-size: 12.5px; padding: 10px 12px; }
+  }
+  @media (max-width: 420px) {
+    .brand-text h1 { font-size: 16px; }
+    .emblem-img { width: 34px; height: 42px; }
+    .brand-text .subtitle { display: none; }
+    .brand-text .subtitle-hindi { font-size: 9.5px; }
+    #map { height: 220px; }
+    .voice-timer { font-size: 14px; }
+  }
+  @media print {
+    .utility-bar, .main-nav, .ai-panel, .voice-card, .camera-modal, .form-actions, .mini-footer, .guest-banner { display: none; }
+    .report-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body data-lang="en">
+
+<div class="tricolor-strip"></div>
+
+<div class="utility-bar">
+  <div class="container utility-inner">
+    <div class="left"><span class="gov-tag"><span class="dot"></span> <span data-i18n="govBar">Government of India · Ministry of Education</span></span></div>
+    <div class="right">
+      <select class="lang-switcher" id="globalLang" onchange="changeGlobalLang(this.value)" title="App Language">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="ta">தமிழ்</option>
+        <option value="te">తెలుగు</option>
+        <option value="bn">বাংলা</option>
+        <option value="mr">मराठी</option>
+        <option value="gu">ગુજરાતી</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="ml">മലയാളം</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+        <option value="or">ଓଡ଼ିଆ</option>
+        <option value="as">অসমীয়া</option>
+        <option value="ur">اردو</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<header class="main-header">
+  <div class="container header-inner">
+    <a href="index.html" class="emblem-block">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/240px-Emblem_of_India.svg.png" alt="State Emblem of India" class="emblem-img"
+        onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/120px-Emblem_of_India.svg.png';">
+      <div class="brand-text">
+        <h1>COLLA<span>B</span>X</h1>
+        <div class="subtitle" data-i18n="tagline">Digital Platform for Societal Innovation</div>
+        <div class="subtitle-hindi">नागरिक समस्याओं का समाधान मंच</div>
+      </div>
+    </a>
+  </div>
+</header>
+
+<nav class="main-nav">
+  <div class="container">
+    <button class="nav-toggle" onclick="document.querySelector('.main-nav-inner').classList.toggle('open')">☰ Menu</button>
+    <div class="main-nav-inner">
+      <a href="index.html" data-i18n="navHome">Home</a>
+      <a href="index.html#about" data-i18n="navAbout">About</a>
+      <a href="report.html" class="active" data-i18n="navReport">Report Problem</a>
+      <span id="auth-nav" style="margin-left:auto;"></span>
+    </div>
+  </div>
+</nav>
+
+<div class="breadcrumb-bar">
+  <div class="container">
+    <a href="index.html" data-i18n="navHome">Home</a>
+    <span>›</span>
+    <strong style="color:#0B3C5D;" data-i18n="breadReport">Report a Problem</strong>
+  </div>
+</div>
+
+<!-- GUEST MODE BANNER (NEW) -->
+<div class="guest-banner" id="guest-banner">
+  <span class="guest-icon">⚡</span>
+  <span data-i18n="guestModeBanner">GUEST MODE — No login required. Your report will be submitted anonymously.</span>
+  <a href="register.html" class="guest-cta" data-i18n="guestRegisterCta">Register to track your report →</a>
+</div>
+
+<div class="offline-banner" id="offline-banner">
+  ⚠ <span data-i18n="offlineMsg">You are offline. Your report will be saved locally and auto-synced when you reconnect.</span>
+</div>
+
+<div class="report-wrapper">
+  <div class="report-grid">
+
+    <!-- LEFT: FORM -->
+    <div class="form-card">
+      <div class="form-header">
+        <h2 data-i18n="reportTitle">Report a Civic Problem</h2>
+        <p data-i18n="reportSubtitle">Submit a real-world issue affecting your community. Our AI will classify and route it to the right university.</p>
+        <div class="mandatory-note"><span data-i18n="fieldsMandatory">Fields marked with</span> <span class="star">*</span> <span data-i18n="areMandatory">are mandatory</span></div>
+      </div>
+
+      <div class="form-body">
+        <form onsubmit="submitReport(event)">
+
+          <!-- VOICE CARD -->
+          <div class="voice-card">
+            <div class="voice-card-header">
+              <div class="voice-card-title">
+                🎤 <span data-i18n="voiceTitle">Speak Your Problem</span>
+                <span class="badge-new" data-i18n="voiceBadge">AI VOICE-TO-TEXT</span>
+              </div>
+              <div class="voice-timer" id="voice-timer">00:00</div>
+            </div>
+
+            <div style="margin-bottom: 14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <label style="font-size:12.5px; font-weight:600; color:#0B3C5D; flex-shrink:0;" data-i18n="voiceLangLabel">Voice Language:</label>
+              <select class="voice-lang-select" id="voiceLang" onchange="changeVoiceLang(this.value)">
+                <option value="en-IN">English</option>
+                <option value="hi-IN">हिन्दी</option>
+                <option value="ta-IN">தமிழ்</option>
+                <option value="te-IN">తెలుగు</option>
+                <option value="bn-IN">বাংলা</option>
+                <option value="mr-IN">मराठी</option>
+                <option value="gu-IN">ગુજરાતી</option>
+                <option value="kn-IN">ಕನ್ನಡ</option>
+                <option value="ml-IN">മലയാളം</option>
+                <option value="pa-IN">ਪੰਜਾਬੀ</option>
+                <option value="or-IN">ଓଡ଼ିଆ</option>
+                <option value="as-IN">অসমীয়া</option>
+                <option value="ur-IN">اردو</option>
+                <option value="en-US">English</option>
+                <option value="en-GB">English</option>
+              </select>
+            </div>
+
+            <div class="voice-card-body">
+              <div class="voice-mic-wrap">
+                <button type="button" class="voice-mic" id="voice-mic" onclick="toggleVoiceRecognition()">🎤</button>
+                <div class="voice-mic-label" id="voice-mic-label" data-i18n="micTap">Tap to speak</div>
+              </div>
+              <div style="flex:1; min-width:100%;">
+                <div class="voice-output empty" id="voice-output" data-i18n="voicePlaceholder">
+                  Your speech will appear here in real-time. Speak naturally — mention the problem, location, and urgency.
+                </div>
+                <div class="voice-status" id="voice-status" style="display:none;">
+                  <span class="dot"></span>
+                  <span id="voice-status-text" data-i18n="listening">Listening...</span>
+                </div>
+                <div class="voice-actions" id="voice-actions" style="display:none;">
+                  <button type="button" class="voice-action-btn primary" onclick="applyVoiceToForm()" data-i18n="useText">✓ Use This Text</button>
+                  <button type="button" class="voice-action-btn" onclick="clearVoiceText()" data-i18n="clearText">↻ Clear</button>
+                </div>
+              </div>
+            </div>
+            <div class="voice-note">
+              <strong data-i18n="howItWorks">How it works:</strong>
+              <span data-i18n="voiceHow">Tap the mic → speak in your chosen language → text appears in real-time → click "Use This Text" to auto-fill the title, description, category &amp; urgency. You can edit afterward.</span>
+            </div>
+            <div class="voice-unsupported" id="voice-unsupported" style="display:none;">
+              ⚠ <span data-i18n="voiceUnsupported">Your browser doesn't support live voice recognition. Please use Chrome, Edge, or Safari.</span>
+            </div>
+          </div>
+
+          <!-- PROBLEM DETAILS -->
+          <div class="section-label" data-i18n="problemDetails">Problem Details</div>
+
+          <div class="form-group">
+            <label for="title"><span data-i18n="titleLabel">Problem Title</span> <span class="req">*</span></label>
+            <input id="title" type="text" class="form-input" data-i18n-placeholder="titlePlaceholder" placeholder="e.g., Pothole on MG Road causing accidents" required maxlength="200">
+            <div class="hint-text" data-i18n="titleHint">Short, clear summary (5–15 words)</div>
+          </div>
+
+          <div class="form-group">
+            <label for="description"><span data-i18n="descLabel">Detailed Description</span> <span class="req">*</span></label>
+            <textarea id="description" class="form-textarea" data-i18n-placeholder="descPlaceholder" placeholder="Describe the problem — where it is, how long it's been there, who it affects, urgency level..." required></textarea>
+            <div class="hint-text" data-i18n="descHint">Include location, duration, impact, and urgency</div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="category">
+                <span data-i18n="categoryLabel">Category</span>
+                <span class="auto-badge" id="cat-auto-badge" style="display:none;">🤖 AUTO</span>
+              </label>
+              <select id="category" class="form-select">
+                <option value="" data-i18n="letAiDecide">— Let AI decide —</option>
+                <option>Infrastructure &amp; Roads</option><option>Water &amp; Resources</option>
+                <option>Energy &amp; Electricity</option><option>Healthcare</option>
+                <option>Education</option><option>Agriculture</option>
+                <option>Environment &amp; Climate</option><option>Waste Management</option>
+                <option>Transport &amp; Mobility</option><option>Public Safety</option>
+                <option>Urban Development</option><option>Industry &amp; Manufacturing</option>
+                <option>Rural Development</option><option>Accessibility</option>
+                <option>Public Administration</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="urgency">
+                <span data-i18n="urgencyLabel">Perceived Urgency</span>
+                <span class="auto-badge" id="urg-auto-badge" style="display:none;">🤖 AUTO</span>
+              </label>
+              <select id="urgency" class="form-select">
+                <option value="normal" data-i18n="urgNormal">Normal</option>
+                <option value="urgent" data-i18n="urgUrgent">Urgent</option>
+                <option value="critical" data-i18n="urgCritical">Critical — Safety Risk</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- MEDIA -->
+          <div class="section-label" style="margin-top: 22px;" data-i18n="mediaLabel">Photo / Video / Document Evidence</div>
+          <div style="font-size:11.5px; color:#7A8B99; margin-bottom:12px;" data-i18n="optionalNote">
+            All media uploads are optional — but they help AI validate and prioritize your report.
+          </div>
+
+          <div class="media-actions">
+            <button type="button" class="media-btn primary" onclick="openCamera('photo')">
+              📷 <span data-i18n="takePhoto">Take Photo</span>
+            </button>
+            <button type="button" class="media-btn primary" onclick="openCamera('video')">
+              🎥 <span data-i18n="recordVideo">Record Video</span>
+            </button>
+            <button type="button" class="media-btn" onclick="document.getElementById('gallery-input').click()">
+              🖼️ <span data-i18n="galleryBtn">From Gallery</span>
+            </button>
+            <button type="button" class="media-btn" onclick="document.getElementById('doc-input').click()">
+              📎 <span data-i18n="uploadDoc">Upload Document</span>
+            </button>
+          </div>
+
+          <input id="gallery-input" type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleGalleryFiles(this.files)">
+          <input id="camera-fallback-input" type="file" accept="image/*" capture="environment" style="display:none" onchange="handleGalleryFiles(this.files)">
+          <input id="doc-input" type="file" accept=".pdf,.doc,.docx,.txt,.rtf,.xls,.xlsx,.ppt,.pptx,.odt,.ods" multiple style="display:none" onchange="handleDocFiles(this.files)">
+
+          <div class="media-previews" id="media-previews"></div>
+
+          <!-- LOCATION -->
+          <div class="section-label" style="margin-top: 22px;" data-i18n="locationLabel">Location</div>
+
+          <div class="location-intro" data-i18n="locationIntro">
+            📍 Don't know your coordinates? No problem — just tap anywhere on the map below, or use the GPS button. We'll detect your address automatically.
+          </div>
+
+          <div class="location-toolbar">
+            <button type="button" class="location-btn primary" onclick="getLocation()">
+              📍 <span data-i18n="useLocation">Use my current location</span>
+            </button>
+            <button type="button" class="location-btn" onclick="searchLocation()">
+              🔍 <span data-i18n="searchLocation">Search by place</span>
+            </button>
+          </div>
+
+          <div id="map"></div>
+
+          <div class="address-box" id="address-box">
+            <div class="address-label">
+              <span data-i18n="selectedLocation">Selected Location</span>
+            </div>
+            <div class="address-text empty" id="address-text" data-i18n="noLocationYet">
+              No location selected yet — tap on the map above or use GPS.
+            </div>
+            <div class="address-coords" id="address-coords" style="display:none;">
+              <span id="coord-display"></span>
+            </div>
+          </div>
+
+          <input id="latitude" type="hidden">
+          <input id="longitude" type="hidden">
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'" data-i18n="cancelBtn">Cancel</button>
+            <button type="submit" id="submit-btn" class="btn btn-primary" data-i18n="submitBtn">Submit Report</button>
+          </div>
+
+          <div id="status" class="status-msg"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- RIGHT: AI PANEL -->
+    <div class="ai-panel">
+      <div class="ai-card">
+        <div class="ai-header">
+          <div class="dot-live"></div>
+          <h3 data-i18n="aiProcessing">AI PROCESSING — LIVE</h3>
+        </div>
+        <div class="ai-body">
+          <div class="ai-step" id="step-1"><div class="step-icon">1</div><div><div class="step-text" data-i18n="aiValidate">AI Validation</div><div class="step-result" id="res-1">Waiting for submission...</div></div></div>
+          <div class="ai-step" id="step-2"><div class="step-icon">2</div><div><div class="step-text" data-i18n="aiCategorize">AI Categorization</div><div class="step-result" id="res-2">Pending</div></div></div>
+          <div class="ai-step" id="step-3"><div class="step-icon">3</div><div><div class="step-text" data-i18n="aiPriority">Priority Detection</div><div class="step-result" id="res-3">Pending</div></div></div>
+          <div class="ai-step" id="step-4"><div class="step-icon">4</div><div><div class="step-text" data-i18n="aiDuplicate">Duplicate Detection</div><div class="step-result" id="res-4">Pending</div></div></div>
+          <div class="ai-step" id="step-5"><div class="step-icon">5</div><div><div class="step-text" data-i18n="aiMatch">Smart University Matching</div><div class="step-result" id="res-5">Pending</div></div></div>
+        </div>
+      </div>
+
+      <div class="queue-card" id="queue-card" style="display:none;">
+        <h4>📴 <span data-i18n="offlineQueue">Offline Queue</span></h4>
+        <p id="queue-text">0</p>
+        <button class="queue-btn" onclick="syncOfflineQueue()" data-i18n="syncNow">Sync Now</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="camera-modal" id="camera-modal">
+  <div class="camera-inner">
+    <div class="camera-header">
+      <span id="camera-title">📷 <span data-i18n="liveCamera">Live Camera</span></span>
+      <button onclick="closeCamera()">✕</button>
+    </div>
+    <div class="camera-body">
+      <video id="camera-video" autoplay playsinline muted></video>
+      <div id="video-rec-indicator" style="display:none;">
+        <span style="width:8px;height:8px;background:#fff;border-radius:50%;animation:blink 1s infinite;"></span>
+        REC <span id="video-rec-time">00:00</span>
+      </div>
+    </div>
+    <div class="camera-actions">
+      <button class="cam-btn switch" onclick="switchCamera()">🔄 <span data-i18n="switchCam">Switch</span></button>
+      <button class="cam-btn snap" id="snap-btn" onclick="handleCapture()">📸 <span data-i18n="captureBtn">Capture</span></button>
+      <button class="cam-btn cancel" onclick="useNativeCamera()" data-i18n="nativeCam">Phone Camera</button>
+    </div>
+  </div>
+</div>
+
+<footer class="mini-footer">
+  <span>© 2026 CollabX</span><span>·</span><span data-i18n="govInit">Government of India Initiative</span>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  const API_BASE = "http://127.0.0.1:8000";
+  const QUEUE_KEY = "collabx_offline_queue";
+  const LANG_KEY = "collabx_lang";
+  const VOICE_LANG_KEY = "collabx_voice_lang";
+
+  // ============ GUEST MODE DETECTION ============
+  const urlParams = new URLSearchParams(window.location.search);
+  const IS_GUEST = urlParams.get("guest") === "1";
+
+  // ============ TRANSLATIONS ============
+  const I18N = {
+    en: { govBar: "Government of India · Ministry of Education", skipContent: "Skip to Main Content", screenReader: "Screen Reader", tagline: "Digital Platform for Societal Innovation", navHome: "Home", navAbout: "About", navChallenges: "Public Challenges", navReport: "Report Problem", breadReport: "Report a Problem", offlineMsg: "You are offline. Your report will be saved locally and auto-synced when you reconnect.", reportTitle: "Report a Civic Problem", reportSubtitle: "Submit a real-world issue affecting your community. Our AI will classify and route it to the right university.", fieldsMandatory: "Fields marked with", areMandatory: "are mandatory", voiceTitle: "Speak Your Problem", voiceBadge: "AI VOICE-TO-TEXT", voiceLangLabel: "Voice Language:", micTap: "Tap to speak", voicePlaceholder: "Your speech will appear here in real-time. Speak naturally — mention the problem, location, and urgency.", listening: "Listening...", useText: "✓ Use This Text", clearText: "↻ Clear", howItWorks: "How it works:", voiceHow: "Tap the mic → speak in your chosen language → text appears in real-time → click \"Use This Text\" to auto-fill the title, description, category & urgency. You can edit afterward.", voiceUnsupported: "Your browser doesn't support live voice recognition. Please use Chrome, Edge, or Safari.", problemDetails: "Problem Details", titleLabel: "Problem Title", titlePlaceholder: "e.g., Pothole on MG Road causing accidents", titleHint: "Short, clear summary (5–15 words)", descLabel: "Detailed Description", descPlaceholder: "Describe the problem — where it is, how long it's been there, who it affects, urgency level...", descHint: "Include location, duration, impact, and urgency", categoryLabel: "Category", letAiDecide: "— Let AI decide —", urgencyLabel: "Perceived Urgency", urgNormal: "Normal", urgUrgent: "Urgent", urgCritical: "Critical — Safety Risk", mediaLabel: "Photo / Video / Document Evidence", optionalNote: "All media uploads are optional — but they help AI validate and prioritize your report.", takePhoto: "Take Photo", recordVideo: "Record Video", galleryBtn: "From Gallery", uploadDoc: "Upload Document", locationLabel: "Location", locationIntro: "📍 Don't know your coordinates? No problem — just tap anywhere on the map below, or use the GPS button. We'll detect your address automatically.", useLocation: "Use my current location", searchLocation: "Search by place", selectedLocation: "Selected Location", noLocationYet: "No location selected yet — tap on the map above or use GPS.", cancelBtn: "Cancel", submitBtn: "Submit Report", aiProcessing: "AI PROCESSING — LIVE", aiValidate: "AI Validation", aiCategorize: "AI Categorization", aiPriority: "Priority Detection", aiDuplicate: "Duplicate Detection", aiMatch: "Smart University Matching", offlineQueue: "Offline Queue", syncNow: "Sync Now", liveCamera: "Live Camera", switchCam: "Switch", captureBtn: "Capture", nativeCam: "Phone Camera", govInit: "Government of India Initiative", guestModeBanner: "GUEST MODE — No login required. Your report will be submitted anonymously.", guestRegisterCta: "Register to track your report →" },
+    hi: { govBar: "भारत सरकार · शिक्षा मंत्रालय", skipContent: "मुख्य सामग्री पर जाएं", screenReader: "स्क्रीन रीडर", tagline: "सामाजिक नवाचार के लिए डिजिटल मंच", navHome: "होम", navAbout: "परिचय", navChallenges: "सार्वजनिक चुनौतियाँ", navReport: "समस्या दर्ज करें", breadReport: "समस्या दर्ज करें", offlineMsg: "आप ऑफ़लाइन हैं। आपकी रिपोर्ट स्थानीय रूप से सहेजी जाएगी।", reportTitle: "नागरिक समस्या की रिपोर्ट करें", reportSubtitle: "अपने समुदाय को प्रभावित करने वाली वास्तविक समस्या दर्ज करें।", fieldsMandatory: "चिह्नित फ़ील्ड", areMandatory: "अनिवार्य हैं", voiceTitle: "अपनी समस्या बोलें", voiceBadge: "AI वॉइस-टू-टेक्स्ट", voiceLangLabel: "आवाज़ की भाषा:", micTap: "बोलने के लिए टैप करें", voicePlaceholder: "आपकी आवाज़ यहाँ रीयल-टाइम में दिखेगी।", listening: "सुन रहा है...", useText: "✓ इस टेक्स्ट का उपयोग करें", clearText: "↻ साफ़ करें", howItWorks: "यह कैसे काम करता है:", voiceHow: "माइक टैप करें → अपनी भाषा में बोलें।", voiceUnsupported: "आपका ब्राउज़र वॉइस रिकग्निशन का समर्थन नहीं करता।", problemDetails: "समस्या विवरण", titleLabel: "समस्या का शीर्षक", titlePlaceholder: "उदा., एमजी रोड पर गड्ढा", titleHint: "संक्षिप्त स्पष्ट सारांश", descLabel: "विस्तृत विवरण", descPlaceholder: "समस्या का विवरण दें...", descHint: "स्थान, अवधि, प्रभाव शामिल करें", categoryLabel: "श्रेणी", letAiDecide: "— AI को तय करने दें —", urgencyLabel: "अनुमानित तात्कालिकता", urgNormal: "सामान्य", urgUrgent: "तत्काल", urgCritical: "गंभीर — सुरक्षा जोखिम", mediaLabel: "फोटो / वीडियो / दस्तावेज़ साक्ष्य", optionalNote: "सभी अपलोड वैकल्पिक हैं — लेकिन AI सत्यापन में मदद करते हैं।", takePhoto: "फोटो लें", recordVideo: "वीडियो रिकॉर्ड करें", galleryBtn: "गैलरी से", uploadDoc: "दस्तावेज़ अपलोड करें", locationLabel: "स्थान", locationIntro: "📍 अपने निर्देशांक नहीं जानते? नीचे नक्शे पर कहीं भी टैप करें, या GPS बटन का उपयोग करें।", useLocation: "वर्तमान स्थान का उपयोग करें", searchLocation: "स्थान से खोजें", selectedLocation: "चयनित स्थान", noLocationYet: "अभी तक कोई स्थान चयनित नहीं।", cancelBtn: "रद्द करें", submitBtn: "रिपोर्ट जमा करें", aiProcessing: "AI प्रोसेसिंग — लाइव", aiValidate: "AI सत्यापन", aiCategorize: "AI वर्गीकरण", aiPriority: "प्राथमिकता पहचान", aiDuplicate: "डुप्लिकेट पहचान", aiMatch: "स्मार्ट विश्वविद्यालय मिलान", offlineQueue: "ऑफ़लाइन कतार", syncNow: "अब सिंक करें", liveCamera: "लाइव कैमरा", switchCam: "स्विच", captureBtn: "कैप्चर", nativeCam: "फोन कैमरा", govInit: "भारत सरकार की पहल", guestModeBanner: "अतिथि मोड — लॉगिन की आवश्यकता नहीं। आपकी रिपोर्ट गुमनाम रूप से जमा की जाएगी।", guestRegisterCta: "अपनी रिपोर्ट ट्रैक करने के लिए पंजीकरण करें →" },
+    ta: { govBar: "இந்திய அரசு · கல்வி அமைச்சகம்", skipContent: "முக்கிய உள்ளடக்கம்", screenReader: "திரை வாசிப்பான்", tagline: "சமூக புதுமைக்கான டிஜிட்டல் தளம்", navHome: "முகப்பு", navAbout: "பற்றி", navChallenges: "பொது சவால்கள்", navReport: "புகாரளி", breadReport: "பிரச்சினையை புகாரளி", offlineMsg: "நீங்கள் ஆஃப்லைனில் உள்ளீர்கள்.", reportTitle: "குடிமை பிரச்சினையை புகாரளிக்கவும்", reportSubtitle: "பிரச்சினையை சமர்ப்பிக்கவும்.", fieldsMandatory: "குறியிடப்பட்ட புலங்கள்", areMandatory: "கட்டாயம்", voiceTitle: "உங்கள் பிரச்சினையை பேசுங்கள்", voiceBadge: "AI குரல்-முதல்-எழுத்து", voiceLangLabel: "குரல் மொழி:", micTap: "பேச தட்டவும்", voicePlaceholder: "உங்கள் பேச்சு இங்கே தோன்றும்.", listening: "கேட்கிறது...", useText: "✓ பயன்படுத்து", clearText: "↻ அழி", howItWorks: "எப்படி:", voiceHow: "மைக்கை தட்டவும் → பேசுங்கள்.", voiceUnsupported: "உலாவி ஆதரிக்காது.", problemDetails: "பிரச்சினை விவரங்கள்", titleLabel: "தலைப்பு", titlePlaceholder: "எ.கா., MG சாலையில் குழி", titleHint: "சுருக்கம்", descLabel: "விவரம்", descPlaceholder: "விவரிக்கவும்...", descHint: "இடம், காலம், தாக்கம்", categoryLabel: "வகை", letAiDecide: "— AI முடிவு —", urgencyLabel: "அவசரம்", urgNormal: "இயல்பான", urgUrgent: "அவசரம்", urgCritical: "முக்கியமான", mediaLabel: "புகைப்படம் / வீடியோ / ஆவணம்", optionalNote: "விருப்பமானவை.", takePhoto: "புகைப்படம்", recordVideo: "வீடியோ", galleryBtn: "காட்சியகம்", uploadDoc: "ஆவணம்", locationLabel: "இடம்", locationIntro: "📍 வரைபடத்தில் தட்டவும் அல்லது GPS பயன்படுத்தவும்.", useLocation: "தற்போதைய இருப்பிடம்", searchLocation: "இடத்தால் தேடு", selectedLocation: "தேர்ந்தெடுக்கப்பட்ட இடம்", noLocationYet: "தேர்ந்தெடுக்கப்படவில்லை.", cancelBtn: "ரத்து", submitBtn: "சமர்ப்பி", aiProcessing: "AI செயலாக்கம்", aiValidate: "AI சரிபார்ப்பு", aiCategorize: "AI வகைப்படுத்தல்", aiPriority: "முன்னுரிமை", aiDuplicate: "நகல்", aiMatch: "ஸ்மார்ட் பொருத்தம்", offlineQueue: "ஆஃப்லைன்", syncNow: "ஒத்திசை", liveCamera: "கேமரா", switchCam: "மாற்று", captureBtn: "பிடி", nativeCam: "தொலைபேசி", govInit: "இந்திய அரசு முயற்சி", guestModeBanner: "விருந்தினர் பயன்முறை — உள்நுழைவு தேவையில்லை. உங்கள் புகார் அநாமதேயமாக சமர்ப்பிக்கப்படும்.", guestRegisterCta: "உங்கள் புகாரை கண்காணிக்க பதிவு செய்யுங்கள் →" },
+    te: { govBar: "భారత ప్రభుత్వం · విద్యా మంత్రిత్వ శాఖ", skipContent: "కంటెంట్", screenReader: "రీడర్", tagline: "సామాజిక ఆవిష్కరణ కోసం వేదిక", navHome: "హోమ్", navAbout: "గురించి", navChallenges: "ఛాలెంజ్లు", navReport: "నివేదించండి", breadReport: "సమస్యను నివేదించండి", offlineMsg: "మీరు ఆఫ్లైన్లో ఉన్నారు.", reportTitle: "పౌర సమస్యను నివేదించండి", reportSubtitle: "సమస్యను సమర్పించండి.", fieldsMandatory: "గుర్తించిన", areMandatory: "తప్పనిసరి", voiceTitle: "మీ సమస్యను మాట్లాడండి", voiceBadge: "AI వాయిస్-టు-టెక్స్ట్", voiceLangLabel: "భాష:", micTap: "నొక్కండి", voicePlaceholder: "మీ మాటలు ఇక్కడ.", listening: "వింటున్నారు...", useText: "✓ ఉపయోగించండి", clearText: "↻ క్లియర్", howItWorks: "ఎలా:", voiceHow: "మైక్ నొక్కండి → మాట్లాడండి.", voiceUnsupported: "బ్రౌజర్ మద్దతు ఇవ్వదు.", problemDetails: "వివరాలు", titleLabel: "శీర్షిక", titlePlaceholder: "ఉదా., MG రోడ్డులో గుంత", titleHint: "సారాంశం", descLabel: "వివరణ", descPlaceholder: "వివరించండి...", descHint: "స్థానం, వ్యవధి", categoryLabel: "వర్గం", letAiDecide: "— AI నిర్ణయించనివ్వండి —", urgencyLabel: "అత్యవసరత", urgNormal: "సాధారణ", urgUrgent: "అత్యవసరం", urgCritical: "క్లిష్టమైన", mediaLabel: "ఫోటో / వీడియో / పత్రం", optionalNote: "ఐచ్ఛికం.", takePhoto: "ఫోటో", recordVideo: "వీడియో", galleryBtn: "గ్యాలరీ", uploadDoc: "పత్రం", locationLabel: "స్థానం", locationIntro: "📍 మ్యాప్లో నొక్కండి లేదా GPS ఉపయోగించండి.", useLocation: "ప్రస్తుత స్థానం", searchLocation: "స్థలం", selectedLocation: "ఎంచుకున్న స్థానం", noLocationYet: "ఇంకా ఎంచుకోలేదు.", cancelBtn: "రద్దు", submitBtn: "సమర్పించండి", aiProcessing: "AI ప్రాసెసింగ్", aiValidate: "AI ధృవీకరణ", aiCategorize: "AI వర్గీకరణ", aiPriority: "ప్రాధాన్యత", aiDuplicate: "నకిలీ", aiMatch: "స్మార్ట్", offlineQueue: "ఆఫ్లైన్", syncNow: "సింక్", liveCamera: "కెమెరా", switchCam: "మార్చు", captureBtn: "క్యాప్చర్", nativeCam: "ఫోన్", govInit: "భారత ప్రభుత్వ చొరవ", guestModeBanner: "అతిథి మోడ్ — లాగిన్ అవసరం లేదు. మీ నివేదిక అనామకంగా సమర్పించబడుతుంది.", guestRegisterCta: "మీ నివేదికను ట్రాక్ చేయడానికి నమోదు చేయండి →" },
+    bn: { govBar: "ভারত সরকার · শিক্ষা মন্ত্রক", skipContent: "বিষয়বস্তু", screenReader: "রিডার", tagline: "ডিজিটাল প্ল্যাটফর্ম", navHome: "হোম", navAbout: "সম্পর্কে", navChallenges: "চ্যালেঞ্জ", navReport: "রিপোর্ট", breadReport: "সমস্যা রিপোর্ট", offlineMsg: "আপনি অফলাইনে আছেন।", reportTitle: "নাগরিক সমস্যা রিপোর্ট", reportSubtitle: "সমস্যা জমা দিন।", fieldsMandatory: "চিহ্নিত", areMandatory: "বাধ্যতামূলক", voiceTitle: "সমস্যা বলুন", voiceBadge: "AI ভয়েস-টু-টেক্সট", voiceLangLabel: "ভাষা:", micTap: "ট্যাপ", voicePlaceholder: "আপনার কথা এখানে।", listening: "শুনছি...", useText: "✓ ব্যবহার", clearText: "↻ সাফ", howItWorks: "কীভাবে:", voiceHow: "ট্যাপ করুন → বলুন।", voiceUnsupported: "সমর্থন করে না।", problemDetails: "বিবরণ", titleLabel: "শিরোনাম", titlePlaceholder: "যেমন, MG রোডে গর্ত", titleHint: "সারসংক্ষেপ", descLabel: "বিবরণ", descPlaceholder: "বর্ণনা করুন...", descHint: "অবস্থান, সময়", categoryLabel: "শ্রেণী", letAiDecide: "— AI সিদ্ধান্ত —", urgencyLabel: "জরুরিতা", urgNormal: "সাধারণ", urgUrgent: "জরুরি", urgCritical: "সংকটপূর্ণ", mediaLabel: "ছবি / ভিডিও / নথি", optionalNote: "ঐচ্ছিক।", takePhoto: "ছবি", recordVideo: "ভিডিও", galleryBtn: "গ্যালারি", uploadDoc: "নথি", locationLabel: "অবস্থান", locationIntro: "📍 মানচিত্রে ট্যাপ করুন বা GPS ব্যবহার করুন।", useLocation: "বর্তমান অবস্থান", searchLocation: "স্থান দিয়ে", selectedLocation: "নির্বাচিত", noLocationYet: "নির্বাচিত হয়নি।", cancelBtn: "বাতিল", submitBtn: "জমা দিন", aiProcessing: "AI প্রসেসিং", aiValidate: "AI যাচাই", aiCategorize: "AI শ্রেণীবিভাগ", aiPriority: "অগ্রাধিকার", aiDuplicate: "ডুপ্লিকেট", aiMatch: "স্মার্ট", offlineQueue: "অফলাইন", syncNow: "সিঙ্ক", liveCamera: "ক্যামেরা", switchCam: "স্যুইচ", captureBtn: "ক্যাপচার", nativeCam: "ফোন", govInit: "ভারত সরকার উদ্যোগ", guestModeBanner: "অতিথি মোড — লগইন প্রয়োজন নেই। আপনার রিপোর্ট 익نامে জমা হবে।", guestRegisterCta: "আপনার রিপোর্ট ট্র্যাক করতে নিবন্ধন করুন →" },
+    mr: { govBar: "भारत सरकार · शिक्षण मंत्रालय", skipContent: "सामग्री", screenReader: "रीडर", tagline: "डिजिटल व्यासपीठ", navHome: "मुख्यपृष्ठ", navAbout: "विषयी", navChallenges: "आव्हाने", navReport: "नोंदवा", breadReport: "समस्या नोंदवा", offlineMsg: "आपण ऑफलाइन आहात.", reportTitle: "नागरी समस्या नोंदवा", reportSubtitle: "समस्या सबमिट करा.", fieldsMandatory: "चिन्हांकित", areMandatory: "अनिवार्य", voiceTitle: "समस्या बोला", voiceBadge: "AI व्हॉइस-टू-टेक्स्ट", voiceLangLabel: "भाषा:", micTap: "टॅप", voicePlaceholder: "बोलणे येथे.", listening: "ऐकत आहे...", useText: "✓ वापरा", clearText: "↻ साफ", howItWorks: "कसे:", voiceHow: "टॅप → बोला.", problemDetails: "तपशील", titleLabel: "शीर्षक", titlePlaceholder: "उदा., MG रोडवर खड्डा", titleHint: "सारांश", descLabel: "वर्णन", descPlaceholder: "वर्णन करा...", descHint: "स्थान, कालावधी", categoryLabel: "श्रेणी", letAiDecide: "— AI ठरवू द्या —", urgencyLabel: "तातडी", urgNormal: "सामान्य", urgUrgent: "तातडीचे", urgCritical: "गंभीर", mediaLabel: "फोटो / व्हिडिओ / दस्तऐवज", optionalNote: "पर्यायी.", takePhoto: "फोटो", recordVideo: "व्हिडिओ", galleryBtn: "गॅलरी", uploadDoc: "दस्तऐवज", locationLabel: "स्थान", locationIntro: "📍 नकाशावर टॅप करा किंवा GPS वापरा.", useLocation: "वर्तमान स्थान", searchLocation: "स्थान शोधा", selectedLocation: "निवडलेले", noLocationYet: "निवडले नाही.", cancelBtn: "रद्द", submitBtn: "सबमिट", aiProcessing: "AI प्रक्रिया", aiValidate: "AI पडताळणी", aiCategorize: "AI वर्गीकरण", aiPriority: "प्राधान्य", aiDuplicate: "डुप्लिकेट", aiMatch: "स्मार्ट", offlineQueue: "ऑफलाइन", syncNow: "सिंक", liveCamera: "कॅमेरा", switchCam: "स्विच", captureBtn: "कॅप्चर", nativeCam: "फोन", govInit: "भारत सरकार उपक्रम", guestModeBanner: "अतिथी मोड — लॉगिन आवश्यक नाही. तुमचा अहवाल निनावी सबमिट केला जाईल.", guestRegisterCta: "तुमचा अहवाल ट्रॅक करण्यासाठी नोंदणी करा →" },
+    gu: { govBar: "ભારત સરકાર · શિક્ષણ મંત્રાલય", skipContent: "સામગ્રી", screenReader: "રીડર", tagline: "ડિજિટલ પ્લેટફોર્મ", navHome: "હોમ", navAbout: "વિશે", navChallenges: "પડકારો", navReport: "નોંધાવો", breadReport: "સમસ્યા નોંધાવો", offlineMsg: "તમે ઑફલાઇન છો.", reportTitle: "નાગરિક સમસ્યા નોંધાવો", reportSubtitle: "સમસ્યા સબમિટ કરો.", fieldsMandatory: "ચિહ્નિત", areMandatory: "ફરજિયાત", voiceTitle: "સમસ્યા બોલો", voiceBadge: "AI વોઇસ-ટુ-ટેક્સ્ટ", voiceLangLabel: "ભાષા:", micTap: "ટેપ", voicePlaceholder: "વાણી અહીં.", listening: "સાંભળી રહ્યું...", useText: "✓ વાપરો", clearText: "↻ સાફ", howItWorks: "કેવી રીતે:", voiceHow: "ટેપ → બોલો.", problemDetails: "વિગતો", titleLabel: "શીર્ષક", titlePlaceholder: "દા.ત., MG રોડ પર ખાડો", titleHint: "સારાંશ", descLabel: "વર્ણન", descPlaceholder: "વર્ણવો...", descHint: "સ્થાન, સમય", categoryLabel: "શ્રેણી", letAiDecide: "— AI નક્કી કરે —", urgencyLabel: "તાકીદ", urgNormal: "સામાન્ય", urgUrgent: "તાકીદનું", urgCritical: "ગંભીર", mediaLabel: "ફોટો / વિડિયો / દસ્તાવેજ", optionalNote: "વૈકલ્પિક.", takePhoto: "ફોટો", recordVideo: "વિડિયો", galleryBtn: "ગેલેરી", uploadDoc: "દસ્તાવેજ", locationLabel: "સ્થાન", locationIntro: "📍 નકશા પર ટેપ કરો અથવા GPS વાપરો.", useLocation: "વર્તમાન સ્થાન", searchLocation: "સ્થાન શોધો", selectedLocation: "પસંદ કરેલું", noLocationYet: "પસંદ કર્યું નથી.", cancelBtn: "રદ", submitBtn: "સબમિટ", aiProcessing: "AI પ્રક્રિયા", aiValidate: "AI ચકાસણી", aiCategorize: "AI વર્ગીકરણ", aiPriority: "પ્રાથમિકતા", aiDuplicate: "ડુપ્લિકેટ", aiMatch: "સ્માર્ટ", offlineQueue: "ઑફલાઇન", syncNow: "સિંક", liveCamera: "કૅમેરા", switchCam: "સ્વિચ", captureBtn: "કૅપ્ચર", nativeCam: "ફોન", govInit: "ભારત સરકાર પહેલ", guestModeBanner: "મહેમાન મોડ — લોગિનની જરૂર નથી. તમારો રિપોર્ટ અનામી રૂપે સબમિટ થશે.", guestRegisterCta: "તમારો રિપોર્ટ ટ્રૅક કરવા નોંધણી કરો →" },
+    kn: { govBar: "ಭಾರತ ಸರ್ಕಾರ · ಶಿಕ್ಷಣ ಸಚಿವಾಲಯ", skipContent: "ವಿಷಯ", screenReader: "ರೀಡರ್", tagline: "ಡಿಜಿಟಲ್ ವೇದಿಕೆ", navHome: "ಮುಖಪುಟ", navAbout: "ಬಗ್ಗೆ", navChallenges: "ಸವಾಲುಗಳು", navReport: "ವರದಿ", breadReport: "ಸಮಸ್ಯೆ ವರದಿ", offlineMsg: "ನೀವು ಆಫ್ಲೈನ್ನಲ್ಲಿದ್ದೀರಿ.", reportTitle: "ನಾಗರಿಕ ಸಮಸ್ಯೆ ವರದಿ", reportSubtitle: "ಸಮಸ್ಯೆ ಸಲ್ಲಿಸಿ.", fieldsMandatory: "ಗುರುತಿಸಿದ", areMandatory: "ಕಡ್ಡಾಯ", voiceTitle: "ಸಮಸ್ಯೆ ಮಾತನಾಡಿ", voiceBadge: "AI ಧ್ವನಿ-ಪಠ್ಯ", voiceLangLabel: "ಭಾಷೆ:", micTap: "ಟ್ಯಾಪ್", voicePlaceholder: "ಮಾತು ಇಲ್ಲಿ.", listening: "ಕೇಳುತ್ತಿದೆ...", useText: "✓ ಬಳಸಿ", clearText: "↻ ತೆರವು", howItWorks: "ಹೇಗೆ:", voiceHow: "ಟ್ಯಾಪ್ → ಮಾತನಾಡಿ.", problemDetails: "ವಿವರಗಳು", titleLabel: "ಶೀರ್ಷಿಕೆ", titlePlaceholder: "ಉದಾ., MG ರಸ್ತೆಯಲ್ಲಿ ಗುಂಡಿ", titleHint: "ಸಾರಾಂಶ", descLabel: "ವಿವರಣೆ", descPlaceholder: "ವಿವರಿಸಿ...", descHint: "ಸ್ಥಳ, ಅವಧಿ", categoryLabel: "ವರ್ಗ", letAiDecide: "— AI ನಿರ್ಧರಿಸಲಿ —", urgencyLabel: "ತುರ್ತು", urgNormal: "ಸಾಮಾನ್ಯ", urgUrgent: "ತುರ್ತು", urgCritical: "ನಿರ್ಣಾಯಕ", mediaLabel: "ಫೋಟೋ / ವೀಡಿಯೊ / ದಾಖಲೆ", optionalNote: "ಐಚ್ಛಿಕ.", takePhoto: "ಫೋಟೋ", recordVideo: "ವೀಡಿಯೊ", galleryBtn: "ಗ್ಯಾಲರಿ", uploadDoc: "ದಾಖಲೆ", locationLabel: "ಸ್ಥಳ", locationIntro: "📍 ನಕ್ಷೆಯಲ್ಲಿ ಟ್ಯಾಪ್ ಮಾಡಿ ಅಥವಾ GPS ಬಳಸಿ.", useLocation: "ಪ್ರಸ್ತುತ ಸ್ಥಳ", searchLocation: "ಸ್ಥಳ ಹುಡುಕಿ", selectedLocation: "ಆಯ್ಕೆ", noLocationYet: "ಆಯ್ಕೆ ಮಾಡಿಲ್ಲ.", cancelBtn: "ರದ್ದು", submitBtn: "ಸಲ್ಲಿಸಿ", aiProcessing: "AI ಪ್ರಕ್ರಿಯೆ", aiValidate: "AI ಪರಿಶೀಲನೆ", aiCategorize: "AI ವರ್ಗೀಕರಣ", aiPriority: "ಆದ್ಯತೆ", aiDuplicate: "ನಕಲಿ", aiMatch: "ಸ್ಮಾರ್ಟ್", offlineQueue: "ಆಫ್ಲೈನ್", syncNow: "ಸಿಂಕ್", liveCamera: "ಕ್ಯಾಮೆರಾ", switchCam: "ಬದಲಾಯಿಸಿ", captureBtn: "ಸೆರೆಹಿಡಿಯಿರಿ", nativeCam: "ಫೋನ್", govInit: "ಭಾರತ ಸರ್ಕಾರ", guestModeBanner: "ಅತಿಥಿ ಮೋಡ್ — ಲಾಗಿನ್ ಅಗತ್ಯವಿಲ್ಲ. ನಿಮ್ಮ ವರದಿ ಅನಾಮಧೇಯವಾಗಿ ಸಲ್ಲಿಸಲಾಗುತ್ತದೆ.", guestRegisterCta: "ನಿಮ್ಮ ವರದಿಯನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಲು ನೋಂದಣಿ ಮಾಡಿ →" },
+    ml: { govBar: "ഇന്ത്യാ ഗവൺമെന്റ് · വിദ്യാഭ്യാസ മന്ത്രാലയം", skipContent: "ഉള്ളടക്കം", screenReader: "റീഡർ", tagline: "ഡിജിറ്റൽ പ്ലാറ്റ്ഫോം", navHome: "ഹോം", navAbout: "കുറിച്ച്", navChallenges: "വെല്ലുവിളികൾ", navReport: "റിപ്പോർട്ട്", breadReport: "പ്രശ്നം റിപ്പോർട്ട്", offlineMsg: "നിങ്ങൾ ഓഫ്ലൈനിലാണ്.", reportTitle: "പൗര പ്രശ്നം റിപ്പോർട്ട്", reportSubtitle: "പ്രശ്നം സമർപ്പിക്കുക.", fieldsMandatory: "അടയാളപ്പെടുത്തിയവ", areMandatory: "നിർബന്ധം", voiceTitle: "പ്രശ്നം സംസാരിക്കുക", voiceBadge: "AI വോയ്സ്-ടു-ടെക്സ്റ്റ്", voiceLangLabel: "ഭാഷ:", micTap: "ടാപ്പ്", voicePlaceholder: "സംസാരം ഇവിടെ.", listening: "കേൾക്കുന്നു...", useText: "✓ ഉപയോഗിക്കുക", clearText: "↻ മായ്ക്കുക", howItWorks: "എങ്ങനെ:", voiceHow: "ടാപ്പ് → സംസാരിക്കുക.", problemDetails: "വിശദാംശങ്ങൾ", titleLabel: "ശീർഷകം", titlePlaceholder: "ഉദാ., MG റോഡിൽ കുഴി", titleHint: "സാരാംശം", descLabel: "വിവരണം", descPlaceholder: "വിവരിക്കുക...", descHint: "സ്ഥാനം, കാലയളവ്", categoryLabel: "വിഭാഗം", letAiDecide: "— AI തീരുമാനിക്കട്ടെ —", urgencyLabel: "അടിയന്തിരാവസ്ഥ", urgNormal: "സാധാരണ", urgUrgent: "അടിയന്തിരം", urgCritical: "ഗുരുതരം", mediaLabel: "ഫോട്ടോ / വീഡിയോ / പ്രമാണം", optionalNote: "ഓപ്ഷണൽ.", takePhoto: "ഫോട്ടോ", recordVideo: "വീഡിയോ", galleryBtn: "ഗാലറി", uploadDoc: "പ്രമാണം", locationLabel: "സ്ഥാനം", locationIntro: "📍 മാപ്പിൽ ടാപ്പ് ചെയ്യുക അല്ലെങ്കിൽ GPS ഉപയോഗിക്കുക.", useLocation: "നിലവിലെ സ്ഥാനം", searchLocation: "സ്ഥാനം തിരയുക", selectedLocation: "തിരഞ്ഞെടുത്തത്", noLocationYet: "തിരഞ്ഞെടുത്തിട്ടില്ല.", cancelBtn: "റദ്ദാക്കുക", submitBtn: "സമർപ്പിക്കുക", aiProcessing: "AI പ്രോസസ്സിംഗ്", aiValidate: "AI സാധൂകരണം", aiCategorize: "AI വർഗ്ഗീകരണം", aiPriority: "മുൻഗണന", aiDuplicate: "ഡ്യൂപ്ലിക്കേറ്റ്", aiMatch: "സ്മാർട്ട്", offlineQueue: "ഓഫ്‌ലൈൻ", syncNow: "സിങ്ക്", liveCamera: "ക്യാമറ", switchCam: "മാറ്റുക", captureBtn: "ക്യാപ്ചർ", nativeCam: "ഫോൺ", govInit: "ഇന്ത്യാ ഗവൺമെന്റ്", guestModeBanner: "അതിഥി മോഡ് — ലോഗിൻ ആവശ്യമില്ല. നിങ്ങളുടെ റിപ്പോർട്ട് അജ്ഞാതമായി സമർപ്പിക്കും.", guestRegisterCta: "നിങ്ങളുടെ റിപ്പോർട്ട് ട്രാക്ക് ചെയ്യാൻ രജിസ്റ്റർ ചെയ്യുക →" },
+    pa: { govBar: "ਭਾਰਤ ਸਰਕਾਰ · ਸਿੱਖਿਆ ਮੰਤਰਾਲਾ", skipContent: "ਸਮੱਗਰੀ", screenReader: "ਰੀਡਰ", tagline: "ਡਿਜੀਟਲ ਪਲੇਟਫਾਰਮ", navHome: "ਘਰ", navAbout: "ਬਾਰੇ", navChallenges: "ਚੁਣੌਤੀਆਂ", navReport: "ਰਿਪੋਰਟ", breadReport: "ਸਮੱਸਿਆ ਰਿਪੋਰਟ", offlineMsg: "ਤੁਸੀਂ ਆਫਲਾਈਨ ਹੋ।", reportTitle: "ਨਾਗਰਿਕ ਸਮੱਸਿਆ ਰਿਪੋਰਟ", reportSubtitle: "ਸਮੱਸਿਆ ਦਰਜ ਕਰੋ।", fieldsMandatory: "ਨਿਸ਼ਾਨਿਤ", areMandatory: "ਲਾਜ਼ਮੀ", voiceTitle: "ਸਮੱਸਿਆ ਬੋਲੋ", voiceBadge: "AI ਵੌਇਸ-ਟੂ-ਟੈਕਸਟ", voiceLangLabel: "ਭਾਸ਼ਾ:", micTap: "ਟੈਪ", voicePlaceholder: "ਗੱਲ ਇੱਥੇ।", listening: "ਸੁਣ ਰਿਹਾ...", useText: "✓ ਵਰਤੋ", clearText: "↻ ਸਾਫ਼", howItWorks: "ਕਿਵੇਂ:", voiceHow: "ਟੈਪ → ਬੋਲੋ।", problemDetails: "ਵੇਰਵੇ", titleLabel: "ਸਿਰਲੇਖ", titlePlaceholder: "ਉਦਾ., MG ਰੋਡ 'ਤੇ ਟੋਆ", titleHint: "ਸਾਰ", descLabel: "ਵੇਰਵਾ", descPlaceholder: "ਵਰਣਨ ਕਰੋ...", descHint: "ਟਿਕਾਣਾ, ਸਮਾਂ", categoryLabel: "ਸ਼੍ਰੇਣੀ", letAiDecide: "— AI ਫੈਸਲਾ ਕਰੇ —", urgencyLabel: "ਤਾਕੀਦ", urgNormal: "ਆਮ", urgUrgent: "ਤਾਕੀਦੀ", urgCritical: "ਗੰਭੀਰ", mediaLabel: "ਫੋਟੋ / ਵੀਡੀਓ / ਦਸਤਾਵੇਜ਼", optionalNote: "ਵਿਕਲਪਿਕ।", takePhoto: "ਫੋਟੋ", recordVideo: "ਵੀਡੀਓ", galleryBtn: "ਗੈਲਰੀ", uploadDoc: "ਦਸਤਾਵੇਜ਼", locationLabel: "ਟਿਕਾਣਾ", locationIntro: "📍 ਨਕਸ਼ੇ 'ਤੇ ਟੈਪ ਕਰੋ ਜਾਂ GPS ਵਰਤੋ।", useLocation: "ਮੌਜੂਦਾ ਟਿਕਾਣਾ", searchLocation: "ਟਿਕਾਣਾ ਖੋਜੋ", selectedLocation: "ਚੁਣਿਆ", noLocationYet: "ਨਹੀਂ ਚੁਣਿਆ।", cancelBtn: "ਰੱਦ", submitBtn: "ਜਮ੍ਹਾਂ", aiProcessing: "AI ਪ੍ਰੋਸੈਸਿੰਗ", aiValidate: "AI ਪ੍ਰਮਾਣਿਕਤਾ", aiCategorize: "AI ਸ਼੍ਰੇਣੀ", aiPriority: "ਤਰਜੀਹ", aiDuplicate: "ਡੁਪਲੀਕੇਟ", aiMatch: "ਸਮਾਰਟ", offlineQueue: "ਆਫਲਾਈਨ", syncNow: "ਸਿੰਕ", liveCamera: "ਕੈਮਰਾ", switchCam: "ਸਵਿੱਚ", captureBtn: "ਕੈਪਚਰ", nativeCam: "ਫੋਨ", govInit: "ਭਾਰਤ ਸਰਕਾਰ", guestModeBanner: "ਮਹਿਮਾਨ ਮੋਡ — ਲੌਗਇਨ ਦੀ ਲੋੜ ਨਹੀਂ। ਤੁਹਾਡੀ ਰਿਪੋਰਟ ਗੁਮਨਾਮ ਰੂਪ ਵਿੱਚ ਜਮ੍ਹਾਂ ਹੋਵੇਗੀ।", guestRegisterCta: "ਆਪਣੀ ਰਿਪੋਰਟ ਟ੍ਰੈਕ ਕਰਨ ਲਈ ਰਜਿਸਟਰ ਕਰੋ →" },
+    or: { govBar: "ଭାରତ ସରକାର · ଶିକ୍ଷା ମନ୍ତ୍ରଣାଳୟ", skipContent: "ବିଷୟବସ୍ତୁ", screenReader: "ରିଡର", tagline: "ଡିଜିଟାଲ ପ୍ଲାଟଫର୍ମ", navHome: "ହୋମ", navAbout: "ବିଷୟରେ", navChallenges: "ଆହ୍ୱାନ", navReport: "ରିପୋର୍ଟ", breadReport: "ସମସ୍ୟା ରିପୋର୍ଟ", offlineMsg: "ଆପଣ ଅଫଲାଇନ।", reportTitle: "ନାଗରିକ ସମସ୍ୟା ରିପୋର୍ଟ", reportSubtitle: "ସମସ୍ୟା ଦାଖଲ କରନ୍ତୁ।", fieldsMandatory: "ଚିହ୍ନିତ", areMandatory: "ବାଧ୍ୟତାମୂଳକ", voiceTitle: "ସମସ୍ୟା କୁହନ୍ତୁ", voiceBadge: "AI ଭଏସ୍-ଟୁ-ଟେକ୍ସଟ୍", voiceLangLabel: "ଭାଷା:", micTap: "ଟ୍ୟାପ୍", voicePlaceholder: "କଥା ଏଠାରେ।", listening: "ଶୁଣୁଛି...", useText: "✓ ବ୍ୟବହାର", clearText: "↻ ସଫା", howItWorks: "କିପରି:", voiceHow: "ଟ୍ୟାପ୍ → କୁହନ୍ତୁ।", problemDetails: "ବିବରଣୀ", titleLabel: "ଶୀର୍ଷକ", titlePlaceholder: "ଉଦା., MG ରାସ୍ତାରେ ଗର୍ତ୍ତ", titleHint: "ସାରାଂଶ", descLabel: "ବର୍ଣ୍ଣନା", descPlaceholder: "ବର୍ଣ୍ଣନା କରନ୍ତୁ...", descHint: "ସ୍ଥାନ, ସମୟ", categoryLabel: "ବର୍ଗ", letAiDecide: "— AI ନିଷ୍ପତ୍ତି —", urgencyLabel: "ଆବଶ୍ୟକତା", urgNormal: "ସାଧାରଣ", urgUrgent: "ଆବଶ୍ୟକ", urgCritical: "ଗମ୍ଭୀର", mediaLabel: "ଫଟୋ / ଭିଡିଓ / ଡକ୍ୟୁମେଣ୍ଟ", optionalNote: "ବୈକଳ୍ପିକ।", takePhoto: "ଫଟୋ", recordVideo: "ଭିଡିଓ", galleryBtn: "ଗ୍ୟାଲେରୀ", uploadDoc: "ଡକ୍ୟୁମେଣ୍ଟ", locationLabel: "ସ୍ଥାନ", locationIntro: "📍 ମ୍ୟାପରେ ଟ୍ୟାପ୍ କରନ୍ତୁ କିମ୍ବା GPS ବ୍ୟବହାର କରନ୍ତୁ।", useLocation: "ବର୍ତ୍ତମାନ ସ୍ଥାନ", searchLocation: "ସ୍ଥାନ ଖୋଜନ୍ତୁ", selectedLocation: "ଚୟନିତ", noLocationYet: "ଏପର୍ଯ୍ୟନ୍ତ ନାହିଁ।", cancelBtn: "ବାତିଲ୍", submitBtn: "ଦାଖଲ", aiProcessing: "AI ପ୍ରକ୍ରିୟା", aiValidate: "AI ଯାଞ୍ଚ", aiCategorize: "AI ବର୍ଗୀକରଣ", aiPriority: "ପ୍ରାଥମିକତା", aiDuplicate: "ନକଲ", aiMatch: "ସ୍ମାର୍ଟ", offlineQueue: "ଅଫଲାଇନ", syncNow: "ସିଙ୍କ", liveCamera: "କ୍ୟାମେରା", switchCam: "ସ୍ୱିଚ", captureBtn: "କ୍ୟାପଚର", nativeCam: "ଫୋନ", govInit: "ଭାରତ ସରକାର", guestModeBanner: "ଅତିଥି ମୋଡ୍ — ଲଗଇନ ଆବଶ୍ୟକ ନାହିଁ। ଆପଣଙ୍କ ରିପୋର୍ଟ ଅନାମଧେୟ ଭାବରେ ଦାଖଲ ହେବ।", guestRegisterCta: "ଆପଣଙ୍କ ରିପୋର୍ଟ ଟ୍ରାକ୍ କରିବାକୁ ପଞ୍ଜିକରଣ କରନ୍ତୁ →" },
+    as: { govBar: "ভাৰত চৰকাৰ · শিক্ষা মন্ত্ৰালয়", skipContent: "সমল", screenReader: "ৰিডাৰ", tagline: "ডিজিটেল প্লেটফৰ্ম", navHome: "হোম", navAbout: "বিষয়ে", navChallenges: "প্ৰত্যাহ্বান", navReport: "ৰিপৰ্ট", breadReport: "সমস্যা ৰিপৰ্ট", offlineMsg: "আপুনি অফলাইন।", reportTitle: "নাগৰিক সমস্যা ৰিপৰ্ট", reportSubtitle: "সমস্যা দাখিল কৰক।", fieldsMandatory: "চিহ্নিত", areMandatory: "বাধ্যতামূলক", voiceTitle: "সমস্যা কওক", voiceBadge: "AI ভইচ-টু-টেক্সট", voiceLangLabel: "ভাষা:", micTap: "টেপ", voicePlaceholder: "কথা ইয়াত।", listening: "শুনি আছে...", useText: "✓ ব্যৱহাৰ", clearText: "↻ পৰিষ্কাৰ", howItWorks: "কেনেকৈ:", voiceHow: "টেপ → কথা কওক।", problemDetails: "বিৱৰণ", titleLabel: "শিৰোনাম", titlePlaceholder: "যেনে, MG পথত গাঁত", titleHint: "সাৰাংশ", descLabel: "বিৱৰণ", descPlaceholder: "বৰ্ণনা কৰক...", descHint: "স্থান, সময়", categoryLabel: "শ্ৰেণী", letAiDecide: "— AI সিদ্ধান্ত —", urgencyLabel: "জৰুৰীতা", urgNormal: "সাধাৰণ", urgUrgent: "জৰুৰী", urgCritical: "সংকটজনক", mediaLabel: "ফটো / ভিডিঅ' / নথি", optionalNote: "ঐচ্ছিক।", takePhoto: "ফটো", recordVideo: "ভিডিঅ'", galleryBtn: "গেলেৰী", uploadDoc: "নথি", locationLabel: "স্থান", locationIntro: "📍 মানচিত্ৰত টেপ কৰক বা GPS ব্যৱহাৰ কৰক।", useLocation: "বৰ্তমান স্থান", searchLocation: "স্থান বিচাৰক", selectedLocation: "বাছনি", noLocationYet: "নাই।", cancelBtn: "বাতিল", submitBtn: "দাখিল", aiProcessing: "AI প্ৰক্ৰিয়া", aiValidate: "AI প্ৰমাণীকৰণ", aiCategorize: "AI শ্ৰেণী", aiPriority: "প্ৰাথমিকতা", aiDuplicate: "প্ৰতিলিপি", aiMatch: "স্মাৰ্ট", offlineQueue: "অফলাইন", syncNow: "চিংক", liveCamera: "কেমেৰা", switchCam: "চুইচ", captureBtn: "কেপচাৰ", nativeCam: "ফোন", govInit: "ভাৰত চৰকাৰ", guestModeBanner: "অতিথি ম'ড — লগইনৰ প্ৰয়োজন নাই। আপোনাৰ ৰিপৰ্ট বেনামীভাৱে দাখিল কৰা হ'ব।", guestRegisterCta: "আপোনাৰ ৰিপৰ্ট ট্ৰেক কৰিবলৈ পঞ্জীয়ন কৰক →" },
+    ur: { govBar: "حکومت ہند · وزارت تعلیم", skipContent: "مواد", screenReader: "ریڈر", tagline: "ڈیجیٹل پلیٹ فارم", navHome: "ہوم", navAbout: "بارے میں", navChallenges: "چیلنجز", navReport: "رپورٹ", breadReport: "مسئلہ رپورٹ", offlineMsg: "آپ آف لائن ہیں۔", reportTitle: "شہری مسئلہ رپورٹ", reportSubtitle: "مسئلہ جمع کرائیں۔", fieldsMandatory: "نشان زدہ", areMandatory: "لازمی", voiceTitle: "مسئلہ بولیں", voiceBadge: "AI وائس ٹو ٹیکسٹ", voiceLangLabel: "زبان:", micTap: "ٹیپ", voicePlaceholder: "آواز یہاں۔", listening: "سن رہا ہے...", useText: "✓ استعمال", clearText: "↻ صاف", howItWorks: "کیسے:", voiceHow: "ٹیپ → بولیں۔", problemDetails: "تفصیلات", titleLabel: "عنوان", titlePlaceholder: "مثلاً، MG روڈ پر گڑھا", titleHint: "خلاصہ", descLabel: "وضاحت", descPlaceholder: "وضاحت کریں...", descHint: "مقام، دورانیہ", categoryLabel: "زمرہ", letAiDecide: "— AI فیصلہ کرے —", urgencyLabel: "فوری ضرورت", urgNormal: "عام", urgUrgent: "فوری", urgCritical: "نازک", mediaLabel: "تصویر / ویڈیو / دستاویز", optionalNote: "اختیاری۔", takePhoto: "تصویر", recordVideo: "ویڈیو", galleryBtn: "گیلری", uploadDoc: "دستاویز", locationLabel: "مقام", locationIntro: "📍 نقشے پر ٹیپ کریں یا GPS استعمال کریں۔", useLocation: "موجودہ مقام", searchLocation: "مقام تلاش", selectedLocation: "منتخب", noLocationYet: "ابھی تک نہیں۔", cancelBtn: "منسوخ", submitBtn: "جمع کرائیں", aiProcessing: "AI پروسیسنگ", aiValidate: "AI توثیق", aiCategorize: "AI درجہ بندی", aiPriority: "ترجیح", aiDuplicate: "نقل", aiMatch: "اسمارٹ", offlineQueue: "آف لائن", syncNow: "سنک", liveCamera: "کیمرہ", switchCam: "سوئچ", captureBtn: "کیپچر", nativeCam: "فون", govInit: "حکومت ہند", guestModeBanner: "مہمان موڈ — لاگ ان کی ضرورت نہیں۔ آپ کی رپورٹ گمنام طور پر جمع کرائی جائے گی۔", guestRegisterCta: "اپنی رپورٹ ٹریک کرنے کے لیے رجسٹر کریں →" }
+  };
+
+  function applyTranslations(lang) {
+    const t = I18N[lang] || I18N.en;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (t[key]) el.textContent = t[key];
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+      const key = el.getAttribute("data-i18n-placeholder");
+      if (t[key]) el.placeholder = t[key];
+    });
+    document.body.setAttribute("data-lang", lang);
+    document.documentElement.lang = lang;
+  }
+  function changeGlobalLang(lang) {
+    localStorage.setItem(LANG_KEY, lang);
+    const voiceLanguage = `${lang}-IN`;
+    localStorage.setItem(VOICE_LANG_KEY, voiceLanguage);
+    const voiceSelect = document.getElementById("voiceLang");
+    if (voiceSelect && [...voiceSelect.options].some(option => option.value === voiceLanguage)) voiceSelect.value = voiceLanguage;
+    if (recognition) recognition.lang = voiceLanguage;
+    applyTranslations(lang);
+  }
+  function changeVoiceLang(lang) {
+    localStorage.setItem(VOICE_LANG_KEY, lang);
+    if (recognition) recognition.lang = lang;
+    if (isRecording) { stopVoiceRecognition(); setTimeout(() => startVoiceRecognition(), 300); }
+  }
+
+  // STATE
+  let selectedFiles = [];
+  let map = null, marker = null;
+  let cameraStream = null, facingMode = "environment";
+  let recognition = null, isRecording = false;
+  let voiceTimerInterval = null, voiceSeconds = 0;
+  let finalTranscript = "", interimTranscript = "";
+  let mapInitialized = false;
+  let cameraMode = "photo";
+  let mediaRecorderVideo = null, videoChunks = [], videoRecTimer = null, videoRecSeconds = 0;
+
+  // INIT
+  const savedLang = localStorage.getItem(LANG_KEY) || "en";
+  const savedVoiceLang = localStorage.getItem(VOICE_LANG_KEY) || "en-IN";
+  document.getElementById("globalLang").value = savedLang;
+  document.getElementById("voiceLang").value = savedVoiceLang;
+  applyTranslations(savedLang);
+
+  // ============ AUTH INIT (GUEST-AWARE) ============
+  (function initAuth() {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+    const navEl = document.getElementById("auth-nav");
+
+    if (IS_GUEST) {
+      // Guest Mode: Show guest banner + guest nav
+      document.getElementById("guest-banner").classList.add("show");
+
+      navEl.innerHTML = `
+        <span style="color:#FF9933; padding:11px 16px; font-size:12.5px; font-weight:700; letter-spacing:0.5px;">⚡ GUEST MODE</span>
+        <a href="login.html" style="color:#fff; padding:11px 16px; font-size:13px; font-weight:500;">Login</a>
+        <a href="register.html" style="color:#fff; padding:11px 16px; font-size:13px; font-weight:500; background:#FF9933; color:#0B3C5D;">Register</a>
+      `;
+      return; // Skip the login-required check
+    }
+
+    // Normal mode: require login
+    if (!token || !user) {
+      alert("Please login to report a problem.");
+      window.location.href = "login.html";
+      return;
+    }
+
+    navEl.innerHTML = `
+      <a href="${roleRoute(user.role)}">Dashboard</a>
+      <a href="profile.html">Profile</a>
+      <button onclick="logout()" style="background:transparent; border:none; color:#fff; padding:11px 16px; cursor:pointer; font-size:13px; font-weight:500;">Logout</button>
+    `;
+  })();
+
+  function roleRoute(role) { return { citizen:"citizen.html", university:"university.html", industry:"industry.html", govt:"admin.html", admin:"admin.html", expert:"expert.html" }[role] || "index.html"; }
+  function logout() { localStorage.removeItem("token"); localStorage.removeItem("user"); window.location.href = "index.html"; }
+
+  // OFFLINE
+  function checkOnline() {
+    const b = document.getElementById("offline-banner");
+    if (navigator.onLine) b.classList.remove("show"); else b.classList.add("show");
+    updateQueueUI();
+  }
+  window.addEventListener("online", () => { checkOnline(); syncOfflineQueue(); });
+  window.addEventListener("offline", checkOnline);
+  checkOnline();
+
+  // VOICE
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const currentVoiceLang = () => localStorage.getItem(VOICE_LANG_KEY) || "en-IN";
+
+  function initVoiceRecognition() {
+    if (!SpeechRecognition) {
+      document.getElementById("voice-unsupported").style.display = "block";
+      const mic = document.getElementById("voice-mic");
+      mic.disabled = true; mic.style.opacity = "0.4"; mic.style.cursor = "not-allowed";
+      return null;
+    }
+    const recog = new SpeechRecognition();
+    recog.continuous = true; recog.interimResults = true;
+    recog.lang = currentVoiceLang();
+    recog.onresult = (event) => {
+      interimTranscript = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const t = event.results[i][0].transcript;
+        if (event.results[i].isFinal) finalTranscript += t + " ";
+        else interimTranscript += t;
+      }
+      renderVoiceOutput();
+    };
+    recog.onerror = (e) => {
+      if (e.error === "no-speech") return;
+      if (e.error === "not-allowed") { alert("Microphone permission denied."); stopVoiceRecognition(); }
+    };
+    recog.onend = () => { if (isRecording) { try { recog.start(); } catch(e){} } };
+    return recog;
+  }
+
+  function renderVoiceOutput() {
+    const out = document.getElementById("voice-output");
+    const combined = (finalTranscript + " " + interimTranscript).trim();
+    if (!combined) {
+      out.classList.add("empty");
+      out.textContent = I18N[localStorage.getItem(LANG_KEY) || "en"].voicePlaceholder;
+      return;
+    }
+    out.classList.remove("empty");
+    out.innerHTML = `<span class="final">${escapeHtml(finalTranscript.trim())}</span> <span class="interim">${escapeHtml(interimTranscript)}</span>`;
+    document.getElementById("voice-actions").style.display = "flex";
+  }
+
+  function toggleVoiceRecognition() { if (isRecording) stopVoiceRecognition(); else startVoiceRecognition(); }
+
+  function startVoiceRecognition() {
+    if (!recognition) recognition = initVoiceRecognition();
+    if (!recognition) return;
+    recognition.lang = currentVoiceLang();
+    finalTranscript = ""; interimTranscript = "";
+    try {
+      recognition.start();
+      isRecording = true;
+      const mic = document.getElementById("voice-mic");
+      mic.classList.add("recording"); mic.textContent = "⏹";
+      document.getElementById("voice-mic-label").textContent = "⏹ " + (I18N[localStorage.getItem(LANG_KEY) || "en"].listening || "Listening...");
+      document.getElementById("voice-status").style.display = "flex";
+      document.getElementById("voice-status-text").textContent = I18N[localStorage.getItem(LANG_KEY) || "en"].listening;
+      voiceSeconds = 0; updateVoiceTimer();
+      voiceTimerInterval = setInterval(() => { voiceSeconds++; updateVoiceTimer(); }, 1000);
+      renderVoiceOutput();
+    } catch(e) { console.warn(e); }
+  }
+
+  function stopVoiceRecognition() {
+    if (recognition) { try { recognition.stop(); } catch(e){} }
+    isRecording = false;
+    const mic = document.getElementById("voice-mic");
+    mic.classList.remove("recording"); mic.textContent = "🎤";
+    document.getElementById("voice-mic-label").textContent = I18N[localStorage.getItem(LANG_KEY) || "en"].micTap;
+    document.getElementById("voice-status").style.display = "none";
+    clearInterval(voiceTimerInterval); voiceTimerInterval = null;
+  }
+
+  function updateVoiceTimer() {
+    const mm = String(Math.floor(voiceSeconds / 60)).padStart(2, "0");
+    const ss = String(voiceSeconds % 60).padStart(2, "0");
+    const t = document.getElementById("voice-timer");
+    t.textContent = `${mm}:${ss}`;
+    t.classList.toggle("recording", isRecording);
+  }
+
+  function clearVoiceText() {
+    finalTranscript = ""; interimTranscript = "";
+    renderVoiceOutput();
+    document.getElementById("voice-actions").style.display = "none";
+  }
+
+  // ============ AI AUTO-DETECTION ============
+  const CATEGORY_KEYWORDS = {
+    "Infrastructure & Roads": ["road","pothole","street","pavement","highway","bridge","infrastructure"],
+    "Water & Resources": ["water","pipe","leak","supply","tap","well","borewell","drain","irrigation"],
+    "Energy & Electricity": ["electric","power","light","streetlight","wire","transformer","outage","solar"],
+    Healthcare: ["hospital","clinic","doctor","medicine","disease","health","dengue","malaria","sick"],
+    Education: ["school","college","student","teacher","classroom","education","exam","शिक्षा","பள்ளி","పాఠశాల","শিক্ষা","शाळा","શાળા","ಶಾಲೆ","സ്കൂൾ","ਸਕੂਲ","ବିଦ୍ୟାଳୟ"],
+    Agriculture: ["farm","crop","seed","harvest","agriculture","soil","farmer"],
+    "Environment & Climate": ["tree","pollution","air","environment","forest","river","lake","climate","emission"],
+    "Waste Management": ["waste","trash","dustbin","litter","plastic","garbage","recycling","sanitation"],
+    "Transport & Mobility": ["bus","transport","traffic","vehicle","auto","rickshaw","metro","mobility"],
+    "Public Safety": ["safety","danger","accident","crime","theft","fire","flood","emergency"],
+    "Urban Development": ["city","urban","town","housing","planning","development"],
+    "Industry & Manufacturing": ["industry","factory","manufacturing","industrial","production"],
+    "Rural Development": ["village","rural","farmer","livelihood","panchayat","employment"],
+    Accessibility: ["wheelchair","ramp","blind","disabled","accessibility","barrier"],
+    "Public Administration": ["government","certificate","permit","public service","administration"]
+  };
+  const URGENCY_CRITICAL = ["death","died","killed","fire","flood","dengue","malaria","outbreak","collapse","emergency","critical","children","मौत","आग","बाढ़","இறப்பு","మరణం","মৃত্যু","मृत्यू","મૃત્યુ","ಸಾವು","മരണം","ਮੌਤ","ମୃତ୍ୟୁ"];
+  const URGENCY_URGENT = ["accident","urgent","danger","immediately","emergency","injury","hospital","sick","theft","crime","तत्काल","खतरा","தவசரம்","అత్యవసరం","জরুরি","तातडी","તાકીદ","ತುರ್ತು","അടിയന്തിരം","ਤਾਕੀਦ","ଆବଶ୍ୟକ","জৰুৰী"];
+
+  function detectCategory(text) {
+    const lower = text.toLowerCase();
+    let best = "", bestScore = 0;
+    for (const [cat, kws] of Object.entries(CATEGORY_KEYWORDS)) {
+      let s = 0;
+      for (const kw of kws) if (lower.includes(kw.toLowerCase())) s++;
+      if (s > bestScore) { bestScore = s; best = cat; }
+    }
+    return bestScore > 0 ? best : "";
+  }
+  function detectUrgency(text) {
+    const lower = text.toLowerCase();
+    for (const kw of URGENCY_CRITICAL) if (lower.includes(kw.toLowerCase())) return "critical";
+    for (const kw of URGENCY_URGENT) if (lower.includes(kw.toLowerCase())) return "urgent";
+    return "normal";
+  }
+
+  // APPLY VOICE + AUTO-FILL
+  function applyVoiceToForm() {
+    const text = (finalTranscript + " " + interimTranscript).trim();
+    if (!text) return alert("No speech captured yet.");
+    const sentences = text.split(/[.!?।]\s+/).filter(s => s.trim().length > 0);
+    let title = "", description = "";
+    if (!sentences.length) { title = text.substring(0,100); description = text; }
+    else if (sentences.length === 1) { title = sentences[0].substring(0,100); description = sentences[0]; }
+    else { title = sentences[0].substring(0,100); description = sentences.join(". ") + "."; }
+    title = title.charAt(0).toUpperCase() + title.slice(1);
+    document.getElementById("title").value = title;
+    document.getElementById("description").value = description;
+
+    const detectedCat = detectCategory(text);
+    if (detectedCat) {
+      document.getElementById("category").value = detectedCat;
+      document.getElementById("category").classList.add("filled");
+      document.getElementById("cat-auto-badge").style.display = "inline-block";
+    }
+
+    const detectedUrg = detectUrgency(text);
+    document.getElementById("urgency").value = detectedUrg;
+    document.getElementById("urgency").classList.add("filled");
+    document.getElementById("urg-auto-badge").style.display = "inline-block";
+
+    document.getElementById("title").classList.add("filled");
+    document.getElementById("description").classList.add("filled");
+    ["title","description"].forEach(id => {
+      const el = document.getElementById(id);
+      el.addEventListener("input", () => el.classList.remove("filled"), { once: true });
+    });
+
+    let msg = "✓ Filled from voice";
+    if (detectedCat) msg += ` · ${detectedCat}`;
+    if (detectedUrg !== "normal") msg += ` · ${detectedUrg}`;
+    showToast(msg);
+    document.getElementById("title").scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function showToast(msg) {
+    const t = document.createElement("div");
+    t.textContent = msg;
+    t.style.cssText = "position:fixed;bottom:24px;right:24px;left:24px;max-width:400px;margin-left:auto;background:#138808;color:#fff;padding:12px 20px;border-radius:4px;font-size:13.5px;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:99999;text-align:center;";
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2500);
+  }
+  function escapeHtml(str) { const d = document.createElement("div"); d.textContent = str || ""; return d.innerHTML; }
+
+  if (!SpeechRecognition) {
+    document.getElementById("voice-unsupported").style.display = "block";
+    const mic = document.getElementById("voice-mic");
+    if (mic) { mic.disabled = true; mic.style.opacity = "0.4"; mic.style.cursor = "not-allowed"; }
+  }
+
+  // CAMERA
+  async function openCamera(mode) {
+    cameraMode = mode || "photo";
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return useNativeCamera();
+    try {
+      cameraStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode, width: {ideal:1280}, height: {ideal:720} },
+        audio: cameraMode === "video"
+      });
+      document.getElementById("camera-video").srcObject = cameraStream;
+
+      const titleEl = document.getElementById("camera-title");
+      const snapBtn = document.getElementById("snap-btn");
+      if (cameraMode === "video") {
+        titleEl.innerHTML = "🎥 <span>Video Recording</span>";
+        snapBtn.innerHTML = "⏺ <span>Start Recording</span>";
+      } else {
+        titleEl.innerHTML = "📷 <span>Live Camera</span>";
+        snapBtn.innerHTML = "📸 <span>Capture</span>";
+      }
+      document.getElementById("camera-modal").classList.add("show");
+    } catch(e) { useNativeCamera(); }
+  }
+  async function switchCamera() {
+    facingMode = facingMode === "environment" ? "user" : "environment";
+    if (cameraStream) cameraStream.getTracks().forEach(t => t.stop());
+    try {
+      cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode }, audio: cameraMode === "video" });
+      document.getElementById("camera-video").srcObject = cameraStream;
+    } catch(e){}
+  }
+  function handleCapture() { if (cameraMode === "photo") takePhoto(); else toggleVideoRecording(); }
+  function takePhoto() {
+    const v = document.getElementById("camera-video");
+    const c = document.createElement("canvas");
+    c.width = v.videoWidth; c.height = v.videoHeight;
+    c.getContext("2d").drawImage(v, 0, 0);
+    c.toBlob(b => { addFile(new File([b], `photo_${Date.now()}.jpg`, {type:"image/jpeg"})); closeCamera(); }, "image/jpeg", 0.9);
+  }
+  function toggleVideoRecording() {
+    const snapBtn = document.getElementById("snap-btn");
+    const recIndicator = document.getElementById("video-rec-indicator");
+    const recTime = document.getElementById("video-rec-time");
+
+    if (mediaRecorderVideo && mediaRecorderVideo.state === "recording") {
+      mediaRecorderVideo.stop();
+      return;
+    }
+    try {
+      const chunks = [];
+      const options = { mimeType: MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm' };
+      mediaRecorderVideo = new MediaRecorder(cameraStream, options);
+      mediaRecorderVideo.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
+      mediaRecorderVideo.onstop = () => {
+        const blob = new Blob(chunks, { type: "video/webm" });
+        addFile(new File([blob], `video_${Date.now()}.webm`, { type: "video/webm" }));
+        clearInterval(videoRecTimer);
+        recIndicator.style.display = "none";
+        snapBtn.innerHTML = "⏺ <span>Start Recording</span>";
+        closeCamera();
+        showToast("✓ Video saved");
+      };
+      mediaRecorderVideo.start();
+      snapBtn.innerHTML = "⏹ <span>Stop Recording</span>";
+      recIndicator.style.display = "flex";
+      videoRecSeconds = 0; updateRecTime();
+      videoRecTimer = setInterval(() => { videoRecSeconds++; updateRecTime(); }, 1000);
+    } catch(e) {
+      alert("Video recording not supported on this device/browser.");
+    }
+  }
+  function updateRecTime() {
+    const mm = String(Math.floor(videoRecSeconds / 60)).padStart(2, "0");
+    const ss = String(videoRecSeconds % 60).padStart(2, "0");
+    document.getElementById("video-rec-time").textContent = `${mm}:${ss}`;
+  }
+  function closeCamera() {
+    if (mediaRecorderVideo && mediaRecorderVideo.state === "recording") { try { mediaRecorderVideo.stop(); } catch(e){} }
+    if (videoRecTimer) { clearInterval(videoRecTimer); videoRecTimer = null; }
+    document.getElementById("video-rec-indicator").style.display = "none";
+    if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
+    document.getElementById("camera-modal").classList.remove("show");
+  }
+  function useNativeCamera() { closeCamera(); document.getElementById("camera-fallback-input").click(); }
+
+  // FILES
+  function handleGalleryFiles(files) { Array.from(files).forEach(addFile); }
+  function handleDocFiles(files) { Array.from(files).forEach(addDocFile); }
+  function addFile(file) {
+    if (selectedFiles.length >= 5) return alert("Maximum 5 files allowed.");
+    if (file.size > 10*1024*1024) return alert("File too large. Max 10 MB.");
+    const c = document.getElementById("media-previews");
+    const wrap = document.createElement("div");
+    wrap.className = "media-preview";
+    if (file.type.startsWith("image/")) {
+      wrap.classList.add("img-preview");
+      const img = document.createElement("img"); img.src = URL.createObjectURL(file); wrap.appendChild(img);
+    } else if (file.type.startsWith("video/")) {
+      wrap.classList.add("video-preview");
+      const v = document.createElement("video"); v.src = URL.createObjectURL(file); v.controls = true; wrap.appendChild(v);
+    }
+    const rm = document.createElement("button");
+    rm.className = "remove"; rm.textContent = "×"; rm.type = "button";
+    rm.onclick = () => { const i = selectedFiles.indexOf(file); if (i > -1) selectedFiles.splice(i, 1); wrap.remove(); };
+    wrap.appendChild(rm);
+    c.appendChild(wrap);
+    selectedFiles.push(file);
+  }
+  function addDocFile(file) {
+    if (selectedFiles.length >= 5) return alert("Maximum 5 files allowed.");
+    if (file.size > 10*1024*1024) return alert("File too large. Max 10 MB.");
+    const c = document.getElementById("media-previews");
+    const wrap = document.createElement("div");
+    wrap.className = "media-preview doc-preview";
+    const ext = file.name.split(".").pop().toUpperCase();
+    const icon = ["PDF"].includes(ext) ? "📕" : ["DOC","DOCX","ODT","RTF"].includes(ext) ? "📘" : ["XLS","XLSX","ODS"].includes(ext) ? "📗" : ["PPT","PPTX"].includes(ext) ? "📙" : ["TXT"].includes(ext) ? "📄" : "📎";
+    wrap.innerHTML = `
+      <div class="doc-icon">${icon}</div>
+      <div class="doc-info">
+        <div class="doc-name">${escapeHtml(file.name)}</div>
+        <div class="doc-size">${(file.size / 1024).toFixed(1)} KB · ${ext}</div>
+      </div>
+    `;
+    const rm = document.createElement("button");
+    rm.className = "remove"; rm.textContent = "×"; rm.type = "button";
+    rm.style.position = "static"; rm.style.marginLeft = "auto"; rm.style.borderRadius = "3px";
+    rm.style.width = "auto"; rm.style.height = "auto"; rm.style.padding = "4px 10px"; rm.style.fontSize = "12px";
+    rm.onclick = () => { const i = selectedFiles.indexOf(file); if (i > -1) selectedFiles.splice(i, 1); wrap.remove(); };
+    wrap.appendChild(rm);
+    c.appendChild(wrap);
+    selectedFiles.push(file);
+  }
+
+  // LOCATION
+  function initMap() {
+    if (mapInitialized) return;
+    map = L.map("map", { zoomControl: true, scrollWheelZoom: true }).setView([22.5726, 88.3639], 5);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap", maxZoom: 19 }).addTo(map);
+    const pinIcon = L.divIcon({
+      className: "custom-pin",
+      html: `<div style="width:30px;height:30px;background:#C0392B;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>`,
+      iconSize: [30, 30], iconAnchor: [15, 30],
+    });
+    map.on("click", (e) => {
+      const { lat, lng } = e.latlng;
+      if (marker) marker.setLatLng([lat, lng]);
+      else marker = L.marker([lat, lng], { icon: pinIcon }).addTo(map);
+      setCoordinates(lat, lng, true);
+    });
+    mapInitialized = true;
+    setTimeout(() => map.invalidateSize(), 250);
+  }
+  function setCoordinates(lat, lng, doGeocode) {
+    document.getElementById("latitude").value = lat.toFixed(6);
+    document.getElementById("longitude").value = lng.toFixed(6);
+    document.getElementById("address-coords").style.display = "block";
+    document.getElementById("coord-display").textContent = `${lat.toFixed(6)}° N, ${lng.toFixed(6)}° E`;
+    if (doGeocode) reverseGeocode(lat, lng);
+  }
+  async function reverseGeocode(lat, lng) {
+    const addrEl = document.getElementById("address-text");
+    addrEl.classList.remove("empty");
+    addrEl.textContent = "🔎 Fetching address...";
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`, { headers: { "Accept": "application/json" } });
+      const data = await res.json();
+      if (data && data.display_name) {
+        const a = data.address || {};
+        const parts = [];
+        if (a.road || a.neighbourhood) parts.push(a.road || a.neighbourhood);
+        if (a.suburb) parts.push(a.suburb);
+        if (a.city || a.town || a.village) parts.push(a.city || a.town || a.village);
+        if (a.state) parts.push(a.state);
+        if (a.postcode) parts.push(a.postcode);
+        const formatted = parts.length >= 2 ? parts.join(", ") : data.display_name;
+        addrEl.textContent = "📍 " + formatted;
+      } else addrEl.textContent = "📍 Location selected (address unavailable)";
+    } catch (err) { addrEl.textContent = `📍 ${lat.toFixed(4)}, ${lng.toFixed(4)}`; }
+  }
+  function getLocation() {
+    if (!navigator.geolocation) return alert("Geolocation not supported.");
+    const addrEl = document.getElementById("address-text");
+    addrEl.classList.remove("empty");
+    addrEl.textContent = "🛰 Getting GPS location...";
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+        if (!map) initMap();
+        map.setView([latitude, longitude], 17);
+        const pinIcon = L.divIcon({
+          className: "custom-pin",
+          html: `<div style="width:30px;height:30px;background:#C0392B;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>`,
+          iconSize: [30, 30], iconAnchor: [15, 30],
+        });
+        if (marker) marker.setLatLng([latitude, longitude]);
+        else marker = L.marker([latitude, longitude], { icon: pinIcon }).addTo(map);
+        setCoordinates(latitude, longitude, true);
+      },
+      (err) => {
+        let msg = "Could not get location. ";
+        if (err.code === 1) msg += "Please allow location permission.";
+        else if (err.code === 2) msg += "Location unavailable.";
+        else if (err.code === 3) msg += "Request timed out.";
+        alert(msg);
+        addrEl.textContent = I18N[localStorage.getItem(LANG_KEY) || "en"].noLocationYet;
+        addrEl.classList.add("empty");
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  }
+  function searchLocation() {
+    const query = prompt("Enter a place name (e.g., 'MG Road Ranchi', 'Connaught Place Delhi'):");
+    if (!query || !query.trim()) return;
+    const addrEl = document.getElementById("address-text");
+    addrEl.classList.remove("empty");
+    addrEl.textContent = "🔎 Searching...";
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`, { headers: { "Accept": "application/json" } })
+      .then(r => r.json())
+      .then(results => {
+        if (!results.length) { addrEl.textContent = "❌ No results found."; addrEl.classList.add("empty"); return; }
+        const { lat, lon, display_name } = results[0];
+        const latitude = parseFloat(lat), longitude = parseFloat(lon);
+        if (!map) initMap();
+        map.setView([latitude, longitude], 15);
+        const pinIcon = L.divIcon({
+          className: "custom-pin",
+          html: `<div style="width:30px;height:30px;background:#C0392B;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.4);"></div>`,
+          iconSize: [30, 30], iconAnchor: [15, 30],
+        });
+        if (marker) marker.setLatLng([latitude, longitude]);
+        else marker = L.marker([latitude, longitude], { icon: pinIcon }).addTo(map);
+        setCoordinates(latitude, longitude, false);
+        addrEl.textContent = "📍 " + display_name;
+      })
+      .catch(() => { addrEl.textContent = "❌ Search failed."; });
+  }
+  window.addEventListener("load", () => { setTimeout(() => initMap(), 300); });
+
+  // AI STEPS
+  function setStep(n, s, r) {
+    const el = document.getElementById(`step-${n}`), res = document.getElementById(`res-${n}`);
+    el.classList.remove("active", "done");
+    if (s) el.classList.add(s);
+    if (r) res.textContent = r;
+  }
+
+  // ============ SUBMIT (GUEST-AWARE) ============
+  async function submitReport(e) {
+    e.preventDefault();
+    const btn = document.getElementById("submit-btn"), status = document.getElementById("status");
+    status.className = "status-msg"; status.textContent = "";
+    if (isRecording) stopVoiceRecognition();
+
+    const fd = new FormData();
+    fd.append("title", document.getElementById("title").value.trim());
+    fd.append("description", document.getElementById("description").value.trim());
+    const selectedCategory = document.getElementById("category").value;
+    if (selectedCategory) fd.append("category", selectedCategory);
+    fd.append("source_language", (localStorage.getItem(VOICE_LANG_KEY) || localStorage.getItem(LANG_KEY) || "en").split("-")[0]);
+    const lat = document.getElementById("latitude").value, lng = document.getElementById("longitude").value;
+    if (lat) fd.append("latitude", lat);
+    if (lng) fd.append("longitude", lng);
+    selectedFiles.forEach(f => fd.append("file", f));
+
+    // Guest submissions get a special marker
+    if (IS_GUEST) {
+      fd.append("guest", "true");
+      fd.append("submitter_name", "Guest User");
+    }
+
+    btn.disabled = true; btn.textContent = "Submitting...";
+    setStep(1, "active", "Validating...");
+
+    if (!navigator.onLine) {
+      const q = JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]");
+      q.push({ title: fd.get("title"), description: fd.get("description"), source_language: fd.get("source_language"), latitude: lat, longitude: lng, guest: IS_GUEST });
+      localStorage.setItem(QUEUE_KEY, JSON.stringify(q));
+      updateQueueUI();
+      status.className = "status-msg info";
+      status.textContent = IS_GUEST ? "📴 Saved offline (guest mode)." : "📴 Saved offline.";
+      setStep(1, "done", "Saved offline");
+      btn.disabled = false; btn.textContent = "Submit Report";
+      return;
+    }
+
+    try {
+      setTimeout(() => setStep(1, "done", "✓ Authentic"), 500);
+      setTimeout(() => setStep(2, "active", "Classifying..."), 700);
+
+      // Build headers — no Authorization for guests
+      const headers = {};
+      if (!IS_GUEST) {
+        const token = localStorage.getItem("token");
+        if (token) headers["Authorization"] = `Bearer ${token}`;
+      }
+
+      const res = await fetch(`${API_BASE}/challenges/`, {
+        method: "POST",
+        headers: headers,
+        body: fd
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Submission failed");
+
+      setStep(2, "done", `✓ ${data.category || "Uncategorized"}`);
+      setStep(3, "done", `✓ Priority ${data.priority_score}/100`);
+      setStep(4, "done", data.duplicate_of ? `⚠ Duplicate of #${data.duplicate_of}` : "✓ No duplicates");
+      let matchLabel = "✓ Matched";
+      try {
+        const matchRes = await fetch(`${API_BASE}/matching/challenge/${data.id}`);
+        if (matchRes.ok) {
+          const matchData = await matchRes.json();
+          const matchCount = matchData.matched_universities?.length || 0;
+          matchLabel = matchCount ? `✓ ${matchCount} university match${matchCount === 1 ? "" : "es"}` : "⚠ No university match yet";
+        }
+      } catch (matchError) {
+        console.warn("University matching lookup failed:", matchError);
+      }
+      setStep(5, "done", matchLabel);
+
+      status.className = "status-msg success";
+      status.innerHTML = IS_GUEST
+        ? `✓ <b>Guest report submitted and verified!</b><br><strong>Problem:</strong> ${escapeHtml(data.title)} <strong>(#${data.id})</strong><br><strong>Category:</strong> ${escapeHtml(data.category || "General")} · <strong>Priority:</strong> ${data.priority_score}<br><small>Continue to university matching after signing in.</small>`
+        : `✓ <b>Report submitted!</b><br><strong>Problem:</strong> ${escapeHtml(data.title)} <strong>(#${data.id})</strong><br><strong>Category:</strong> ${escapeHtml(data.category || "General")} · <strong>Priority:</strong> ${data.priority_score}`;
+      btn.textContent = "Submitted ✓";
+
+      const universityFlow = `university.html?challenge_id=${encodeURIComponent(data.id)}`;
+      const nextPage = IS_GUEST ? `login.html?next=${encodeURIComponent(universityFlow)}` : universityFlow;
+      setTimeout(() => { window.location.href = nextPage; }, 1800);
+    } catch (err) {
+      status.className = "status-msg error";
+      status.textContent = "✗ " + (err.message || "Submission failed");
+      setStep(1, null, "Failed"); btn.disabled = false; btn.textContent = "Submit Report";
+    }
+  }
+
+  function updateQueueUI() {
+    const q = JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]");
+    const c = document.getElementById("queue-card");
+    if (q.length > 0) { c.style.display = "block"; document.getElementById("queue-text").textContent = `${q.length} report(s) queued.`; }
+    else c.style.display = "none";
+  }
+  async function syncOfflineQueue() {
+    const q = JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]");
+    if (!q.length) return;
+    const token = localStorage.getItem("token");
+    // Guests can still sync without a token
+    let ok = 0; const fail = [];
+    for (const item of q) {
+      try {
+        const fd = new FormData();
+        fd.append("title", item.title); fd.append("description", item.description);
+        fd.append("source_language", item.source_language || localStorage.getItem(LANG_KEY) || "en");
+        if (item.latitude) fd.append("latitude", item.latitude);
+        if (item.longitude) fd.append("longitude", item.longitude);
+        if (item.guest) { fd.append("guest", "true"); fd.append("submitter_name", "Guest User"); }
+
+        const headers = {};
+        if (token && !item.guest) headers["Authorization"] = `Bearer ${token}`;
+
+        const res = await fetch(`${API_BASE}/challenges/`, { method:"POST", headers, body: fd });
+        if (res.ok) ok++; else fail.push(item);
+      } catch { fail.push(item); }
+    }
+    if (!fail.length) { localStorage.removeItem(QUEUE_KEY); if (ok) showToast(`✓ ${ok} synced!`); }
+    else localStorage.setItem(QUEUE_KEY, JSON.stringify(fail));
+    updateQueueUI();
+  }
+
+  updateQueueUI();
+</script>
+<script src="i18n.js"></script>
+</body>
+</html>
