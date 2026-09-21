@@ -9,9 +9,16 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
 MODEL_NAME = os.getenv("MODEL_NAME", "sentence-transformers/all-MiniLM-L6-v2")
-print(f"Loading Sentence Transformer model: {MODEL_NAME}")
-model = SentenceTransformer(MODEL_NAME)
-print("Sentence Transformer model loaded")
+
+model: Optional[SentenceTransformer] = None
+
+def get_model() -> SentenceTransformer:
+    global model
+    if model is None:
+        print(f"Loading Sentence Transformer model: {MODEL_NAME}")
+        model = SentenceTransformer(MODEL_NAME)
+        print("Sentence Transformer model loaded")
+    return model
 
 DATASET_PATH = Path(__file__).resolve().parent.parent / "ai-engine" / "data" / "matching_examples.csv"
 MATCHING_EXAMPLES: list[dict] = []
@@ -170,15 +177,15 @@ def load_matching_dataset() -> None:
         for example in MATCHING_EXAMPLES
     ]
     if example_texts:
-        MATCHING_EMBEDDINGS = model.encode(example_texts, normalize_embeddings=True)
+        MATCHING_EMBEDDINGS = get_model.encode(example_texts, normalize_embeddings=True)
     print(f"Loaded {len(MATCHING_EXAMPLES)} labeled matching examples")
 
 
-load_matching_dataset()
+
 
 
 def classify_category(text: str) -> tuple[str, float]:
-    text_embedding = model.encode([text], normalize_embeddings=True)
+    text_embedding = get_model.encode([text], normalize_embeddings=True)
     text_lower = text.lower()
     scores = {category: 0.0 for category in CATEGORIES}
     if MATCHING_EXAMPLES:
@@ -287,7 +294,7 @@ def process_report(payload: dict) -> dict:
         category = payload["category"]
     priority, urgent_keywords = score_priority(text, description)
     authenticity_score, is_genuine, authenticity_evidence = verify_report(title, description)
-    text_embedding = model.encode([text])
+    text_embedding = get_model.encode([text])
 
     duplicate_of = None
     duplicate_score = 0.0
@@ -303,7 +310,7 @@ def process_report(payload: dict) -> dict:
     existing_solution = None
     existing_challenges = payload.get("existing_challenges") or []
     if existing_challenges:
-        existing_embeddings = model.encode([item["text"] for item in existing_challenges])
+        existing_embeddings = get_model.encode([item["text"] for item in existing_challenges])
         similarities = cosine_similarity(text_embedding, existing_embeddings)[0]
         best_index = int(np.argmax(similarities))
         best_score = float(similarities[best_index])
@@ -357,8 +364,8 @@ def screen_solution(payload: dict) -> dict:
     challenge_text = f"{payload['challenge_title']}. {payload['challenge_description']}"
     solution_text = f"{payload['solution_title']}. {payload['solution_proposal']}"
     required_industry_sector = infer_industry_sector(f"{challenge_text}. {solution_text}")
-    challenge_embedding = model.encode([challenge_text])
-    solution_embedding = model.encode([solution_text])
+    challenge_embedding = get_model.encode([challenge_text])
+    solution_embedding = get_model.encode([solution_text])
     relevance = float(cosine_similarity(challenge_embedding, solution_embedding)[0][0])
     technical_keywords = ["algorithm", "system", "prototype", "model", "design", "sensor", "app", "platform", "iot", "ai", "data", "analysis", "test", "implementation", "pilot", "budget", "timeline", "team"]
     lowered = solution_text.lower()
@@ -388,4 +395,4 @@ def screen_solution(payload: dict) -> dict:
 
 
 def model_status() -> dict:
-    return {"loaded": model is not None, "name": MODEL_NAME, "embedding_dimension": model.get_embedding_dimension()}
+    return {"loaded": model is not None, "name": MODEL_NAME, "embedding_dimension": model.get_embedding_dimension()if model is not None else 384,}

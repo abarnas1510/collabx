@@ -9,7 +9,7 @@ from sqlalchemy import inspect, text
 import models  # noqa — needed so tables get created
 
 from routers import users, challenges, solutions, matching, collaboration, notifications, government, i18n
-from ai_model import model_status
+from ai_model import model_status,load_matching_dataset
 
 # Create all tables automatically
 Base.metadata.create_all(bind=engine)
@@ -162,6 +162,7 @@ async def health():
 
 @app.on_event("startup")
 async def startup_event():
+    load_matching_dataset()
     """Print a startup banner after the model and database have initialized."""
     print("\n" + "=" * 60)
     print("  🚀 CollabX Backend Starting...")

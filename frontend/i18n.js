@@ -1,5 +1,5 @@
 (() => {
-  const API_BASE = window.COLLABX_API_BASE;
+  const API_BASE = window.COLLABX_API_BASE || 'http://127.0.0.1:8000';
   const LANG_KEY = 'collabx_lang';
   const cache = new Map();
   const ignoredTags = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'SVG', 'CODE', 'PRE']);
