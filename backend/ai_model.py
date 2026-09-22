@@ -1,6 +1,7 @@
 import csv
 import os
 import re
+from threading import Lock
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -23,6 +24,8 @@ def get_model() -> SentenceTransformer:
 DATASET_PATH = Path(__file__).resolve().parent.parent / "ai-engine" / "data" / "matching_examples.csv"
 MATCHING_EXAMPLES: list[dict] = []
 MATCHING_EMBEDDINGS = np.empty((0, 384))
+_matching_dataset_loaded = False
+_matching_dataset_lock = Lock()
 
 CATEGORIES = [
     "Infrastructure & Roads", "Water & Resources", "Energy & Electricity",
@@ -156,36 +159,45 @@ def normalize_department(value: str) -> str:
 
 
 def load_matching_dataset() -> None:
-    global MATCHING_EXAMPLES, MATCHING_EMBEDDINGS
-    if not DATASET_PATH.exists():
-        print(f"Matching dataset not found: {DATASET_PATH}")
+    global MATCHING_EXAMPLES, MATCHING_EMBEDDINGS, _matching_dataset_loaded
+    if _matching_dataset_loaded:
         return
-    with DATASET_PATH.open("r", encoding="utf-8-sig", newline="") as dataset_file:
-        reader = csv.DictReader(dataset_file)
-        MATCHING_EXAMPLES = [
-            {
-                "problem": row["citizen_problem"].strip(),
-                "category": CATEGORY_ALIASES.get(row["category"].strip(), row["category"].strip()),
-                "domain": row["university_domain"].strip(),
-                "keywords": row["matching_keywords"].strip(),
-            }
-            for row in reader
-            if row.get("citizen_problem") and row.get("category")
+    with _matching_dataset_lock:
+        if _matching_dataset_loaded:
+            return
+        if not DATASET_PATH.exists():
+            print(f"Matching dataset not found: {DATASET_PATH}")
+            _matching_dataset_loaded = True
+            return
+        with DATASET_PATH.open("r", encoding="utf-8-sig", newline="") as dataset_file:
+            reader = csv.DictReader(dataset_file)
+            MATCHING_EXAMPLES = [
+                {
+                    "problem": row["citizen_problem"].strip(),
+                    "category": CATEGORY_ALIASES.get(row["category"].strip(), row["category"].strip()),
+                    "domain": row["university_domain"].strip(),
+                    "keywords": row["matching_keywords"].strip(),
+                }
+                for row in reader
+                if row.get("citizen_problem") and row.get("category")
+            ]
+        example_texts = [
+            f"{example['problem']}. {example['category']}. {example['domain']}. {example['keywords']}"
+            for example in MATCHING_EXAMPLES
         ]
-    example_texts = [
-        f"{example['problem']}. {example['category']}. {example['domain']}. {example['keywords']}"
-        for example in MATCHING_EXAMPLES
-    ]
-    if example_texts:
-        MATCHING_EMBEDDINGS = get_model.encode(example_texts, normalize_embeddings=True)
-    print(f"Loaded {len(MATCHING_EXAMPLES)} labeled matching examples")
+        if example_texts:
+            MATCHING_EMBEDDINGS = get_model().encode(example_texts, normalize_embeddings=True)
+            del example_texts
+        _matching_dataset_loaded = True
+        print(f"Loaded {len(MATCHING_EXAMPLES)} labeled matching examples")
 
 
 
 
 
 def classify_category(text: str) -> tuple[str, float]:
-    text_embedding = get_model.encode([text], normalize_embeddings=True)
+    load_matching_dataset()
+    text_embedding = get_model().encode([text], normalize_embeddings=True)
     text_lower = text.lower()
     scores = {category: 0.0 for category in CATEGORIES}
     if MATCHING_EXAMPLES:
@@ -198,6 +210,7 @@ def classify_category(text: str) -> tuple[str, float]:
         for example in MATCHING_EXAMPLES:
             counts[example["category"]] += 1
         scores = {category: score / max(counts[category], 1) for category, score in scores.items()}
+    del text_embedding
     for category in CATEGORIES:
         for keyword in CATEGORY_KEYWORDS.get(category, []):
             if keyword in text_lower:
@@ -294,7 +307,7 @@ def process_report(payload: dict) -> dict:
         category = payload["category"]
     priority, urgent_keywords = score_priority(text, description)
     authenticity_score, is_genuine, authenticity_evidence = verify_report(title, description)
-    text_embedding = get_model.encode([text])
+    text_embedding = get_model().encode([text])
 
     duplicate_of = None
     duplicate_score = 0.0
@@ -306,11 +319,12 @@ def process_report(payload: dict) -> dict:
         if best_score > DUPLICATE_THRESHOLD:
             duplicate_of = REPORT_STORE[best_index]["id"]
             duplicate_score = best_score
+        del past_embeddings
 
     existing_solution = None
     existing_challenges = payload.get("existing_challenges") or []
     if existing_challenges:
-        existing_embeddings = get_model.encode([item["text"] for item in existing_challenges])
+        existing_embeddings = get_model().encode([item["text"] for item in existing_challenges])
         similarities = cosine_similarity(text_embedding, existing_embeddings)[0]
         best_index = int(np.argmax(similarities))
         best_score = float(similarities[best_index])
@@ -326,10 +340,12 @@ def process_report(payload: dict) -> dict:
                     "status": best.get("solution_status") or "PENDING",
                     "ai_score": best.get("ai_score"),
                 }
+        del existing_embeddings
 
     universities = payload.get("universities") or []
     matched_universities = match_universities(category, universities, text)
     REPORT_STORE.append({"id": len(REPORT_STORE) + 1, "text": text, "embedding": text_embedding[0].tolist()})
+    del text_embedding
     return {
         "category": category,
         "category_confidence": round(confidence, 3),
@@ -364,9 +380,10 @@ def screen_solution(payload: dict) -> dict:
     challenge_text = f"{payload['challenge_title']}. {payload['challenge_description']}"
     solution_text = f"{payload['solution_title']}. {payload['solution_proposal']}"
     required_industry_sector = infer_industry_sector(f"{challenge_text}. {solution_text}")
-    challenge_embedding = get_model.encode([challenge_text])
-    solution_embedding = get_model.encode([solution_text])
+    challenge_embedding = get_model().encode([challenge_text])
+    solution_embedding = get_model().encode([solution_text])
     relevance = float(cosine_similarity(challenge_embedding, solution_embedding)[0][0])
+    del challenge_embedding, solution_embedding
     technical_keywords = ["algorithm", "system", "prototype", "model", "design", "sensor", "app", "platform", "iot", "ai", "data", "analysis", "test", "implementation", "pilot", "budget", "timeline", "team"]
     lowered = solution_text.lower()
     keyword_hits = sum(1 for keyword in technical_keywords if keyword in lowered)
