@@ -36,7 +36,20 @@ jobs:
           esac
           mkdir site
           cp -R frontend/. site/
-          node -e 'const fs = require("fs"); const url = process.env.VITE_API_URL.replace(/\/$/, ""); fs.writeFileSync("site/api-config.js", `window.__COLLABX_API_BASE__ = ${JSON.stringify(url)};\n`); const profile = "site/profile.html"; const html = fs.readFileSync(profile, "utf8"); fs.writeFileSync(profile, html.replace("</head>", "<script src=\\"api-config.js\\"></script></head>"));'
+          node <<'NODE'
+          const fs = require("fs");
+          const url = process.env.VITE_API_URL.replace(/\/$/, "");
+          fs.writeFileSync(
+            "site/api-config.js",
+            `window.__COLLABX_API_BASE__ = ${JSON.stringify(url)};\n`
+          );
+          const profile = "site/profile.html";
+          const html = fs.readFileSync(profile, "utf8");
+          fs.writeFileSync(
+            profile,
+            html.replace("</head>", "<script src=\"api-config.js\"></script></head>")
+          );
+          NODE
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
