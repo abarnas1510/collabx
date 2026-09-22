@@ -3,19 +3,23 @@ import os
 import re
 from threading import Lock
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 import numpy as np
-from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
+
+if TYPE_CHECKING:
+    from sentence_transformers import SentenceTransformer
 
 MODEL_NAME = os.getenv("MODEL_NAME", "sentence-transformers/all-MiniLM-L6-v2")
 
-model: Optional[SentenceTransformer] = None
+model: Optional[Any] = None
 
-def get_model() -> SentenceTransformer:
+def get_model() -> Any:
     global model
     if model is None:
+        from sentence_transformers import SentenceTransformer
+
         print(f"Loading Sentence Transformer model: {MODEL_NAME}")
         model = SentenceTransformer(MODEL_NAME)
         print("Sentence Transformer model loaded")
