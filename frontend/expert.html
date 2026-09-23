@@ -502,18 +502,19 @@
     const user = JSON.parse(localStorage.getItem("user") || "null");
     const authNav = document.getElementById("auth-nav");
 
-    if (!authNav) return;
     if (!token || !user) { alert("Please login to access the expert panel."); window.location.href = "login.html"; return; }
     if (user.role !== "expert") { window.location.href = roleRoute(user.role); return; }
 
     currentUser = user;
 
     // Show only role — no name
-    authNav.innerHTML = `
-      <a href="expert.html" class="active">⭐ Expert</a>
-      <a href="profile.html">Profile</a>
-      <button onclick="logout()" style="background:transparent; border:none; color:#fff; padding:11px 16px; cursor:pointer; font-size:13px; font-weight:500;">Logout</button>
-    `;
+    if (authNav) {
+      authNav.innerHTML = `
+        <a href="expert.html" class="active">⭐ Expert</a>
+        <a href="profile.html">Profile</a>
+        <button onclick="logout()" style="background:transparent; border:none; color:#fff; padding:11px 16px; cursor:pointer; font-size:13px; font-weight:500;">Logout</button>
+      `;
+    }
   })();
 
   // FILTER TABS

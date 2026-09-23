@@ -724,17 +724,18 @@
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user") || "null");
     const navEl = document.getElementById("auth-nav");
-    if (!navEl) return;
 
     if (IS_GUEST) {
       // Guest Mode: Show guest banner + guest nav
       document.getElementById("guest-banner")?.classList.add("show");
 
-      navEl.innerHTML = `
-        <span style="color:#FF9933; padding:11px 16px; font-size:12.5px; font-weight:700; letter-spacing:0.5px;">⚡ GUEST MODE</span>
-        <a href="login.html" style="color:#fff; padding:11px 16px; font-size:13px; font-weight:500;">Login</a>
-        <a href="register.html" style="color:#fff; padding:11px 16px; font-size:13px; font-weight:500; background:#FF9933; color:#0B3C5D;">Register</a>
-      `;
+      if (navEl) {
+        navEl.innerHTML = `
+          <span style="color:#FF9933; padding:11px 16px; font-size:12.5px; font-weight:700; letter-spacing:0.5px;">⚡ GUEST MODE</span>
+          <a href="login.html" style="color:#fff; padding:11px 16px; font-size:13px; font-weight:500;">Login</a>
+          <a href="register.html" style="color:#fff; padding:11px 16px; font-size:13px; font-weight:500; background:#FF9933; color:#0B3C5D;">Register</a>
+        `;
+      }
       return; // Skip the login-required check
     }
 
@@ -745,11 +746,13 @@
       return;
     }
 
-    navEl.innerHTML = `
-      <a href="${roleRoute(user.role)}">Dashboard</a>
-      <a href="profile.html">Profile</a>
-      <button onclick="logout()" style="background:transparent; border:none; color:#fff; padding:11px 16px; cursor:pointer; font-size:13px; font-weight:500;">Logout</button>
-    `;
+    if (navEl) {
+      navEl.innerHTML = `
+        <a href="${roleRoute(user.role)}">Dashboard</a>
+        <a href="profile.html">Profile</a>
+        <button onclick="logout()" style="background:transparent; border:none; color:#fff; padding:11px 16px; cursor:pointer; font-size:13px; font-weight:500;">Logout</button>
+      `;
+    }
   })();
 
   function roleRoute(role) { return { citizen:"citizen.html", university:"university.html", industry:"industry.html", govt:"admin.html", admin:"admin.html", expert:"expert.html" }[role] || "index.html"; }
