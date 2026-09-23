@@ -837,6 +837,7 @@
   }
 
   function renderAuthButtons() {
+    if (window.location.pathname.split('/').pop() === 'index.html' || window.location.pathname.endsWith('/collabx/')) return;
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user") || "null");
     const navAuth = document.getElementById("nav-auth");
@@ -885,6 +886,24 @@
     demoModal.classList.remove("open");
   }
 
+  async function readDemoResponse(response, fallbackMessage) {
+    const contentType = response.headers.get("content-type") || "";
+    const body = await response.text();
+    let data = null;
+
+    if (contentType.toLowerCase().includes("application/json")) {
+      try { data = JSON.parse(body); } catch (_) { data = null; }
+    }
+
+    if (!response.ok) {
+      throw new Error((data && data.detail) || `${fallbackMessage} (HTTP ${response.status})`);
+    }
+    if (!data) {
+      throw new Error(`${fallbackMessage}: the API returned a non-JSON response.`);
+    }
+    return data;
+  }
+
   async function loginDemo(email) {
     if (!API_BASE) {
       alert("API configuration missing. Please check the deployment settings.");
@@ -900,11 +919,9 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.detail || "Demo login failed");
+      const data = await readDemoResponse(response, "Demo login failed");
       const userResponse = await fetch(`${API_BASE}/users/me`, { headers: { "Authorization": `Bearer ${data.access_token}` } });
-      if (!userResponse.ok) throw new Error("Could not load demo profile");
-      const user = await userResponse.json();
+      const user = await readDemoResponse(userResponse, "Could not load demo profile");
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("user", JSON.stringify(user));
       const routes = { citizen: "citizen.html", university: "university.html", industry: "industry.html", govt: "admin.html", expert: "expert.html" };
