@@ -101,17 +101,22 @@ app = FastAPI(
     version="1.0.0",
 )
 
-cors_origins = [origin.strip() for origin in os.getenv(
-    "CORS_ORIGINS", "http://localhost:5500,http://127.0.0.1:5500"
-).split(",") if origin.strip()]
+configured_cors_origins = os.getenv(
+    "CORS_ORIGINS",
+    "https://abarnas1510.github.io,http://localhost:5500,http://127.0.0.1:5500",
+)
+cors_origins = [origin.strip().rstrip("/") for origin in configured_cors_origins.split(",") if origin.strip()]
+production_frontend_origin = "https://abarnas1510.github.io"
+if production_frontend_origin not in cors_origins:
+    cors_origins.append(production_frontend_origin)
 
 # CORS — allow only configured frontend origins in production.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Accept", "Authorization", "Content-Type", "Origin", "X-Requested-With"],
 )
 
 # Serve uploaded files
