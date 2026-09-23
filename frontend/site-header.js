@@ -26,8 +26,9 @@
 
     const isHome = currentPage() === 'index.html';
     const isWorkspace = currentPage() === 'workspace.html';
+    const isAuthenticatedPage = ['admin.html', 'citizen.html', 'expert.html', 'industry.html', 'profile.html', 'university.html', 'workspace.html'].includes(currentPage());
     const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
-    const isAuthenticated = Boolean(localStorage.getItem('token') && storedUser);
+    const isAuthenticated = isAuthenticatedPage && Boolean(localStorage.getItem('token') && storedUser);
     const routes = { citizen: 'citizen.html', university: 'university.html', industry: 'industry.html', govt: 'admin.html', admin: 'admin.html', expert: 'expert.html' };
     const dashboardHref = routes[storedUser && storedUser.role] || 'index.html';
     const authActions = `<a class="collabx-login${currentPage() === dashboardHref ? ' active' : ''}" href="${dashboardHref}">Dashboard</a><a class="collabx-login${currentPage() === 'profile.html' ? ' active' : ''}" href="profile.html">Profile</a><button id="logout-btn" class="collabx-signout" type="button">Logout</button>`;
@@ -100,8 +101,13 @@
     .collabx-actions a { padding:8px 12px; border-radius:3px; font-size:12px; font-weight:700; white-space:nowrap; }
     .collabx-login { border:1px solid #0B3C5D; color:#0B3C5D; }
     .collabx-signup { background:#0B3C5D; color:#fff; }
+    .collabx-nav-row .collabx-actions .collabx-login { border-color:rgba(255,255,255,.65); color:#fff; }
+    .collabx-nav-row .collabx-actions .collabx-login:hover, .collabx-nav-row .collabx-actions .collabx-login.active { background:#FF9933; border-color:#FF9933; color:#0B3C5D; text-decoration:none; }
+    .collabx-nav-row .collabx-actions .collabx-signup { background:#FF9933; color:#0B3C5D; }
+    .collabx-nav-row .collabx-actions .collabx-signup:hover { background:#E68A2E; color:#0B3C5D; text-decoration:none; }
     .collabx-signout { border:1px solid #B8C5D1; background:#fff; color:#0B3C5D; padding:8px 12px; border-radius:3px; font:700 12px 'Noto Sans',sans-serif; cursor:pointer; }
-    .collabx-demo { border:1px solid #0F4C81; background:#0F4C81; color:#fff; padding:8px 12px; border-radius:3px; font:700 12px 'Noto Sans',sans-serif; cursor:pointer; white-space:nowrap; }
+    .collabx-demo { border:1px solid rgba(255,255,255,.65); background:#17649F; color:#fff; padding:8px 12px; border-radius:3px; font:700 12px 'Noto Sans',sans-serif; cursor:pointer; white-space:nowrap; }
+    .collabx-demo:hover { background:#237DBB; color:#fff; }
     .collabx-language { display:flex; align-items:center; gap:5px; margin-left:auto; color:#687786; font-size:11px; font-weight:600; }
     .collabx-language select { background:#fff; color:#0B3C5D; border:1px solid #B8C5D1; border-radius:3px; padding:7px 8px; font:600 12px 'Noto Sans',sans-serif; }
     .collabx-menu-button { display:none; margin-left:auto; background:#0B3C5D; color:#fff; border:0; border-radius:3px; padding:9px 12px; font:600 12px 'Noto Sans',sans-serif; }

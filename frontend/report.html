@@ -1110,7 +1110,7 @@
     addrEl.textContent = "🔎 Fetching address...";
     try {
       const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`, { headers: { "Accept": "application/json" } });
-      const data = await res.json();
+      const data = await readApiResponse(res, "Address lookup failed");
       if (data && data.display_name) {
         const a = data.address || {};
         const parts = [];
@@ -1162,7 +1162,7 @@
     addrEl.classList.remove("empty");
     addrEl.textContent = "🔎 Searching...";
     fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`, { headers: { "Accept": "application/json" } })
-      .then(r => r.json())
+      .then(r => readApiResponse(r, "Location search failed"))
       .then(results => {
         if (!results.length) { addrEl.textContent = "❌ No results found."; addrEl.classList.add("empty"); return; }
         const { lat, lon, display_name } = results[0];
@@ -1189,6 +1189,22 @@
     el.classList.remove("active", "done");
     if (s) el.classList.add(s);
     if (r) res.textContent = r;
+  }
+
+  async function readApiResponse(response, fallbackMessage) {
+    const contentType = response.headers.get("content-type") || "";
+    const body = await response.text();
+    let data = null;
+    if (contentType.toLowerCase().includes("application/json")) {
+      try { data = JSON.parse(body); } catch (_) { data = null; }
+    }
+    if (!response.ok) {
+      throw new Error((data && data.detail) || `${fallbackMessage} (HTTP ${response.status})`);
+    }
+    if (!data) {
+      throw new Error(`${fallbackMessage}: the API returned a non-JSON response.`);
+    }
+    return data;
   }
 
   // ============ SUBMIT (GUEST-AWARE) ============
@@ -1246,8 +1262,7 @@
         headers: headers,
         body: fd
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || "Submission failed");
+      const data = await readApiResponse(res, "Report submission failed");
 
       setStep(2, "done", `✓ ${data.category || "Uncategorized"}`);
       setStep(3, "done", `✓ Priority ${data.priority_score}/100`);
@@ -1256,7 +1271,7 @@
       try {
         const matchRes = await fetch(`${API_BASE}/matching/challenge/${data.id}`);
         if (matchRes.ok) {
-          const matchData = await matchRes.json();
+          const matchData = await readApiResponse(matchRes, "University matching failed");
           const matchCount = matchData.matched_universities?.length || 0;
           matchLabel = matchCount ? `✓ ${matchCount} university match${matchCount === 1 ? "" : "es"}` : "⚠ No university match yet";
         }
@@ -1276,7 +1291,10 @@
       setTimeout(() => { window.location.href = nextPage; }, 1800);
     } catch (err) {
       status.className = "status-msg error";
-      status.textContent = "✗ " + (err.message || "Submission failed");
+      const message = err instanceof TypeError && err.message === "Failed to fetch"
+        ? "Could not reach the CollabX API. Please check your connection and try again."
+        : (err.message || "Submission failed");
+      status.textContent = "✗ " + message;
       setStep(1, null, "Failed"); btn.disabled = false; btn.textContent = "Submit Report";
     }
   }
