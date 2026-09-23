@@ -4,7 +4,6 @@ from typing import List, Optional
 import os, shutil, time, json
 from database import get_db
 import models, schemas, auth
-from ai_model import process_report
 from translation import normalize_language, translated_fields
 from routers.notifications import add_notification, add_role_notifications
 
@@ -123,83 +122,19 @@ async def create_challenge(
                 print(f"[File Save Error] {e}")
     file_url = ",".join(file_urls) if file_urls else None
 
-    # ---------- BUILD EXISTING CHALLENGES CONTEXT FOR AI ----------
-    existing = db.query(models.Challenge).order_by(
-        models.Challenge.created_at.desc()
-    ).limit(50).all()
-
-    existing_payload = []
-    for ch in existing:
-        best_sol = db.query(models.Solution).filter(
-            models.Solution.challenge_id == ch.id
-        ).order_by(models.Solution.ai_score.desc().nullslast()).first()
-
-        uni_name = None
-        if best_sol:
-            uni = db.query(models.User).filter(
-                models.User.id == best_sol.university_id
-            ).first()
-            uni_name = uni.name if uni else "Unknown University"
-
-        existing_payload.append({
-            "id": ch.id,
-            "text": f"{ch.title}. {ch.description}",
-            "solution_id": best_sol.id if best_sol else None,
-            "solution_title": best_sol.title if best_sol else None,
-            "solution_university": uni_name,
-            "solution_status": best_sol.status if best_sol else None,
-            "ai_score": best_sol.ai_score if best_sol else None,
-        })
-
-    # ---------- BUILD UNIVERSITY CONTEXT FOR AI ----------
+    # ---------- BUILD UNIVERSITY CONTEXT FOR LIGHTWEIGHT MATCHING ----------
     universities = db.query(models.User).filter(
         models.User.role == "university"
     ).all()
 
-    universities_payload = []
-    for uni in universities:
-        universities_payload.append({
-            "id": uni.id,
-            "name": uni.name,
-            "organization": uni.organization or "",
-            "departments": uni.organization.split("|", 1)[1].strip() if "|" in (uni.organization or "") else uni.organization or "",
-        })
-
-    # ---------- RUN EMBEDDING MODEL IN THIS API PROCESS ----------
+    # Keep report submission bounded: embedding-based processing remains available
+    # to its existing callers, but is not loaded inside this request.
     priority: int = 50
     duplicate_of: Optional[int] = None
     existing_solution = None
-    matched_universities = []
-    is_genuine = None
-    authenticity_score = None
-    authenticity_evidence = []
-
-    try:
-        ai_data = process_report({
-            "title": title,
-            "description": description,
-            "category": category,
-            "existing_challenges": existing_payload,
-            "universities": universities_payload,
-        })
-        category = category or ai_data.get("category")
-        priority = ai_data.get("priority", 50)
-        duplicate_of = ai_data.get("duplicate_of")
-        existing_solution = ai_data.get("existing_solution")
-        matched_universities = ai_data.get("matched_universities", [])
-        is_genuine = ai_data.get("is_genuine")
-        authenticity_score = ai_data.get("authenticity_score")
-        authenticity_evidence = ai_data.get("authenticity_evidence", [])
-    except Exception as e:
-        print(f"[AI model error] {e}")
-
-    # Keep quick reports in the same university flow when the AI service is unavailable.
-    if not category:
-        category = fallback_category(title, description)
-    if not matched_universities:
-        matched_universities = fallback_university_matches(category, universities)
-    if is_genuine is None or authenticity_score is None:
-        is_genuine, authenticity_score, authenticity_evidence = fallback_verification(title, description)
+    category = category or fallback_category(title, description)
+    matched_universities = fallback_university_matches(category, universities)
+    is_genuine, authenticity_score, authenticity_evidence = fallback_verification(title, description)
 
     # ---------- CREATE CHALLENGE ROW ----------
     challenge = models.Challenge(
