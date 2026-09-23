@@ -1,12 +1,8 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+# Pages deployment is handled by pages.yml, which generates api-config.js.
+# Keep this workflow manual-only so it cannot overwrite the configured deployment.
+name: Manual static Pages deployment
 
 on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -33,11 +29,30 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Prepare static site
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+        run: |
+          set -eu
+          test -n "$VITE_API_URL"
+          if [ "$VITE_API_URL" != "https://collabx-uqwc.onrender.com" ]; then
+            echo "VITE_API_URL must be https://collabx-uqwc.onrender.com for production" >&2
+            exit 1
+          fi
+          mkdir -p site
+          cp -R frontend/. site/
+          node <<'NODE'
+          const fs = require("fs");
+          const url = process.env.VITE_API_URL.replace(/\/$/, "");
+          fs.writeFileSync(
+            "site/api-config.js",
+            `window.__COLLABX_API_BASE__ = ${JSON.stringify(url)};\nwindow.COLLABX_API_BASE = ${JSON.stringify(url)};\n`
+          );
+          NODE
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: './frontend'
+          path: './site'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5

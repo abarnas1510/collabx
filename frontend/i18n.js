@@ -1,5 +1,5 @@
 (() => {
-  const API_BASE = window.__COLLABX_API_BASE__ || window.COLLABX_API_BASE || 'http://127.0.0.1:8000';
+  const API_BASE = window.__COLLABX_API_BASE__ || window.COLLABX_API_BASE || 'https://collabx-uqwc.onrender.com';
   const LANG_KEY = 'collabx_lang';
   const cache = new Map();
   const ignoredTags = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'SVG', 'CODE', 'PRE']);

@@ -34,20 +34,18 @@ jobs:
             https://*) ;;
             *) echo "VITE_API_URL must use HTTPS" >&2; exit 1 ;;
           esac
-          mkdir site
+          if [ "$VITE_API_URL" != "https://collabx-uqwc.onrender.com" ]; then
+            echo "VITE_API_URL must be https://collabx-uqwc.onrender.com for production" >&2
+            exit 1
+          fi
+          mkdir -p site
           cp -R frontend/. site/
           node <<'NODE'
           const fs = require("fs");
           const url = process.env.VITE_API_URL.replace(/\/$/, "");
           fs.writeFileSync(
             "site/api-config.js",
-            `window.__COLLABX_API_BASE__ = ${JSON.stringify(url)};window.COLLABX_API_BASE = ${JSON.stringify(url)};\n`
-          );
-          const profile = "site/profile.html";
-          const html = fs.readFileSync(profile, "utf8");
-          fs.writeFileSync(
-            profile,
-            html.replace("</head>", "<script src=\"api-config.js\"></script></head>")
+            `window.__COLLABX_API_BASE__ = ${JSON.stringify(url)};\nwindow.COLLABX_API_BASE = ${JSON.stringify(url)};\n`
           );
           NODE
 
