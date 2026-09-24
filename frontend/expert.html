@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<link rel="icon" type="image/svg+xml" href="assets/collabx-logo.svg">
 <meta name="theme-color" content="#0B3C5D">
 <title>Expert Review Dashboard — CollabX</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -565,18 +566,19 @@
   }
 
   async function loadNotifications() {
-    const panel = document.getElementById("notifications-panel");
+    const notificationCount = document.getElementById("notifications-count");
+    const notificationList = document.getElementById("notifications-list");
     try {
       const response = await fetch(`${API_BASE}/notifications/mine`, { headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } });
       if (!response.ok) return;
       const items = await response.json();
-      document.getElementById("notifications-count").textContent = items.filter(item => !item.is_read).length;
-      document.getElementById("notifications-list").innerHTML = items.length ? items.slice(0, 8).map(item => `<a href="detail.html?id=${item.challenge_id || ""}" onclick="markNotificationRead(${item.id})" style="padding:9px 10px;background:${item.is_read ? "#F8FAFC" : "#FFF8ED"};border-radius:3px;color:#1a1a1a;text-decoration:none;"><strong>${escapeHtml(item.title)}</strong><span style="display:block;font-size:12px;color:#666;margin-top:2px;">${escapeHtml(item.message)}</span></a>`).join("") : `<div style="font-size:12px;color:#7A8B99;padding:8px 0;">No new notifications.</div>`;
-    } catch (error) { document.getElementById("notifications-list").innerHTML = `<div style="font-size:12px;color:#C0392B;padding:8px 0;">Notifications unavailable.</div>`; }
+      if (notificationCount) notificationCount.textContent = items.filter(item => !item.is_read).length;
+      if (notificationList) notificationList.innerHTML = items.length ? items.slice(0, 8).map(item => `<a href="detail.html?id=${item.challenge_id || ""}" onclick="markNotificationRead(${item.id})" style="padding:9px 10px;background:${item.is_read ? "#F8FAFC" : "#FFF8ED"};border-radius:3px;color:#1a1a1a;text-decoration:none;"><strong>${escapeHtml(item.title)}</strong><span style="display:block;font-size:12px;color:#666;margin-top:2px;">${escapeHtml(item.message)}</span></a>`).join("") : `<div style="font-size:12px;color:#7A8B99;padding:8px 0;">No new notifications.</div>`;
+    } catch (error) { if (notificationList) notificationList.innerHTML = `<div style="font-size:12px;color:#C0392B;padding:8px 0;">Notifications unavailable.</div>`; }
   }
 
   function markNotificationRead(id) { fetch(`${API_BASE}/notifications/${id}/read`, { method: "PATCH", headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` } }); }
-  function toggleNotificationPanel() { const list = document.getElementById("notifications-list"); list.style.display = list.style.display === "none" ? "grid" : "none"; }
+  function toggleNotificationPanel() { const list = document.getElementById("notifications-list"); if (!list) return; list.style.display = list.style.display === "none" ? "grid" : "none"; }
 
   function updateStats() {
     const pending = allSolutions.filter(s => s.status === "AI_SCREENED" || s.status === "PENDING").length;
