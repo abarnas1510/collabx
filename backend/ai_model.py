@@ -384,10 +384,11 @@ def screen_solution(payload: dict) -> dict:
     challenge_text = f"{payload['challenge_title']}. {payload['challenge_description']}"
     solution_text = f"{payload['solution_title']}. {payload['solution_proposal']}"
     required_industry_sector = infer_industry_sector(f"{challenge_text}. {solution_text}")
-    challenge_embedding = get_model().encode([challenge_text])
-    solution_embedding = get_model().encode([solution_text])
-    relevance = float(cosine_similarity(challenge_embedding, solution_embedding)[0][0])
-    del challenge_embedding, solution_embedding
+    challenge_tokens = normalize_tokens(challenge_text)
+    solution_tokens = normalize_tokens(solution_text)
+    shared_tokens = challenge_tokens & solution_tokens
+    combined_tokens = challenge_tokens | solution_tokens
+    relevance = len(shared_tokens) / len(combined_tokens) if combined_tokens else 0.0
     technical_keywords = ["algorithm", "system", "prototype", "model", "design", "sensor", "app", "platform", "iot", "ai", "data", "analysis", "test", "implementation", "pilot", "budget", "timeline", "team"]
     lowered = solution_text.lower()
     keyword_hits = sum(1 for keyword in technical_keywords if keyword in lowered)
